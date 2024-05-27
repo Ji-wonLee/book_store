@@ -65,7 +65,6 @@ public class ProductDto {
 	//사용자 상세 조회
 	public ProductDto(String name, String description, String price, String manufactureName, String categoryName,
 			String imgurl, int page, String state) {
-		super();
 		this.name = name;
 		this.description = description;
 		this.price = price;
@@ -84,5 +83,4 @@ public class ProductDto {
 				+ ", categoryId=" + categoryId + ", categoryName=" + categoryName + ", imgurl=" + imgurl + ", page="
 				+ page + ", state=" + state + ", quantity=" + quantity + "]";
 	}
-	
 }
