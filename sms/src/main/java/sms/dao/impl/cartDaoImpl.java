@@ -1,5 +1,5 @@
 package sms.dao.impl;
 
-public interface cartDaoImpl {
+public class cartDaoImpl {
 
 }
