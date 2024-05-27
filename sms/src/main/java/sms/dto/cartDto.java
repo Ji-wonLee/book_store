@@ -2,17 +2,24 @@ package sms.dto;
 
 import java.sql.Date;
 
-public class cartDTO {
-    private String cartId;			// 카트고유번호
-    private String userId;			
-    private int totalPrice;
-    private Date cartDate;			// 카트 생성일자 및 수정일자
-    private String state;			// 카트 상태; 장바구니, 판매완료
+public class cartDto {
+	private String cartId;			// 카트고유번호
+	private String userId;			// userId
+	private int totalPrice;			// 총 가격
+	private Date cartDate;			// 카트 생성일자 및 수정일자
+	private String state;			// 카트 상태; 장바구니, 판매완료
+
+
+	public cartDto() {}
 	
- 
-    
-    
-    public String getCartId() {
+	public cartDto(String cartId, String userId, int totalPrice, Date cartDate, String state) {
+		this.cartId = cartId;
+		this.userId = userId;
+		this.totalPrice = totalPrice;
+		this.cartDate = cartDate;
+		this.state = state;
+	}
+	public String getCartId() {
 		return cartId;
 	}
 	public void setCartId(String cartId) {
@@ -42,8 +49,8 @@ public class cartDTO {
 	public void setState(String state) {
 		this.state = state;
 	}
-	
-    
-    
-	
+
+
+
+
 }
