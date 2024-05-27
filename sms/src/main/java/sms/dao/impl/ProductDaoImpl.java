@@ -63,4 +63,12 @@ public class ProductDaoImpl implements ProductDao{
 		
 		return searchDualList;
 	}
+
+	public SqlSessionTemplate getSqlSessionTemplate() {
+		return sqlSessionTemplate;
+	}
+
+	public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate) {
+		this.sqlSessionTemplate = sqlSessionTemplate;
+	}
 }
