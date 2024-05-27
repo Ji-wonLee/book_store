@@ -9,6 +9,8 @@ public class cartDTO {
     private Date cartDate;			// 카트 생성일자 및 수정일자
     private String state;			// 카트 상태; 장바구니, 판매완료
 	
+ 
+    
     
     public String getCartId() {
 		return cartId;
