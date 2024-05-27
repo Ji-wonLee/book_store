@@ -1,5 +1,16 @@
 package sms.dao.impl;
 
-public class cartDaoImpl {
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import sms.dao.cartDao;
+
+public class cartDaoImpl implements cartDao {
+
+
+	@Autowired
+	SqlSessionTemplate sqlSessionTemplate;
+	
+	
+	
 }
