@@ -19,15 +19,15 @@ public class ProductInfoController {
 	@RequestMapping(value="", method=RequestMethod.GET)
 	public String productInfo(@RequestParam(value="productId") String productId, ModelMap model) {
 		
-		model.addAttribute("productId", productSvc.productInfo(productId).getName());
-		model.addAttribute("productId", productSvc.productInfo(productId).getDescription());
-		model.addAttribute("productId", productSvc.productInfo(productId).getPrice());
-		model.addAttribute("productId", productSvc.productInfo(productId).getManufactureName());
-		model.addAttribute("productId", productSvc.productInfo(productId).getManufactureAddress());
-		model.addAttribute("productId", productSvc.productInfo(productId).getCategoryName());
-		model.addAttribute("productId", productSvc.productInfo(productId).getImgurl());
-		model.addAttribute("productId", productSvc.productInfo(productId).getPage());
-		model.addAttribute("productId", productSvc.productInfo(productId).getState());
+		model.addAttribute("productName", productSvc.productInfo(productId).getName());
+		model.addAttribute("description", productSvc.productInfo(productId).getDescription());
+		model.addAttribute("price", productSvc.productInfo(productId).getPrice());
+		model.addAttribute("manufactureName", productSvc.productInfo(productId).getManufactureName());
+		model.addAttribute("manufactureAddress", productSvc.productInfo(productId).getManufactureAddress());
+		model.addAttribute("categoryName", productSvc.productInfo(productId).getCategoryName());
+		model.addAttribute("imgurl", productSvc.productInfo(productId).getImgurl());
+		model.addAttribute("page", productSvc.productInfo(productId).getPage());
+		model.addAttribute("state", productSvc.productInfo(productId).getState());
 		
 		return "";
 	}

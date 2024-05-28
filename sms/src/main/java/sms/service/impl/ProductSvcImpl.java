@@ -33,24 +33,41 @@ public class ProductSvcImpl implements ProductSvc{
 		ProductDto selectProduct = productDao.productInfo(ProductId);
 		return selectProduct;
 	}
-
+	
 	@Override
-	public List<ProductDto> productSearchWithText(String searchText) {
-		List<ProductDto> searchTextList = productDao.productSearchWithText(searchText);
-		return searchTextList;
+	public List<ProductDto> productSearchList(SearchDto searchDto) {
+	// 입력값을 받아서 상품목록을 검색하는 기능을 수행
+		
+		List<ProductDto> productSearchList;
+		//입력값을 List로 받음
+		
+		if(searchDto.getCategoryId().isEmpty() == true) { // 카테고리 값이 비어있을 경우 = 입력된 문자열만을 이용하여 검색
+			productSearchList = productDao.productSearchWithText(searchDto.getSearchText());
+		} else if(searchDto.getSearchText().isEmpty() == true) { // 입력된 문자열이 비어있는 경우 = 카테고리 값만을 이용하여 검색
+			productSearchList = productDao.productSearchWithCategory(searchDto.getCategoryId());
+		} else { // 두 값을 받아서 검색
+			productSearchList = productDao.productSearchDual(searchDto);
+		}
+		
+		return productSearchList;
 	}
 
-	@Override
-	public List<ProductDto> productSearchWithCategory(String categoryId) {
-		List<ProductDto> searchCategoryList = productDao.productSearchWithCategory(categoryId);
-		return searchCategoryList;
-	}
-
-	@Override
-	public List<ProductDto> productSearchDual(SearchDto searchDto) {
-		List<ProductDto> searchDualList = productDao.productSearchDual(searchDto);
-		return searchDualList;
-	}
+	/*
+	 * @Override public List<ProductDto> productSearchWithText(String searchText) {
+	 * List<ProductDto> searchTextList =
+	 * productDao.productSearchWithText(searchText); return searchTextList; }
+	 * 
+	 * @Override public List<ProductDto> productSearchWithCategory(String
+	 * categoryId) { List<ProductDto> searchCategoryList =
+	 * productDao.productSearchWithCategory(categoryId); return searchCategoryList;
+	 * }
+	 * 
+	 * @Override public List<ProductDto> productSearchDual(SearchDto searchDto) {
+	 * List<ProductDto> searchDualList = productDao.productSearchDual(searchDto);
+	 * return searchDualList;
+	 *
+	}*/
+	// 위의 하나의 메소드(productSearchList)로 합침
 
 	public ProductDao getProductDao() {
 		return productDao;
@@ -59,4 +76,5 @@ public class ProductSvcImpl implements ProductSvc{
 	public void setProductDao(ProductDao productDao) {
 		this.productDao = productDao;
 	}
+
 }
