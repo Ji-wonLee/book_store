@@ -37,12 +37,14 @@
 		border-bottom: 1px solid #dddddd;
   		text-align: center;
   		padding: 8px;
+  		background-color: #ccc4d4;
 	}
 	
 	article td {
 		border-bottom: 1px solid #dddddd;
   		text-align: left;
   		padding: 8px;
+  		background-color: white;
 	}
 	
 	section::after {
