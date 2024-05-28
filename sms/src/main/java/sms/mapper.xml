@@ -5,18 +5,81 @@
 
 <mapper namespace="CartMapper">
 
-    <!-- 장바구니 상태 업데이트 -->
-    <update id="updateCartState">
-        UPDATE cart
-        SET state = #{state}
-        WHERE cart_id = #{cartId}
+	<!-- 특정 사용자의 '장바구니' 상태의 장바구니 조회 -->
+	<select id="listCartItems" resultType="ProductDto">
+	    SELECT cd.product_id, p.name, cd.quantity, p.price
+	    FROM carts c
+	    JOIN cart_details cd ON c.cart_id = cd.cart_id
+	    JOIN products p ON cd.product_id = p.product_id
+	    WHERE c.user_id = #{userId} AND c.state = '장바구니'
+	</select>
+
+	<!-- 장바구니 내 특정 상품의 수량 업데이트 <update id="updateCartItemQuantity"> UPDATE cart_detail 
+		SET quantity = #{quantity} WHERE cart_id = #{cartId} AND product_id = #{productId}; 
+		</update> 장바구니의 총액 재계산 <update id="updateCartTotal"> UPDATE cart SET total_price 
+		= ( SELECT SUM(quantity * price) FROM cart_detail WHERE cart_id = #{cartId} 
+		) WHERE cart_id = #{cartId}; </update> -->
+	<update id="updateCartItemAndTotal">
+		<!-- 상품 수량 업데이트 -->
+		UPDATE cart_detail
+		SET quantity = #{quantity}
+		WHERE cart_id = #{cartId}
+		AND product_id = #{productId};
+
+		<!-- 장바구니 총액 업데이트 -->
+		UPDATE cart
+		SET total_price = (
+		SELECT SUM(quantity * price) FROM
+		cart_detail WHERE cart_id = #{cartId}
+		)
+		WHERE cart_id = #{cartId};
+	</update>
+
+	<!-- 장바구니 상태 업데이트 -->
+	<update id="updateCartState">
+		UPDATE cart
+		SET state = #{state}
+		WHERE cart_id =
+		#{cartId} AND user_id = #{userId}
+	</update>
+
+	<!-- 결제 정보를 저장하는 SQL -->
+    <insert id="savePaymentInfo">
+        INSERT INTO payment_details (user_id, recipient_name, recipient_address, payer_name, payer_account)
+        VALUES (#{userId}, #{recipientName}, #{recipientAddress}, #{payerName}, #{payerAccount})
+    </insert>
+
+	<!-- 결제 상태를 '결제중'에서 '결제완료'로 변경하는 SQL -->
+    <update id="updateCartStateToCompleted">
+        UPDATE carts
+        SET state = '결제완료'
+        WHERE user_id = #{userId} AND state = '결제중'
     </update>
 
-    <!-- 장바구니 상태 '결제중'에서 '장바구니'로 롤백 -->
-    <update id="rollbackCartState">
-        UPDATE cart
-        SET state = '장바구니'
-        WHERE cart_id = #{cartId} AND state = '결제중'
-    </update>
+	<!-- 새 장바구니를 생성하는 SQL -->
+	<select id="createNewCart" resultType="integer">
+	    INSERT INTO carts (user_id, state, creation_date)
+	    VALUES (#{userId}, '장바구니', NOW());
+	    SELECT LAST_INSERT_ID();
+	</select>
+
+	<!-- 새 결제 레코드를 생성하는 SQL -->
+	<select id="createPaymentRecord">
+		SELECT CONCAT('SO', DATE_FORMAT(NOW(), '%Y%m%d'),
+		'-', LPAD((SELECT COUNT(*)
+		FROM payments WHERE DATE(payment_date) =
+		CURDATE()) + 1, 5, '0')) AS
+		newPaymentId
+		FROM DUAL
+	</select>
+	
+	<!--  장바구니에 쿼리추가  -->
+	<update id="addProductToCartDetails">
+	    INSERT INTO cart_details (cart_id, product_id, quantity)
+	    VALUES (#{cartId}, #{productId}, #{quantity})
+	    ON DUPLICATE KEY UPDATE quantity = quantity + #{quantity};
+	</update>
+	
+
 
 </mapper>
