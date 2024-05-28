@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import sms.dao.ProductDao;
+import sms.dto.Category;
 import sms.dto.ProductDto;
 import sms.dto.SearchDto;
 
@@ -15,6 +16,14 @@ public class ProductDaoImpl implements ProductDao{
 
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
+	
+	@Override
+	public List<Category> categoryList( ){
+		
+		List<Category> categoryList = sqlSessionTemplate.selectList(null);
+		
+		return categoryList;
+	}
 	
 	@Override
 	public List<ProductDto> productList() {

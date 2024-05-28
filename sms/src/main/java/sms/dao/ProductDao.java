@@ -2,10 +2,14 @@ package sms.dao;
 
 import java.util.List;
 
+import sms.dto.Category;
 import sms.dto.ProductDto;
 import sms.dto.SearchDto;
 
 public interface ProductDao {
+	List<Category> categoryList();
+	// 검색을 위한 카테고리 리스트
+	
 	List<ProductDto> productList();
 	// 사용자에게 제공되는 객체 List를 받아옴
 	

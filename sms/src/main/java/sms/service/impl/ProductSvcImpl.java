@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import sms.dao.ProductDao;
+import sms.dto.Category;
 import sms.dto.ProductDto;
 import sms.dto.SearchDto;
 import sms.service.ProductSvc;
@@ -15,6 +16,12 @@ public class ProductSvcImpl implements ProductSvc{
 	
 	@Autowired
 	private ProductDao productDao;
+	
+	@Override
+	public List<Category> categoryList() {
+		List<Category> categoryList = productDao.categoryList();
+		return categoryList;
+	}
 	
 	@Override
 	public List<ProductDto> productList() {
