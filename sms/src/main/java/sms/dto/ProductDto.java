@@ -74,6 +74,19 @@ public class ProductDto {
 		this.page = page;
 		this.state = state;
 	}
+	
+	//test_나예은
+	public ProductDto(String id, String name, String price, String manufactureName, String categoryName, String imgurl,
+			String state) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.price = price;
+		this.manufactureName = manufactureName;
+		this.categoryName = categoryName;
+		this.imgurl = imgurl;
+		this.state = state;
+	}
 
 	//변경 예정
 	@Override
