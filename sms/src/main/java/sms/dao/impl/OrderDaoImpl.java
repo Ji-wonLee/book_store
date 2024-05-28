@@ -17,7 +17,7 @@ public class OrderDaoImpl implements OrderDao{
 	
 	@Override
 	public List<ProductDto> selectInventory() {
-		List<ProductDto> listProduct = sqlSessionTemplate.selectList(null);
+		List<ProductDto> listProduct = sqlSessionTemplate.selectList("order.selectInventory");
 		return listProduct;
 	}
 	@Override

@@ -25,6 +25,7 @@ public class OrderController {
 		List<ProductDto> listProduct = orderSvc.invenList();
 		model.addAttribute("listProduct", listProduct);
 		
+		
 		//return "user/userRegisterPage";
 		return "goodsOrderPage";
 	}
