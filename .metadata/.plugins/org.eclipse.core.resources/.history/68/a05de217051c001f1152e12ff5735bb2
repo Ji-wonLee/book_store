@@ -1,0 +1,75 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.sql.ResultSet"%>
+<%@ page import="java.sql.PreparedStatement"%>
+<%@ page import="java.sql.DriverManager"%>
+<%@ page import="java.sql.Connection"%>
+<%@ page import="java.sql.Statement"%>
+<%@ page import="oracle.jdbc.*"%>
+<%@ page import="oracle.jdbc.pool.OracleDataSource"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.List"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import= "java.util.HashMap"%>
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8"> <!-- 추가할부분 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 추가할부분 -->
+	<meta http-equiv="X-UA-Compatible" content="ie=edge"> <!-- 추가할부분 -->
+<title>BOOK</title>
+
+	<c:set var="userLoginStt" value="${userLoginStt}"/>
+	<c:set var="userClientStt" value="${userClientStt}"/>
+		
+	<fieldset style='width:160px; margin-top:200px; margin-left:10%;'>
+		<c:choose>
+			<c:when test ="${userLoginStt eq 'success'}">
+				<c:choose>
+					<c:when test="${userClientStt eq 'admin'}">
+						${userClientStt}님, 어서오세요
+						
+						<table>
+							<tr>
+								<td><input type='submit' value='order' name='입고'/>
+							</tr>
+						</table>
+					</c:when>
+					<c:otherwise>
+						<p>일반사용자</p>
+					</c:otherwise>
+				</c:choose>
+			</c:when>
+			<c:otherwise>
+				<form action="/sm/mainLgn.do" method="get">
+					<table style='border:none;'>
+						<tr>
+							<td><input type='text' id='userId' name='userId' placeholder='LOGIN' style='margin-top:10px;width:100px;' required></input></td>
+							<td rowspan="2"><input type='submit' id='lgnBtn' value='LOGIN' style='margin-top:10px;width:50px;height:50px;display:flex;justify-content:center;' ></input></td>
+						</tr>
+						<tr>
+							<td><input type='password' id='userPass' name='userPass' placeholder='PASSWORD' style='margin-top:10px;width:100px' required></input></td>
+						</tr>
+						<tr>
+							<td><a href='join?lnkDt=join' style='font-size:10px'>회원가입</a></td>				
+						</tr>
+					</table>
+				</form>
+			</c:otherwise>
+		</c:choose>
+	</fieldset>
+</head>
+<!-- 메뉴 드롭 CSS -->
+<body>
+
+	
+	<fieldset style='width:160px;margin-top:-117px;margin-left:31%;'>
+		<table border= '1'>
+			<tr>
+				<td>${userLoginStt}</td>
+				<td>${userClientStt}</td>
+			</tr>
+		</table>
+	</fieldset>
+</body>
+</html>

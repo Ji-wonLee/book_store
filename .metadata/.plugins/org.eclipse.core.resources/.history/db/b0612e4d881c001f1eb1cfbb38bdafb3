@@ -1,0 +1,184 @@
+package users.controller;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import users.service.UsersService;
+import users.vo.UsersVO;
+
+@Controller
+public class UsersController {
+	
+	@Autowired
+	UsersService service;
+	HashMap<String, Object> param = new HashMap<String, Object>();
+	
+	//로그인
+	@RequestMapping(value = "/mainLgn.do")
+	public String mainLogin(@RequestParam("userId") String userId,
+			@RequestParam("userPass") String userPass,ModelMap model
+			) throws Exception{
+			
+			String webCtrl = "";
+			param.put("user_id", userId);
+			param.put("passwd", userPass);
+			
+			String loginChk = service.selectLoginCheck(param);
+			
+			if(loginChk.equals("")) {
+				model.addAttribute("userLoginStt" , "fail");
+			} else if(!loginChk.equals("null")) {
+				model.addAttribute("userLoginStt" , "success");
+				String clientChk = service.selectCheckClient(param);
+				
+				model.addAttribute("userName" , loginChk);
+				model.addAttribute("userClientStt" , clientChk);
+				System.out.println(clientChk);
+			}
+			
+			return "main";
+		}
+	
+	//유저 리스트출력
+	@RequestMapping(value = "/userList")
+//	public String list(ModelMap model) throws Exception{
+	public ModelAndView list() throws Exception{
+		
+		ModelAndView mv = new ModelAndView();
+		List<UsersVO> userList = service.selectUsersList();
+		mv.addObject("userList",userList);
+//		model.addAttribute("list", list); //		"/WEB-INF/views/list.jsp"
+//		return "list";
+		mv.setViewName("userList");
+		return mv;
+	}
+	//유저 조인 JSP 이동
+	@RequestMapping(value = "/join", method = RequestMethod.GET)
+	public void getRegister() throws Exception{
+	}
+	
+	// 아이디 중복 체크
+	@ResponseBody
+	@RequestMapping(value="/idChk", method = RequestMethod.POST)
+	public int idChk(String id) throws Exception {
+		int result = service.selectIdCheck(id);
+		return result;
+	}
+	
+	//유저 회원가입
+	@RequestMapping(value = "/join.do", method = RequestMethod.GET)
+	public String postRegister(@RequestParam("userId") String userId,
+			@RequestParam("userPass") String userPass,
+			@RequestParam("userAddr") String userAddr,
+			@RequestParam("userName") String userName,
+			@RequestParam("userCall") int userCall,
+			ModelMap model, UsersVO vo) throws Exception {
+
+		param.put("user_id", userId);
+		param.put("passwd", userPass);
+		param.put("address", userAddr);
+		param.put("name", userName);
+		param.put("phonenum", userCall);
+		param.put("grade_no", 1);
+		param.put("gname", "일반");
+		
+		int idChkStt = service.selectIdCheck(userId);
+		
+		String webCtrl = "";
+		
+		if(idChkStt == 1) {
+			model.addAttribute("idChkStt" , idChkStt);
+			return "join";
+		} else if(idChkStt == 0) {
+			int cntInsert = service.insertUsers(param);
+			System.out.println(cntInsert);
+			return "main";
+		}
+		
+		return webCtrl;
+	}
+	//내 정보
+	@RequestMapping(value = "/join.do", method = RequestMethod.GET)
+	public String postRegister(@RequestParam("userId") String userId,
+			@RequestParam("userPass") String userPass,
+			@RequestParam("userAddr") String userAddr,
+			@RequestParam("userName") String userName,
+			@RequestParam("userCall") int userCall,
+			ModelMap model, UsersVO vo) throws Exception {
+
+		param.put("user_id", userId);
+		param.put("passwd", userPass);
+		param.put("address", userAddr);
+		param.put("name", userName);
+		param.put("phonenum", userCall);
+		param.put("grade_no", 1);
+		param.put("gname", "일반");
+		
+		int idChkStt = service.selectIdCheck(userId);
+		
+		String webCtrl = "";
+		
+		if(idChkStt == 1) {
+			model.addAttribute("idChkStt" , idChkStt);
+			return "join";
+		} else if(idChkStt == 0) {
+			int cntInsert = service.insertUsers(param);
+			System.out.println(cntInsert);
+			return "main";
+		}
+		
+		return webCtrl;
+	}
+	//메뉴 이동
+	@RequestMapping(path = "/main", method = RequestMethod.GET)
+	public String list(Model model , HttpServletRequest req) {
+		
+		String webIdStt = req.getParameter("lnkDt");
+		
+		if(webIdStt == null) { webIdStt = ""; }
+		
+		System.out.println(webIdStt);
+		String send = "";
+		
+		switch(webIdStt) {
+		
+			case "userList" :
+				send = webIdStt;
+				break;
+	
+			case "join" :
+				send = webIdStt;
+				break;
+			
+			case "cart" :
+				send = webIdStt;
+				break;
+				
+			case "myInfo ":
+				send = webIdStt;
+				break;
+				
+			default :
+				send = "main";
+				break;
+		}
+		return send;
+	}
+	
+}

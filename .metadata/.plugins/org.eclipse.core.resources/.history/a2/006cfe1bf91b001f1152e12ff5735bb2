@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="users">
+
+<select id="selectUsersList" resultType="usersvo">
+	<![CDATA[
+		 SELECT user_id , name , passwd , address , phonenum , gname FROM users u , grade g WHERE u.grade_no = g.grade_no
+	]]>
+ </select>
+ 
+ <select id="selectIdCheck" resultType="int">
+	<![CDATA[
+		 SELECT COUNT(*) FROM users WHERE user_id = #{user_id}
+	]]>
+ </select>
+ 
+ <select id="selectLoginCheck" resultType="usersvo">
+	<![CDATA[
+		 SELECT user_id , passwd FROM users WHERE user_id=#{user_id} and passwd=#{passwd}
+	]]>
+ </select>
+ 
+ <select id="selectCheckClient" resultType="String">
+	<![CDATA[
+		 SELECT name , gname FROM users u , grade g WHERE user_id=#{user_id} and u.grade_no = g.grade_no
+	]]>
+ </select>
+ 
+ <insert id="insertUsers" parameterType="hashMap" useGeneratedKeys="true" keyProperty="user_id">
+ 	<![CDATA[
+ 		INSERT INTO users (user_id, name , passwd , address , phonenum , grade_no) VALUES (#{user_id} , #{name} , #{passwd} , #{address} , #{phonenum} , #{grade_no})
+ 	]]>
+ </insert>
+</mapper>

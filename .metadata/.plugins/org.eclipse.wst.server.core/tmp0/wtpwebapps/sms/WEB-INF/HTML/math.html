@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<select name = "math" id = "math">
+	<option value="">---------선택하세요---------</option>
+	<option value="Pythagorean Theorem" style='font-style:italic;'>Pythagorean Theorem</option>
+</select>
+
+<hr>
+	<div id = 'container' >
+		<script >
+		var num = 1;
+		//입력창 출력
+		function addInput(){
+			const newElement = document.createElement('div');
+			newElement.innerHTML = "<input id ="+num+" type='text'/><br/>";
+			const container = document.getElementById('container');
+			container.appendChild(newElement);
+			num++;
+		}
+		//결과창 출력
+		function addResult(){
+			const newElement = document.createElement('div');
+			newElement.innerHTML = "<input id = 'res' readonly/><br/>"
+			+"<p style='font-size:12px'>※ 입력픽셀단위*10으로 화면에 출력됩니다 ※</p>";
+			const container = document.getElementById('container');
+			container.appendChild(newElement);
+		}
+		//초기화 기능
+		function clearCanvas(){
+		    var canvas = document.getElementById('myCanvas');
+		    var ctx = canvas.getContext('2d');
+		    
+		    for(let i = 1; i< num; i++){
+                var strings = document.getElementById(i);
+                strings.value = "";
+		    }
+		    
+		    var dox = document.getElementById('res');
+    		dox.value = "";
+		    ctx.clearRect(0, 0, canvas.width, canvas.height);
+		    ctx.beginPath();
+		}
+		//버튼 출력
+		function addButton(mathTheory){
+			const newElement = document.createElement('div');
+			newElement.innerHTML = "<input type='submit' value='submit' onclick='emptyCheck(\""+mathTheory+"\")'/>"
+			+"<input type='submit' value='reset' onclick='clearCanvas()'/>";
+			const container = document.getElementById('container');
+			container.appendChild(newElement);
+		}
+		//hr태그 및 캔버스 선언
+		function addHr(){
+			const newElement = document.createElement('div');
+			newElement.innerHTML = "<hr><canvas id='myCanvas' width='900' height='900'></canvas>";
+			const container = document.getElementById('container');
+			container.appendChild(newElement);
+		}
+		//정수 데이터 배열 선언 및 도형 출력
+		function draw(stringCntCt){
+			var jbAry = new Array();
+            strings ="";
+			if(stringCntCt.split(':')[1] == "true"){
+				for(let i = 1; i<num; i++){
+	                let strings = document.getElementById(i);
+	                if(strings != null){
+	                    const name = document.getElementById(i).value;
+					    jbAry[i] = Number(name);
+	                }
+				}
+				switch(stringCntCt.split(':')[0]){
+					case "Pythagorean Theorem" :
+						var canvas = document.getElementById("myCanvas");
+						var ctx = canvas.getContext("2d");
+						var dox = document.getElementById('res');
+						ctx.beginPath();
+			    		ctx.moveTo(50, 50);
+			    		ctx.lineTo((50+(jbAry[2])*10),50);
+			    		ctx.lineTo(50,(50+(jbAry[1])*10));
+			    		var rstNum = Math.sqrt((jbAry[2]**2)+(jbAry[1]**2))
+			    		dox.value = rstNum;
+			    		ctx.fill();
+			    		
+		    			//ctx.fillStyle = "red"; // 색상 설정
+		    			//ctx.fillRect(50, 50, 100, 100); // 사각형 그리기
+				}
+			}
+		}
+		//입력창 빈칸 확인
+		function emptyCheck(mathTheory){
+			let stringVal = "";
+            let strings ="";
+			for(let i = 1; i<num; i++){
+                let strings = document.getElementById(i);
+                if(strings != null){
+                    const name = document.getElementById(i).value;
+                    if(name == ''){
+					    stringVal = "";
+					    alert('IDENTIFIED EMPTY DATA');
+					    break;
+				    } else {
+					    stringVal = "true";
+					    stringCntCt = mathTheory +":"+ stringVal;
+				    }
+                }
+			}
+			draw(stringCntCt);
+		}
+		//전체 기능 호출
+		document.querySelector('#math').addEventListener('change', e => {
+    	const choose = e.currentTarget.selectedIndex;
+    	const value = e.currentTarget[choose].value;
+    	let mathTheory = "";
+    	switch (value){
+    		case "Pythagorean Theorem" :
+    			mathTheory = "Pythagorean Theorem";
+    			for(let i = 1; i <= 2; i++){
+    				addInput();
+    			}
+    			addResult();
+    			addButton(mathTheory);
+    			addHr();
+    			break;
+    		}
+		});
+	</script>
+	</div>
+</head>
+<body>
+</body>
+</html>
