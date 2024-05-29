@@ -9,7 +9,10 @@
 </head>
 <body>
 	<form action="/sms/order" method="post">
-		<input type="submit" value="selecByCode">
+		<input type="submit" value="발주">
+	</form>
+	<form action="/sms/order" method="post">
+		<input type="submit" value="입고">
 	</form>
 </body>
 </html>

@@ -35,12 +35,14 @@ public class OrderDaoImpl implements OrderDao{
 		return count;
 	}
 	@Override
-	public int receive(Receive receive) {
-		return 0;
+	public int insertReceive(Receive receive) {
+		int count = sqlSessionTemplate.insert("order.insertReceive", receive);
+		return count;
 	}
 	@Override
 	public int insertReceiveDetail(ReceiveDetail receiveDetail){
-		return 0;
+		int count = sqlSessionTemplate.insert("order.insertReceiveDetail", receiveDetail);
+		return count;
 	}
 	@Override
 	public String getOrderId() {

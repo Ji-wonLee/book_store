@@ -35,10 +35,8 @@ public class OrderController {
 	}
 	@RequestMapping(value = "/orderComplete", method = RequestMethod.POST)
 	public String orderComplete(@RequestParam Map<String, String> paramMap,ModelMap model) {				
-		System.out.println("orderComplete1");
 		orderSvc.orderSave(paramMap);
-		System.out.println("orderComplete2");
-		return null;
+		return "/order.jsp";
 	}
 	public OrderSvc getOrderSvc() {
 		return orderSvc;

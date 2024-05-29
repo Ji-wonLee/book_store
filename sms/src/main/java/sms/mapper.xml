@@ -43,4 +43,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES (#{product_id}, #{order_id}, #{quantity}, #{price})
 	]]>
 	</select>
+	
+	<!-- receive 테이블 입력 -->
+	<select id="insertReceive" resultType="string">
+	<![CDATA[
+		INSERT INTO receives (receive_id, order_id, receive_date, writer, payer, totalprice)
+		VALUES(#{receive_id},#{order_id}, TO_DATE(TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS'), 'YYYYMMDDHH24MISS')
+		,#{writer}, #{payer},#{totalprice})
+	]]>
+	</select>
+	
+	<!-- receiveDetail 테이블 입력 -->
+	<select id="insertReceiveDetail" resultType="string">
+	<![CDATA[
+		INSERT INTO receive_detail (receive_id, product_id, quantity, price)
+		VALUES (#{receive_id}, #{product_id}, #{quantity}, #{price})
+	]]>
+	</select>
 </mapper>

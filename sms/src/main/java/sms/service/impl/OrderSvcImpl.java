@@ -13,6 +13,8 @@ import sms.dao.OrderDao;
 import sms.dto.Order;
 import sms.dto.OrderDetail;
 import sms.dto.ProductDto;
+import sms.dto.Receive;
+import sms.dto.ReceiveDetail;
 import sms.service.OrderSvc;
 
 @Service
@@ -61,18 +63,30 @@ public class OrderSvcImpl implements OrderSvc {
 			OrderDetail orderDetail = new OrderDetail(new_order_id,product_id ,quantity ,price );
 			orderDao.insertOrderDetail(orderDetail);
 		}
-
+		
+		System.out.println("receive");
 		//receive
+		String receive_id="RC"+new_order_id.substring(2);
+		String order_id=new_order_id;
+		String receive_date=null;//DB에서 sysdate로
+		String writer="writer";
+		String payer="payer";
+		int totalprice_r=totalprice;
+
+		Receive receive = new Receive(receive_id, order_id, receive_date, writer,payer,totalprice_r );
+		orderDao.insertReceive(receive);
+		System.out.println("receive2");
+		
+		//receiveDetail -> 보류,,, 일일이 넣을지 order에서 넣을지... 일단 전자로함
 		for(String key : orderMap.keySet()) {
-			String receive_id="RC"+new_order_id.substring(2);
-			 String order_id=new_order_id;
-			 String receive_date=null;//DB에서 sysdate로
-			String writer="writer1";
-			String payer="writer2";
-			int totalprice_r=totalprice;
+			String product_id=key.split("_")[0];
+			int quantity=Integer.parseInt(orderMap.get(key));
+			int price=Integer.parseInt(key.split("_")[1]);
 			
+			ReceiveDetail receiveDetail = new ReceiveDetail(receive_id, product_id, quantity, price);
+			orderDao.insertReceiveDetail(receiveDetail);
 		}
-		//receiveDetail
+		
 		return 0;
 	}
 	public OrderDao getOrderDao() {
