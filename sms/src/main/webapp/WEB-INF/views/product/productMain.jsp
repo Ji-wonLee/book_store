@@ -68,7 +68,7 @@
 <title>회원 메인 페이지</title>
 </head>
 <body>
-	<form action = "/sms/searchList" method = "GET"> <!-- action 연결 필요 -->
+	<form action = "/sms/customermain" method = "GET"> <!-- action 연결 필요 -->
 	<header></header>
 	<section>
 		<nav>

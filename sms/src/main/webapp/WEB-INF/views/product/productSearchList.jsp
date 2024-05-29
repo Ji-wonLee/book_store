@@ -86,9 +86,9 @@
 		</nav>
 		<article>
 			<div class = "searchBox"> <!-- 상단 검색 구성 -->
-				<select name = "category" id = "categoryId"> <!-- 분류 드롭 다움 메뉴 -->
+				<select name = "category" id = "category_id"> <!-- 분류 드롭 다움 메뉴 -->
 					<c:forEach var="category" items="${categoryList}" >
-						<option value = "${category.id}">${category.name}</option>
+						<option value = "${category.category_id}">${category.category_name}</option>
 					</c:forEach>
 				</select>
 				<input type = "text" id = "searchText" placeholder="검색어 입력"/> <!-- 검색어 입력 text 박스 -->
@@ -107,10 +107,10 @@
 					<c:forEach var="product" items="${productList}" varStatus="idx">
 						<tr>
 							<td>${idx.count}</td>
-							<td>${product.categoryName}</td>
-							<td>${product.name}</td>
-							<td>${product.price}</td>
-							<td>${product.page}</td>
+							<td>${product.category_name}</td>
+							<td>${product.product_name}</td>
+							<td>${product.product_price}</td>
+							<td>${product.product_page}</td>
 						</tr>
 					</c:forEach>
 				</table>

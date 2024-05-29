@@ -69,7 +69,7 @@
 <title>상품 정보</title>
 </head>
 <body>
-	<form action = "/sms/searchList" method = "GET"> <!-- action 연결 필요 -->
+	<form action = "/sms/productinfo" method = "GET"> <!-- action 연결 필요 -->
 	<header></header>
 	<section>
 		<nav>
@@ -89,7 +89,7 @@
 			<div class = "searchBox"> <!-- 상단 검색 구성 -->
 				<select name = "category" id = "categoryId"> <!-- 분류 드롭 다움 메뉴 -->
 					<c:forEach var="category" items="${categoryList}" >
-						<option value = "${category.id}">${category.name}</option>
+						<option value = "${category.category_id}">${category.category_name}</option>
 					</c:forEach>
 				</select>
 				<input type = "text" id = "searchText" placeholder="검색어 입력"/> <!-- 검색어 입력 text 박스 -->
@@ -97,21 +97,21 @@
 			</div>
 			<div class="productInfo">
     <div class="productImage">
-        <img src="${product.imgUrl}" alt="Product Image">
+        <img src="${product.product_imgurl}" alt="Product Image">
     </div>
     <div class="productDetails">
         <table>
             <tr>
                 <th>도서명</th>
-                <td>${product.name}</td>
+                <td>${product.product_name}</td>
             </tr>
             <tr>
                 <th>분류</th>
-                <td>${product.categoryName}</td>
+                <td>${product.category_name}</td>
             </tr>
             <tr>
                 <th>페이지 수</th>
-                <td>${product.page}</td>
+                <td>${product.product_page}</td>
             </tr>
             <tr>
                 <th>설명</th>
@@ -119,11 +119,11 @@
             </tr>
             <tr>
                 <th>제조업체 명</th>
-                <td>${product.manufacturerName}</td>
+                <td>${product.manufacture_name}</td>
             </tr>
             <tr>
                 <th>가격</th>
-                <td>${product.price}</td>
+                <td>${product.product_price}</td>
             </tr>
         </table>
     </div>
