@@ -30,12 +30,6 @@ public class ProductSvcImpl implements ProductSvc{
 	}
 
 	@Override
-	public List<ProductDto> ManagerproductList() {
-		List<ProductDto> managerProductList =  productDao.ManagerproductList();
-		return managerProductList;
-	}
-
-	@Override
 	public ProductDto productInfo(String ProductId) {
 		ProductDto selectProduct = productDao.productInfo(ProductId);
 		return selectProduct;

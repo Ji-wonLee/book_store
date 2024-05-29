@@ -12,10 +12,7 @@ public interface ProductSvc {
 	
 	List<ProductDto> productList();
 	// 사용자에게 제공되는 객체 List를 받아옴
-	
-	List<ProductDto> ManagerproductList();
-	// 관리자에게 제공되는 객체 List를 받아옴
-	
+
 	ProductDto productInfo(String ProductId);
 	// id값으로 객체를 받아옴, 상세 조회에서 사용
 	

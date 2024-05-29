@@ -34,14 +34,6 @@ public class ProductDaoImpl implements ProductDao{
 	}
 
 	@Override
-	public List<ProductDto> ManagerproductList() { // 재고에서 사용하는 관리자 상품 조회 리스트(제거)
-		
-		List<ProductDto> managerProductList = sqlSessionTemplate.selectList("product.inventoryList");
-		
-		return managerProductList;
-	}
-	
-	@Override
 	public ProductDto productInfo(String ProductId) { // 상품 상세
 		
 		ProductDto selectProduct = sqlSessionTemplate.selectOne("product.productInfo", ProductId);
