@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import sms.dao.InventoryDao;
 import sms.dto.Inventory;
 import sms.dto.ProductDto;
-import sms.dto.SearchDto;
 
 @Repository
 public class InventoryDaoImpl implements InventoryDao{
@@ -29,17 +28,17 @@ public class InventoryDaoImpl implements InventoryDao{
 		return inventoryTextList;
 	} // 검색에서 겁색값으로 상품 조회
 
-	@Override
-	public List<ProductDto> inventorySearchWithCategory(String categoryId) {
-		List<ProductDto> inventoryCategoryList = sqlSessionTemplate.selectList("product.inventorySearchCategory", categoryId);
-		return inventoryCategoryList;
-	} // 검색에서 분류로 상품 조회
-
-	@Override
-	public List<ProductDto> inventorySearchDual(SearchDto searchDto) {
-		List<ProductDto> inventoryDualList = sqlSessionTemplate.selectList("product.inventorySearchDual", searchDto);
-		return inventoryDualList;
-	} // 검색에서 분류, 입력값 모두 사용
+//	@Override
+//	public List<ProductDto> inventorySearchWithCategory(String categoryId) {
+//		List<ProductDto> inventoryCategoryList = sqlSessionTemplate.selectList("product.inventorySearchCategory", categoryId);
+//		return inventoryCategoryList;
+//	} // 검색에서 분류로 상품 조회
+//
+//	@Override
+//	public List<ProductDto> inventorySearchDual(SearchDto searchDto) {
+//		List<ProductDto> inventoryDualList = sqlSessionTemplate.selectList("product.inventorySearchDual", searchDto);
+//		return inventoryDualList;
+//	} // 검색에서 분류, 입력값 모두 사용
 
 	@Override
 	public int iventoryUpdate(Inventory inventory) {

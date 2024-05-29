@@ -16,17 +16,17 @@ public class ProductInfoController {
 	@Autowired
 	private ProductSvc productSvc;
 	
-	@RequestMapping(value="", method=RequestMethod.GET)
-	public String productInfo(@RequestParam(value="productId") String productId, ModelMap model) {
+	@RequestMapping(value="/productinfo", method=RequestMethod.GET)
+	public String productInfo(@RequestParam(value="product_id") String productId, ModelMap model) {
 		
-		model.addAttribute("productName", productSvc.productInfo(productId).getProduct_name());
+		model.addAttribute("product_id", productSvc.productInfo(productId).getProduct_name());
 		model.addAttribute("description", productSvc.productInfo(productId).getDescription());
-		model.addAttribute("price", productSvc.productInfo(productId).getProduct_price());
-		model.addAttribute("manufactureName", productSvc.productInfo(productId).getManufacture_name());
-		model.addAttribute("manufactureAddress", productSvc.productInfo(productId).getManufacture_address());
-		model.addAttribute("categoryName", productSvc.productInfo(productId).getCategory_name());
-		model.addAttribute("imgurl", productSvc.productInfo(productId).getProduct_imgurl());
-		model.addAttribute("page", productSvc.productInfo(productId).getProduct_page());
+		model.addAttribute("product_price", productSvc.productInfo(productId).getProduct_price());
+		model.addAttribute("manufacture_name", productSvc.productInfo(productId).getManufacture_name());
+		model.addAttribute("manufacture_address", productSvc.productInfo(productId).getManufacture_address());
+		model.addAttribute("category_name", productSvc.productInfo(productId).getCategory_name());
+		model.addAttribute("product_imgurl", productSvc.productInfo(productId).getProduct_imgurl());
+		model.addAttribute("product_page", productSvc.productInfo(productId).getProduct_page());
 		model.addAttribute("state", productSvc.productInfo(productId).getState());
 		
 		return "product/productInfo";

@@ -15,7 +15,7 @@ public class ProductListController {
 	@Autowired
 	private ProductSvc productSvc;
 	
-	@RequestMapping(value="", method=RequestMethod.GET) // 수정, 페이지 호출 입력
+	@RequestMapping(value="/customermain", method=RequestMethod.GET) // 수정, 페이지 호출 입력
 	public String productList(ModelMap model) {
 		model.addAttribute("productList", productSvc.productList());
 		

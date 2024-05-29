@@ -23,26 +23,27 @@ public class InventorySvcImpl implements InventorySvc {
 		return inventoryList;
 	}
 	
+//	@Override
+//	public List<ProductDto> inventorySearchList(SearchDto searchDto){
+//		List<ProductDto> inventorySearchList;
+//		
+//		if(searchDto.getCategory_id().isEmpty() == true) {
+//			inventorySearchList = inventoryDao.inventorySearchWithText(searchDto.getSearchText());
+//		} else if(searchDto.getSearchText().isEmpty() == true) {
+//			inventorySearchList = inventoryDao.inventorySearchWithCategory(searchDto.getCategory_id());
+//		} else {
+//			inventorySearchList = inventoryDao.inventorySearchDual(searchDto);
+//		}
+//
+//		return inventorySearchList;
+//	}
+	
 	@Override
-	public List<ProductDto> inventorySearchList(SearchDto searchDto){
-		List<ProductDto> inventorySearchList;
-		
-		if(searchDto.getCategory_id().isEmpty() == true) {
-			inventorySearchList = inventoryDao.inventorySearchWithText(searchDto.getSearchText());
-		} else if(searchDto.getSearchText().isEmpty() == true) {
-			inventorySearchList = inventoryDao.inventorySearchWithCategory(searchDto.getCategory_id());
-		} else {
-			inventorySearchList = inventoryDao.inventorySearchDual(searchDto);
-		}
-
-		return inventorySearchList;
+	public List<ProductDto> inventorySearchWithText(String searchText) {
+		List<ProductDto> inventoryTextList = inventoryDao.inventorySearchWithText(searchText);
+		return inventoryTextList;
 	}
 	
-//	@Override
-//	public List<ProductDto> inventorySearchWithText(String searchText) {
-//		List<ProductDto> inventoryTextList = inventoryDao.inventorySearchWithText(searchText);
-//		return inventoryTextList;
-//	}
 //	@Override
 //	public List<ProductDto> inventorySearchWithCategory(String categoryId) {
 //		List<ProductDto> inventoryCategoryList = inventoryDao.inventorySearchWithCategory(categoryId);

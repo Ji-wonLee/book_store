@@ -20,15 +20,15 @@ public class SearchListController {
 	
 	@RequestMapping(value="/searchList", method=RequestMethod.GET) //수정 필요, 페이지 호출
 	public String productSearchWithText(@RequestParam(value = "searchText") String searchText,
-										@RequestParam(value = "categoryId") String categoryId,
+										@RequestParam(value = "category_id") String category_id,
 										ModelMap model) {
 		
-		SearchDto searchDto = new SearchDto(searchText, categoryId);
+		SearchDto searchDto = new SearchDto(searchText, category_id);
 		
 		model.addAttribute("categoryList", productSvc.categoryList());
 		model.addAttribute("productList", productSvc.productSearchList(searchDto));
 		
-		return "product/ProductSearcList";
+		return "product/productSearcList";
 	}
 	
 	
