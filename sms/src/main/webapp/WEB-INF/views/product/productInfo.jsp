@@ -75,14 +75,14 @@
 		<nav>
 			<!-- 좌측 유저정보 및 사이트 목록 표시 -->
 				<div class = "userText">
-				<h3>${user.name}</h3>
+				<h3>${user.name}</h3> <!-- session 과 사용자 정보를 가져옴, 이름 출력 -->>
 				<h3>님 환영합니다. </h3>
 				</div>
 				
 				<ul>
-     				<li><a href="#">내 정보 조회</a></li>
-    				<li><a href="#">장바구니</a></li>
-      				<li><a href="#">상품 조회</a></li>
+     				<li><a href="#">내 정보 조회</a></li> <!-- 내정보 화면 연결 -->
+    				<li><a href="#">장바구니</a></li> <!-- 장바구니 화면 연결 -->
+      				<li><a href="#">상품 조회</a></li> <!-- 메인화면 연결 -->
    				</ul>
 		</nav>
 		<article>

@@ -16,17 +16,17 @@ public class ProductDaoImpl implements ProductDao{
 
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
-	
+	//Sql 연결
 	@Override
-	public List<Category> categoryList( ){
+	public List<Category> categoryList( ){ // 분류 리스트 출력(검색에서 사용)
 		
-		List<Category> categoryList = sqlSessionTemplate.selectList(null);
+		List<Category> categoryList = sqlSessionTemplate.selectList(null); // mapper의 명칭.호출할 sql문의 이름
 		
 		return categoryList;
 	}
 	
 	@Override
-	public List<ProductDto> productList() {
+	public List<ProductDto> productList() { // 상품 리스트(상품 전체 출력)
 		
 		List<ProductDto> productList = sqlSessionTemplate.selectList(null);
 		
@@ -34,7 +34,7 @@ public class ProductDaoImpl implements ProductDao{
 	}
 
 	@Override
-	public List<ProductDto> ManagerproductList() {
+	public List<ProductDto> ManagerproductList() { // 재고에서 사용하는 관리자 상품 조회 리스트
 		
 		List<ProductDto> managerProductList = sqlSessionTemplate.selectList(null);
 		
