@@ -2,3 +2,30 @@
 1716855279112	Copy file
 1716861919460	Copy file
 1716861938904	Delete element
+1716944916005	Move 'cart.jsp' to 'cart'
+1716944951550	Copy package
+1716944966932	Copy package
+1716944987800	Copy package
+1716945004886	Copy file
+1716945235025	Delete elements
+1716945238922	Delete element
+1716945240949	Delete element
+1716945247321	Move 'cart.jsp' to 'user'
+1716945249985	Delete element
+1716946306620	Move 'cart.jsp' to 'cart'
+1716946360040	Copy package
+1716946368668	Copy package
+1716946375635	Copy package
+1716946382946	Copy file
+1716946396757	Rename type 'UsersVO'
+1716946405632	Rename type 'cartVO'
+1716946413328	Rename type 'UsersService'
+1716946418905	Rename type 'UsersServiceImpl'
+1716946425963	Rename type 'UsersController'
+1716946428531	Delete element
+1716946432745	Delete element
+1716946448923	Rename resource 'cartSQL.xml'
+1716946702923	Delete element
+1716946708385	Delete elements
+1716946711226	Delete element
+1716950197162	Delete element
