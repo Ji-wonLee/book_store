@@ -8,20 +8,24 @@
 <title>발주확인</title>
 </head>
 <body>
-<form action="/sms/orderComplete" method="post">
-	<button type="submit">발주확인</button>
-	<table border="1">
-            <tr>
-                <th>상품 id</th>
-                <th>수량</th>
-            </tr>
-            <c:forEach var="product" items="${orderList}">
-                <tr>
-                    <td>${product.key}</td>
-                    <td>${product.value}</td>
-                </tr>
-            </c:forEach>
-        </table>
-        </form>
+	<form action="/sms/orderComplete" method="post">
+		<!-- hidden input 필드에 orderList를 전달 -->
+		<c:forEach var="product" items="${orderList}">
+			<input type="hidden" name="${product.key}" value="${product.value}">
+		</c:forEach>
+		<button type="submit">발주확인</button>
+		<table border="1">
+			<tr>
+				<th>상품 id</th>
+				<th>수량</th>
+			</tr>
+			<c:forEach var="product" items="${orderList}">
+				<tr>
+					<td>${product.key}</td>
+					<td>${product.value}</td>
+				</tr>
+			</c:forEach>
+		</table>
+	</form>
 </body>
 </html>

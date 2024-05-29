@@ -1,5 +1,6 @@
 package sms.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,12 +22,10 @@ public class OrderController {
 	
 	@RequestMapping(value = "/order", method = RequestMethod.POST)
 	public String order( ModelMap model) {
-		//@RequestParam("id") int id, 
 		System.out.println("order");
 		List<ProductDto> listProduct = orderSvc.invenList();
 		model.addAttribute("listProduct", listProduct);		
 		
-		//return "user/userRegisterPage";
 		return "order/goodsOrderPage";
 	}
 	@RequestMapping(value = "/orderCheck", method = RequestMethod.POST)
@@ -35,10 +34,10 @@ public class OrderController {
 		return "order/orderCheck";
 	}
 	@RequestMapping(value = "/orderComplete", method = RequestMethod.POST)
-	public String orderComplete(@RequestParam Map<String, Integer> paramMap,ModelMap model) {		
-		System.out.println("orderComplete");
+	public String orderComplete(@RequestParam Map<String, String> paramMap,ModelMap model) {				
+		System.out.println("orderComplete1");
 		orderSvc.orderSave(paramMap);
-		System.out.println("ordercomplete Áß°£");
+		System.out.println("orderComplete2");
 		return null;
 	}
 	public OrderSvc getOrderSvc() {

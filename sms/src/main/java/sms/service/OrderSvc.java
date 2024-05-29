@@ -8,5 +8,5 @@ import sms.dto.ProductDto;
 
 public interface OrderSvc {
 	public	List<ProductDto> invenList();
-	public int orderSave(Map<String, Integer> orderMap);
+	public int orderSave(Map<String, String> orderMap);
 }

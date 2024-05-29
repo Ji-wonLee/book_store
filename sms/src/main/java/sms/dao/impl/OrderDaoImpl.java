@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import sms.dto.Order;
+import sms.dto.OrderDetail;
 import sms.dto.ProductDto;
+import sms.dto.Receive;
+import sms.dto.ReceiveDetail;
 import sms.dao.OrderDao;
 
 @Repository
@@ -27,15 +30,16 @@ public class OrderDaoImpl implements OrderDao{
 		return count;
 	}
 	@Override
-	public int insertOrderDetail(){
+	public int insertOrderDetail(OrderDetail orderDetail){
+		int count = sqlSessionTemplate.insert("order.insertOrderDetail", orderDetail);
+		return count;
+	}
+	@Override
+	public int receive(Receive receive) {
 		return 0;
 	}
 	@Override
-	public int insertReceiveDetail(){
-		return 0;
-	}
-	@Override
-	public int receive() {
+	public int insertReceiveDetail(ReceiveDetail receiveDetail){
 		return 0;
 	}
 	@Override

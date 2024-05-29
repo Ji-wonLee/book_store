@@ -8,8 +8,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!--order할 상품 목록 가져오기 -->
 	<select id="selectInventory" resultType="productDTO">
 	<![CDATA[
-		SELECT p.product_id id, product_name name, product_price price, manufacture_name manufactureName,
- 		c.category_name categoryName, product_imgurl imgurl, state
+		SELECT p.product_id, product_name, product_price, manufacture_name,
+ 		c.category_name, product_imgurl , state
 		FROM product p JOIN category c ON p.category_id = c.category_id
 	]]>
 	</select>
@@ -33,6 +33,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<![CDATA[
 		INSERT INTO orders (order_id, order_date, writer, totalprice) 
 		VALUES (#{order_id}, TO_DATE(TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS'), 'YYYYMMDDHH24MISS'), #{writer},#{totalprice})
+	]]>
+	</select>
+	
+	<!-- orderDetail테이블 입력 -->
+	<select id="insertOrderDetail" resultType="string">
+	<![CDATA[
+		INSERT INTO order_detail (product_id, order_id, quantity, price)
+		VALUES (#{product_id}, #{order_id}, #{quantity}, #{price})
 	]]>
 	</select>
 </mapper>

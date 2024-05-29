@@ -26,7 +26,7 @@ public class OrderSvcImpl implements OrderSvc {
 		return listProduct;
 	}
 	@Override
-	public int orderSave(Map<String, Integer> orderMap) {
+	public int orderSave(Map<String, String> orderMap) {
 		LocalDate now = LocalDate.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
 		String formatedNow = now.format(formatter);
@@ -36,23 +36,42 @@ public class OrderSvcImpl implements OrderSvc {
 		List<String> keyList =  new ArrayList<>(orderMap.keySet());
 		int totalprice=0;
 		for(String s : keyList) {
-			totalprice+=Integer.parseInt(s.split("_")[1])*orderMap.get(s);
+			String s_price = s.split("_")[1];
+			int price = Integer.parseInt(s_price);
+			int quantity = Integer.parseInt(orderMap.get(s));
+			totalprice+=price*quantity;
 		}
-		System.out.println(totalprice);
+
 		//order 일련번호 생성
 		String new_order_id = null;
-		String order_id = orderDao.getOrderId();
-		if(order_id==null) {
+		String org_order_id = orderDao.getOrderId();
+		if(org_order_id==null) {
 			new_order_id = "OD"+formatedNow+String.format("%02d", 1);
 		}else {
-			new_order_id = order_id.substring(0,6)+String.format("%02d", Integer.parseInt(order_id.substring(6))+1);			
+			new_order_id = org_order_id.substring(0,6)+String.format("%02d", Integer.parseInt(org_order_id.substring(6))+1);			
 		}
 		orderDao.insertOrder(new Order(new_order_id,formatedNow, "writer",totalprice)); 
 
 		//orderDetail
+		for(String key : orderMap.keySet()) {
+			String product_id=key.split("_")[0];
+			int quantity=Integer.parseInt(orderMap.get(key));
+			int price=Integer.parseInt(key.split("_")[1]);
+
+			OrderDetail orderDetail = new OrderDetail(new_order_id,product_id ,quantity ,price );
+			orderDao.insertOrderDetail(orderDetail);
+		}
 
 		//receive
-
+		for(String key : orderMap.keySet()) {
+			String receive_id="RC"+new_order_id.substring(2);
+			 String order_id=new_order_id;
+			 String receive_date=null;//DB에서 sysdate로
+			String writer="writer1";
+			String payer="writer2";
+			int totalprice_r=totalprice;
+			
+		}
 		//receiveDetail
 		return 0;
 	}

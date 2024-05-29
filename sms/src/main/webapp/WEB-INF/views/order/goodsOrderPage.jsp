@@ -35,14 +35,14 @@
 			</tr>
 			<c:forEach var="product" items="${listProduct}">
 				<tr>
-					<td>${product.id}</td>
-					<td>${product.name}</td>
-					<td>${product.price}</td>
-					<td>${product.manufactureName}</td>
-					<td>${product.categoryName}</td>
-					<td>${product.imgurl}</td>
+					<td>${product.product_id}</td>
+					<td>${product.product_name}</td>
+					<td>${product.product_price}</td>
+					<td>${product.manufacture_name}</td>
+					<td>${product.category_name}</td>
+					<td>${product.product_imgurl}</td>
 					<td>${product.state}</td>
-					<td><input type="number" name="${product.id}_${product.price}"
+					<td><input type="number" name="${product.product_id}_${product.product_price}"
 						value="0" min="0"></td>
 				</tr>
 			</c:forEach>
