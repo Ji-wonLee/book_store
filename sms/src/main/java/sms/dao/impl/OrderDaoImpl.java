@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import sms.dto.Order;
 import sms.dto.ProductDto;
 import sms.dao.OrderDao;
 
@@ -21,7 +22,12 @@ public class OrderDaoImpl implements OrderDao{
 		return listProduct;
 	}
 	@Override
-	public int insertOrder() {
+	public int insertOrder(Order order) {
+		int count = sqlSessionTemplate.insert("order.insertOrder", order);
+		return count;
+	}
+	@Override
+	public int insertOrderDetail(){
 		return 0;
 	}
 	@Override
@@ -33,7 +39,16 @@ public class OrderDaoImpl implements OrderDao{
 		return 0;
 	}
 	@Override
-	public int insertOrderDetail(){
-		return 0;
+	public String getOrderId() {
+		String order_id = sqlSessionTemplate.selectOne("order.getOrderId");
+		return order_id;
 	}
+	public SqlSessionTemplate getSqlSessionTemplate() {
+		return sqlSessionTemplate;
+	}
+	public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate) {
+		this.sqlSessionTemplate = sqlSessionTemplate;
+	}
+	
+	
 }

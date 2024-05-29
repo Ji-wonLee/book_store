@@ -1,6 +1,7 @@
 package sms.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,14 +20,34 @@ public class OrderController {
 	private OrderSvc orderSvc;
 	
 	@RequestMapping(value = "/order", method = RequestMethod.POST)
-	public String registerUser( ModelMap model) {
+	public String order( ModelMap model) {
 		//@RequestParam("id") int id, 
-		
+		System.out.println("order");
 		List<ProductDto> listProduct = orderSvc.invenList();
-		model.addAttribute("listProduct", listProduct);
-		
+		model.addAttribute("listProduct", listProduct);		
 		
 		//return "user/userRegisterPage";
-		return "goodsOrderPage";
+		return "order/goodsOrderPage";
 	}
+	@RequestMapping(value = "/orderCheck", method = RequestMethod.POST)
+	public String orderCheck(@RequestParam Map<String, Integer> paramMap,ModelMap model) {	
+		model.addAttribute("orderList", paramMap);
+		return "order/orderCheck";
+	}
+	@RequestMapping(value = "/orderComplete", method = RequestMethod.POST)
+	public String orderComplete(@RequestParam Map<String, Integer> paramMap,ModelMap model) {		
+		System.out.println("orderComplete");
+		orderSvc.orderSave(paramMap);
+		System.out.println("ordercomplete Áß°£");
+		return null;
+	}
+	public OrderSvc getOrderSvc() {
+		return orderSvc;
+	}
+
+	public void setOrderSvc(OrderSvc orderSvc) {
+		this.orderSvc = orderSvc;
+	}
+	
+	
 }

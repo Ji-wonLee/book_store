@@ -1,1 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- SQL Mapper -->
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="order">
+
+	<!--order할 상품 목록 가져오기 -->
+	<select id="selectInventory" resultType="productDTO">
+	<![CDATA[
+		SELECT p.product_id id, product_name name, product_price price, manufacture_name manufactureName,
+ 		c.category_name categoryName, product_imgurl imgurl, state
+		FROM product p JOIN category c ON p.category_id = c.category_id
+	]]>
+	</select>
+
+	<!-- orderId가져오기 -->
+	<select id="getOrderId" resultType="string">
+	<![CDATA[
+SELECT *
+FROM (
+    SELECT order_id
+    FROM orders
+    WHERE TRUNC(order_date) = TRUNC(SYSDATE)
+    ORDER BY order_id DESC
+)
+WHERE ROWNUM = 1
+	]]>
+	</select>
+
+	<!-- order테이블 입력 -->
+	<select id="insertOrder" resultType="string">
+	<![CDATA[
+		INSERT INTO orders (order_id, order_date, writer, totalprice) 
+		VALUES (#{order_id}, TO_DATE(TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS'), 'YYYYMMDDHH24MISS'), #{writer},#{totalprice})
+	]]>
+	</select>
+</mapper>
