@@ -17,14 +17,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- orderId가져오기 -->
 	<select id="getOrderId" resultType="string">
 	<![CDATA[
-SELECT *
-FROM (
-    SELECT order_id
-    FROM orders
-    WHERE TRUNC(order_date) = TRUNC(SYSDATE)
-    ORDER BY order_id DESC
-)
-WHERE ROWNUM = 1
+	SELECT *
+	FROM (
+		SELECT order_id
+		FROM orders
+		WHERE TRUNC(order_date) = TRUNC(SYSDATE)
+		ORDER BY order_id DESC
+	)
+	WHERE ROWNUM = 1
 	]]>
 	</select>
 
