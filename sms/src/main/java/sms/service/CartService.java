@@ -2,6 +2,7 @@ package sms.service;
 
 import java.util.List;
 
+import sms.dto.CartDto;
 import sms.dto.PaymentDto;
 import sms.dto.ProductDto;
 
@@ -28,8 +29,10 @@ public interface CartService {
 	//
 	//	// 새로운 장바구니를 생성하는 메소드
 	//	String createNewCart(String userId);
-	List<ProductDto> listCartItems(String userId); // 장바구니 항목 조회
-	void addProductToCart(String userId, String productId, int quantity); // 상품 추가
-	void proceedToCheckout(String userId); // 결제중 상태로 업데이트
-	void completePayment(String userId, String recipientName, String recipientAddress, String payerName, String payerAccount); // 결제 완료 처리
+	List<CartDto> listCartItems(String userId); // 장바구니 항목 조회
+	void updateCartItemAndTotal(CartDto cartDto);// 수량, 총액, 시간 업데이트
+	void updateCartState(CartDto cartDto);		// 카트 상태 업데이트
+	void createNewCart(CartDto cartDto);	// 새 장바구니 생성
+	void addProductToCartDetails(CartDto cartDto);	//장바구니 상품추가
+
 }

@@ -19,75 +19,43 @@ public class CartDaoImpl implements CartDao {
 	SqlSessionTemplate sqlSessionTemplate;
 
 
-	@Override
-    public List<ProductDto> listCartItems(String userId) {
-        // 장바구니에 있는 상품들을 조회합니다. 
-        return sqlSessionTemplate.selectList("CartMapper.listCartItems", userId);
-    }
+	 @Override
+	    public List<CartDto> listCartItems(String userId) {
+	        // 특정 사용자의 장바구니 항목을 조회
+	        return sqlSessionTemplate.selectList("CartMapper.listCartItems", userId);
+	    }
 
-	@Override
-    public void addProductToCart(String userId, String productId, int quantity) {
-        // 현재 활성화된 장바구니를 찾거나 새로 만들고 해당 장바구니에 상품을 추가
-        String cartId = sqlSessionTemplate.selectOne("CartMapper.findActiveCartId", userId);
-        if (cartId == null) {
-            cartId = this.createNewCart(userId);
-        }
-        this.addProductToCartDetails(cartId.toString(), productId, quantity);
-    }
+	    @Override
+	    public void updateCartItemAndTotal(CartDto cartDto) {
+	        // 장바구니 내 상품의 수량 업데이트 및 총액 재계산
+	    	sqlSessionTemplate.update("CartMapper.updateCartItemAndTotal", cartDto);
+	    }
 
-    @Override
-    public void addProductToCartDetails(String cartId, String productId, int quantity) {
-        // 장바구니에 상품의 상세 정보를 추가하거나 업데이트
-    	sqlSessionTemplate.update("CartMapper.addProductToCartDetails", new HashMap<String, Object>() {{
-            put("cartId", cartId);
-            put("productId", productId);
-            put("quantity", quantity);
-        }});
-    }
+	    @Override
+	    public void updateCartState(CartDto cartDto) {
+	        // 장바구니 상태 업데이트
+	    	sqlSessionTemplate.update("CartMapper.updateCartState", cartDto);
+	    }
 
-    @Override
-    public void updateCartItemAndTotal(String cartId, String productId, int quantity) {
-        // 특정 장바구니의 상품 수량을 업데이트하고 총 가격을 재계산
-    	sqlSessionTemplate.update("CartMapper.updateCartItemAndTotal", new HashMap<String, Object>() {{
-            put("cartId", cartId);
-            put("productId", productId);
-            put("quantity", quantity);
-        }});
-    }
+	    @Override
+	    public void createNewCart(CartDto cartDto) {
+	        // 새 장바구니 생성
+	    	sqlSessionTemplate.insert("CartMapper.createNewCart", cartDto);
+	    }
 
-    @Override
-    public void savePaymentInfo(PaymentDto paymentDto) {
-        // 결제 정보를 데이터베이스에 저장
-    	sqlSessionTemplate.insert("CartMapper.savePaymentInfo", paymentDto);
-    }
+	    @Override
+	    public void addProductToCartDetails(CartDto cartDto) {
+	        // 장바구니에 상품 추가
+	    	sqlSessionTemplate.insert("CartMapper.addProductToCartDetails", cartDto);
+	    }
 
-    @Override
-    public void updateCartState(String userId, String state) {
-        // 특정 사용자의 장바구니 상태를 업데이트
-    	sqlSessionTemplate.update("CartMapper.updateCartState", new HashMap<String, Object>() {{
-            put("userId", userId);
-            put("state", state);
-        }});
-    }
+		public SqlSessionTemplate getSqlSessionTemplate() {
+			return sqlSessionTemplate;
+		}
 
-    @Override
-    public void updateCartStateToCompleted(String userId) {
-        // 결제가 완료된 후, 장바구니 상태를 '결제완료'로 변경
-    	sqlSessionTemplate.update("CartMapper.updateCartStateToCompleted", userId);
-    }
-
-    @Override
-    public String createNewCart(String userId) {
-        // 새로운 장바구니를 생성하고 생성된 장바구니의 ID를 반환
-        return sqlSessionTemplate.selectOne("CartMapper.createNewCart", userId);
-    }
-
-    @Override
-    public String createPaymentRecord(Integer cartId) {
-        // 새로운 결제 기록을 생성하고 생성된 결제 ID를 반환
-        return sqlSessionTemplate.selectOne("CartMapper.createPaymentRecord", cartId);
-    }
-	
+		public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate) {
+			this.sqlSessionTemplate = sqlSessionTemplate;
+		}
 	
 
 }

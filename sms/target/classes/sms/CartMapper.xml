@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="CartMapper">
+
+    <!-- 특정 사용자의 장바구니 조회 -->
+    <select id="listCartItems" resultType="CartDto" parameterType="String">
+        SELECT c.cart_id, c.user_id, c.total_price, c.cart_date, c.state,
+               cd.product_id, cd.quantity, p.price, p.name AS product_name
+        FROM carts c
+        JOIN cart_details cd ON c.cart_id = cd.cart_id
+        JOIN products p ON cd.product_id = p.product_id
+        WHERE c.user_id = #{userId} AND c.state = '장바구니'
+    </select>
+
+    <!-- 장바구니 내 상품의 수량 업데이트 및 총액 재계산 -->
+    <update id="updateCartItemAndTotal" parameterType="CartDto">
+        <!-- 상품 수량 업데이트 -->
+        UPDATE cart_detail
+        SET quantity = #{quantity}
+        WHERE cart_id = #{cartId} AND product_id = #{productId};
+
+        <!-- 장바구니 총액 업데이트 -->
+        UPDATE cart
+        SET total_price = (
+            SELECT SUM(cd.quantity * p.price) FROM cart_detail cd
+            JOIN products p ON cd.product_id = p.product_id
+            WHERE cd.cart_id = #{cartId}
+        ),
+        cart_date = NOW()  <!-- 현재 시간 업데이트 -->
+        WHERE cart_id = #{cartId};
+    </update>
+
+    <!-- 장바구니 상태 업데이트 -->
+    <update id="updateCartState" parameterType="CartDto">
+        UPDATE cart
+        SET state = #{state}, cart_date = NOW()
+        WHERE cart_id = #{cartId} AND user_id = #{userId}
+    </update>
+
+    <!-- 새 장바구니 생성 -->
+    <insert id="createNewCart" parameterType="CartDto" useGeneratedKeys="true" keyProperty="newCartId">
+        INSERT INTO carts (user_id, state, cart_date)
+        VALUES (#{userId}, '장바구니', NOW())
+    </insert>
+
+    <!-- 장바구니에 상품 추가 -->
+    <insert id="addProductToCartDetails" parameterType="CartDto">
+        INSERT INTO cart_details (cart_id, product_id, quantity)
+        VALUES (#{cartId}, #{productId}, #{quantity})
+        ON DUPLICATE KEY UPDATE quantity = quantity + #{quantity}
+    </insert>
+
+</mapper>
