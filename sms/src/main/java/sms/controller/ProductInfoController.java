@@ -29,7 +29,7 @@ public class ProductInfoController {
 		model.addAttribute("page", productSvc.productInfo(productId).getProduct_page());
 		model.addAttribute("state", productSvc.productInfo(productId).getState());
 		
-		return "";
+		return "product/productInfo";
 	}
 	
 	public ProductSvc getProductSvc() {

@@ -44,7 +44,7 @@ public class ProductDaoImpl implements ProductDao{
 	@Override
 	public ProductDto productInfo(String ProductId) { // 상품 상세
 		
-		ProductDto selectProduct = sqlSessionTemplate.selectOne(null, ProductId);
+		ProductDto selectProduct = sqlSessionTemplate.selectOne("product.productInfo", ProductId);
 		
 		return selectProduct;
 	}
@@ -52,7 +52,7 @@ public class ProductDaoImpl implements ProductDao{
 	@Override
 	public List<ProductDto> productSearchWithText(String searchText) { // 단어로 조회 
 		
-		List<ProductDto> searchTextList = sqlSessionTemplate.selectList(null, searchText);
+		List<ProductDto> searchTextList = sqlSessionTemplate.selectList("product.productSearchName", searchText);
 		
 		return searchTextList;
 	}
@@ -60,7 +60,7 @@ public class ProductDaoImpl implements ProductDao{
 	@Override
 	public List<ProductDto> productSearchWithCategory(String categoryId) { // 분류로 조회
 		
-		List<ProductDto> searchCategoryList = sqlSessionTemplate.selectList(null, categoryId);
+		List<ProductDto> searchCategoryList = sqlSessionTemplate.selectList("product.productSearchCategory", categoryId);
 		
 		return searchCategoryList;
 	}
@@ -68,7 +68,7 @@ public class ProductDaoImpl implements ProductDao{
 	@Override
 	public List<ProductDto> productSearchDual(SearchDto searchDto) { // 둘 다 사용하여 조회
 		
-		List<ProductDto> searchDualList = sqlSessionTemplate.selectList(null, searchDto);
+		List<ProductDto> searchDualList = sqlSessionTemplate.selectList("product.productSearchDual", searchDto);
 		
 		return searchDualList;
 	}

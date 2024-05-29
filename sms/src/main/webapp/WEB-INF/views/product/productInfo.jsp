@@ -103,15 +103,15 @@
         <table>
             <tr>
                 <th>도서명</th>
-                <td>${product.bookName}</td>
+                <td>${product.name}</td>
             </tr>
             <tr>
                 <th>분류</th>
-                <td>${product.category}</td>
+                <td>${product.categoryName}</td>
             </tr>
             <tr>
                 <th>페이지 수</th>
-                <td>${product.pageCount}</td>
+                <td>${product.page}</td>
             </tr>
             <tr>
                 <th>설명</th>
@@ -119,7 +119,7 @@
             </tr>
             <tr>
                 <th>제조업체 명</th>
-                <td>${product.manufacturer}</td>
+                <td>${product.manufacturerName}</td>
             </tr>
             <tr>
                 <th>가격</th>

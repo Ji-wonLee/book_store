@@ -19,7 +19,7 @@ public class ProductListController {
 	public String productList(ModelMap model) {
 		model.addAttribute("productList", productSvc.productList());
 		
-		return ""; //수정, 페이지 위치 입력
+		return "product/productMain"; //수정, 페이지 위치 입력
 	}
 
 	public ProductSvc getProductSvc() {
