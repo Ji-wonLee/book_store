@@ -38,7 +38,7 @@
 		SELECT product_name, price, manufacture_name, category_name  
 		FROM product p, category c 
 		WHERE c.category_id = p.category_id
-		AND p.category_id = #{categoryId};
+		AND p.category_id = #{category_id};
 	]]>
 	</select>
 	<!-- 둘 다 사용하여 검색 -->
@@ -49,7 +49,7 @@
 		WHERE c.category_id = p.category_id
 		AND (p.product_id LIKE ‘%’ || #{searchText} || ‘%’
 		OR p.name LIKE ‘%’ || #{searchText} || ‘%’)
-		AND p.category_id = #{categoryId};
+		AND p.category_id = #{category_id};
 	]]>
 	</select>
 	<!-- 상품 세부정보 -->
@@ -58,7 +58,7 @@
 		SELECT product_name, category_name, page, description, manufacture_name, price  
 		FROM product p, category c 
 		WHERE c.category_id = p.category_id 
-		AND product_id LIKE #{productId};
+		AND product_id LIKE #{product_id};
 	]]>
 	</select>
 	<!-- 여기까지가 사용자 화면 관련 -->
@@ -84,42 +84,22 @@
 		ORDER BY p.category_id ASC;
 	]]>
 	</select>
-	<!-- 분류로 재고 조회 -->
-	<select id = "inventorySearchCategory" parameterType="String" resultType="ProductDto">
-	<![CDATA[
-		SELECT p.product_id, product_name, description, product_price, state, manufacture_name, manufacture_address, p.category_id, category_name, quantity
-		FROM product p, category c, inventory i
-		WHERE (c.category_id = p.category_id AND p.product_id = i.product_id)
-		AND p.category_id = #{categoryId};
-	]]>
-	</select>
-	<!-- 둘 다 사용하여 재고 조회 -->
-	<select id = "inventorySearchDual" parameterType="String" resultType="ProductDto">
-	<![CDATA[
-		SELECT p.product_id, product_name, description, product_price, state, manufacture_name, manufacture_address, p.category_id, category_name, quantity
-		FROM product p, category c, inventory i
-		WHERE (c.category_id = p.category_id AND p.product_id = i.product_id)
-		AND (p.product_id LIKE ‘%’ || #{searchText} || ‘%’
-		OR p.product_name LIKE ‘%’ || #{searchText} || ‘%’)
-		AND p.category_id = #{categoryId};
-	]]>
-	</select>
 	<!-- 개수를 변경 -->
-	<insert id = "updateQuantity" parameterType="ProductDto">
+	<insert id = "updateQuantity" parameterType="Inventory">
 	<![CDATA[
 		UPDATE quantity 
 		SET #{number} 
 		FROM product p, inventory i 
 		WHERE p.product_id = i.product_id
-		AND p.product_id LIKE #{productId};
+		AND p.product_id LIKE #{product_id};
 	]]>
 	</insert>
-	<!--  -->
+	<!-- 상품 상태를 받아옴, 사용자에게 상품 구매 불가인지 아닌지를 출력하기위해 작성 -->
 	<select id = "productState" parameterType="String" resultType="String">
 	<![CDATA[
 		SELECT state 
 		FROM product 
-		WHERE product_id LIKE #{productId};
+		WHERE product_id LIKE #{product_id};
 	]]>
 	</select>
 </mapper>
