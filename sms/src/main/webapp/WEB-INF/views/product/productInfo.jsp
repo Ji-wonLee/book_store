@@ -69,7 +69,6 @@
 <title>상품 정보</title>
 </head>
 <body>
-	<form action = "/sms/productinfo" method = "GET"> <!-- action 연결 필요 -->
 	<header></header>
 	<section>
 		<nav>
@@ -86,6 +85,7 @@
    				</ul>
 		</nav>
 		<article>
+		<form action = "/sms/productinfo" method = "GET"> <!-- action 연결 필요 -->
 			<div class = "searchBox"> <!-- 상단 검색 구성 -->
 				<select name = "category" id = "categoryId"> <!-- 분류 드롭 다움 메뉴 -->
 					<c:forEach var="category" items="${categoryList}" >
@@ -128,9 +128,9 @@
         </table>
     </div>
 </div>
+		</form>
 		</article>
-	</section>
-	</form>
+	</section>>
 	<footer>
 		<p> - 2024년도 kitri 보안개발 8기 포트폴리오 프로젝트 1팀 -</p>
 	</footer>

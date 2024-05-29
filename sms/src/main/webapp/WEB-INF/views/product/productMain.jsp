@@ -68,7 +68,6 @@
 <title>회원 메인 페이지</title>
 </head>
 <body>
-	<form action = "/sms/customermain" method = "GET"> <!-- action 연결 필요 -->
 	<header></header>
 	<section>
 		<nav>
@@ -85,6 +84,7 @@
    				</ul>
 		</nav>
 		<article>
+		<form action = "/sms/customermain" method = "GET"> <!-- action 연결 필요 -->
 			<div class = "searchBox"> <!-- 상단 검색 구성 -->
 				<select name = "category" id = "categoryId"> <!-- 분류 드롭 다움 메뉴 -->
 					<c:forEach var="category" items="${categoryList}" >
@@ -101,23 +101,25 @@
 						<th> </th>
 						<th>분류</th>
 						<th>품명</th>
-						<th>가격</th>
 						<th>페이지</th>
+						<th>가격</th>
+						<th>판매 상태</th>
 					</tr>
 					<c:forEach var="product" items="${productList}" varStatus="idx">
 						<tr>
 							<td>${idx.count}</td>
-							<td>${product.categoryName}</td>
-							<td>${product.name}</td>
-							<td>${product.price}</td>
-							<td>${product.page}</td>
+							<td>${product.category_name}</td>
+							<td>${product.product_name}</td>
+							<td>${product.product_page}</td>
+							<td>${product.product_price}</td>
+							<td>${product.state}</td>
 						</tr>
 					</c:forEach>
 				</table>
 			</div>
+		</form>
 		</article>
 	</section>
-	</form>
 	<footer>
 		<p> - 2024년도 kitri 보안개발 8기 포트폴리오 프로젝트 1팀 -</p>
 	</footer>
