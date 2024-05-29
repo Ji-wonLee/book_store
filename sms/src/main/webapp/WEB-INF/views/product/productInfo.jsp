@@ -69,12 +69,11 @@
 <title>상품 정보</title>
 </head>
 <body>
-	<header></header>
 	<section>
 		<nav>
 			<!-- 좌측 유저정보 및 사이트 목록 표시 -->
 				<div class = "userText">
-				<h3>사용자</h3> <!-- session 과 사용자 정보를 가져옴, 이름 출력 -->>
+				<h3>사용자</h3> <!-- session 과 사용자 정보를 가져옴, 이름 출력 -->
 				<h3>님 환영합니다. </h3>
 				</div>
 				
@@ -86,51 +85,47 @@
 		</nav>
 		<article>
 		<form action = "/sms/productinfo" method = "GET"> <!-- action 연결 필요 -->
-			<div class = "searchBox"> <!-- 상단 검색 구성 -->
-				<select name = "category" id = "categoryId"> <!-- 분류 드롭 다움 메뉴 -->
-					<c:forEach var="category" items="${categoryList}" >
-						<option value = "${category.category_id}">${category.category_name}</option>
-					</c:forEach>
-				</select>
-				<input type = "text" id = "searchText" placeholder="검색어 입력"/> <!-- 검색어 입력 text 박스 -->
-				<input type = "submit" value="검색"/> <!-- 분류, 검색어 송신 버튼 -->
-			</div>
 			<div class="productInfo">
-    <div class="productImage">
-        <img src="${product.product_imgurl}" alt="Product Image">
-    </div>
-    <div class="productDetails">
-        <table>
-            <tr>
-                <th>도서명</th>
-                <td>${product.product_name}</td>
-            </tr>
-            <tr>
-                <th>분류</th>
-                <td>${product.category_name}</td>
-            </tr>
-            <tr>
-                <th>페이지 수</th>
-                <td>${product.product_page}</td>
-            </tr>
-            <tr>
-                <th>설명</th>
-                <td>${product.description}</td>
-            </tr>
-            <tr>
-                <th>제조업체 명</th>
-                <td>${product.manufacture_name}</td>
-            </tr>
-            <tr>
-                <th>가격</th>
-                <td>${product.product_price}</td>
-            </tr>
-        </table>
-    </div>
-</div>
+    			<div class="productImage">
+        			<img src="${product_imgurl}" alt="Product Image">
+    			</div>
+    			<div class="productDetails">
+        			<table>
+            			<tr>
+                			<th>도서명</th>
+               			 	<td>${product_name}</td>
+            			</tr>
+            			<tr>
+                			<th>분류</th>
+                			<td>${category_name}</td>
+            			</tr>
+			            <tr>
+			                <th>페이지 수</th>
+			                <td>${product_page}</td>
+			            </tr>
+			            <tr>
+			                <th>설명</th>
+			                <td>${description}</td>
+			            </tr>
+			            <tr>
+			                <th>제조업체 명</th>
+			                <td>${manufacture_name}</td>
+			            </tr>
+			            <tr>
+			                <th>가격</th>
+			                <td>${product_price}</td>
+			            </tr>
+			            <tr>
+			                <th>판매현황</th>
+			                <td>${state}</td>
+			            </tr>
+			        </table>
+    			</div>
+    			<input type="button" id="onCart" value="장바구니 추가">
+			</div>
 		</form>
 		</article>
-	</section>>
+	</section>
 	<footer>
 		<p> - 2024년도 kitri 보안개발 8기 포트폴리오 프로젝트 1팀 -</p>
 	</footer>

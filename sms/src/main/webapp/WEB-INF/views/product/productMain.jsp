@@ -73,7 +73,7 @@
 		<nav>
 			<!-- 좌측 유저정보 및 사이트 목록 표시 -->
 				<div class = "userText">
-				<h3>${user.name}</h3>
+				<h3>사용자 </h3>
 				<h3>님 환영합니다. </h3>
 				</div>
 				
@@ -84,7 +84,7 @@
    				</ul>
 		</nav>
 		<article>
-		<form action = "/sms/customermain" method = "GET"> <!-- action 연결 필요 -->
+		<form action = "/sms/searchList" method = "GET"> <!-- action 연결 필요 -->
 			<div class = "searchBox"> <!-- 상단 검색 구성 -->
 				<select name = "category" id = "categoryId"> <!-- 분류 드롭 다움 메뉴 -->
 					<c:forEach var="category" items="${categoryList}" >
@@ -100,7 +100,7 @@
 					<tr>
 						<th> </th>
 						<th>분류</th>
-						<th>품명</th>
+						<th>도서명</th>
 						<th>페이지</th>
 						<th>가격</th>
 						<th>판매 상태</th>
