@@ -28,6 +28,32 @@ public class PaymentController {
 	@Autowired
 	CartService cartService;
 
+    /**
+     * 재고를 확인하고 결제 페이지로 이동합니다.
+     * @param userId 사용자 ID
+     * @param model 모델 객체
+     * @return 결제 페이지 또는 재고 부족 경고 페이지
+     */
+	@RequestMapping(value = "/checkStock", method = RequestMethod.POST)
+	public String checkStock(@RequestParam("user_id") String user_id, ModelMap model) {
+	    List<CartDto> cartItems = cartService.listCartItems(user_id);
+	    boolean outOfStock = false;
+	    for (CartDto item : cartItems) {
+	        int availableStock = cartService.getStock(item.getProduct_id());
+	        if (availableStock < item.getQuantity()) {
+	            outOfStock = true;
+	            break;
+	        }
+	    }
+	    if (outOfStock) {
+	        model.addAttribute("error", "Some items in your cart are out of stock.");
+	        model.addAttribute("cartItems", cartItems);
+	        return "cart/cart_itemList";
+	    }
+	    model.addAttribute("cartItems", cartItems);
+	    model.addAttribute("user_id", user_id);
+	    return "pay/payPage";
+	}
 	  /**
      * 결제 정보를 저장합니다.
      * @param paymentDto 결제 정보
@@ -38,7 +64,7 @@ public class PaymentController {
     public String savePaymentInfo(PaymentDto paymentDto, ModelMap model) {
         paymentDto.setUser_id("defaultUserId"); // 테스트용 하드코딩된 userId
         paymentService.savePaymentInfo(paymentDto);
-        return "redirect:/payment/payPage";
+        return "payment/payInner";
     }
 
     /**
@@ -52,6 +78,23 @@ public class PaymentController {
         cartStatusUpdateDto.setUser_id("defaultUserId"); // 테스트용 하드코딩된 userId
         paymentService.updateCartStateToCompleted(cartStatusUpdateDto);
         return "redirect:/payment/payInner";
+    }
+
+    
+    /**
+     * 결제 완료를 처리합니다.
+     * @param userId 사용자 ID
+     * @param payerName 입금자 명
+     * @param payerAccount 입금자 계좌
+     * @param model 모델 객체
+     * @return 결제 완료 페이지로 리다이렉트
+     */
+    @RequestMapping(value = "/completePayment", method = RequestMethod.POST)
+    public String completePayment(@RequestParam("user_id") String userId, @RequestParam("payerName") String payerName,
+                                  @RequestParam("payerAccount") String payerAccount, ModelMap model) {
+        // 결제 완료 처리 로직을 여기에 추가하세요.
+        model.addAttribute("message", "결제가 완료되었습니다.");
+        return "pay/paymentSuccess";
     }
 
     /**
@@ -86,10 +129,10 @@ public class PaymentController {
      * @return 결제 진행 JSP 페이지
      */
     @RequestMapping(value = "/payPage", method = RequestMethod.GET)
-    public String showPayPage(ModelMap model) {
-        String userId = "defaultUserId"; // 테스트용 하드코딩된 userId
+    public String showPayPage(@RequestParam("userId") String userId, ModelMap model) {
         List<CartDto> cartItems = cartService.listCartItems(userId);
         model.addAttribute("cartItems", cartItems);
+        model.addAttribute("userId", userId);
         return "pay/payPage";
     }
 
@@ -106,6 +149,35 @@ public class PaymentController {
         return "payInner";
     }
 
+    /**
+     * 결제 요청을 처리합니다.
+     * @param paymentDto 결제 정보
+     * @param model 모델 객체
+     * @return 결제 확인 페이지로 리다이렉트
+     */
+    @RequestMapping(value = "/processPayment", method = RequestMethod.POST)
+    public String processPayment(@ModelAttribute PaymentDto paymentDto, ModelMap model) {
+        String userId = paymentDto.getUser_id();
+        List<CartDto> cartItems = cartService.listCartItems(userId);
+
+        boolean outOfStock = false;
+        for (CartDto item : cartItems) {
+            int availableStock = cartService.getStock(item.getProduct_id());
+            if (availableStock < item.getQuantity()) {
+                outOfStock = true;
+                break;
+            }
+        }
+
+        if (outOfStock) {
+            model.addAttribute("error", "Some items in your cart are out of stock.");
+            model.addAttribute("cartItems", cartItems);
+            return "pay/payPage";
+        }
+
+        paymentService.savePaymentInfo(paymentDto);
+        return "redirect:/payment/payInner";
+    }
     /**
      * 전체 결제 금액을 계산합니다.
      * @param userId 사용자 ID

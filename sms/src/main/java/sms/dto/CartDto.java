@@ -79,6 +79,16 @@ public class CartDto {
 		this.cart_id = cartId;
 		this.user_id = userId;
 	}
+	
+	/**
+	 * update item 
+	 */
+	public CartDto(String cartId, String productId, int quantity,int price) {
+		this.cart_id = cartId ;
+		this.product_id = productId;
+		this.quantity = quantity;
+		this.price = price;
+	}
 	/**
 	 * update item 
 	 */

@@ -53,7 +53,13 @@ public class CartDaoImpl implements CartDao {
 	        // 장바구니에 상품 추가
 	    	sqlSessionTemplate.insert("CartMapper.addProductToCartDetails", cartDto);
 	    }
-
+	    
+	    @Override
+	    public int getStock(String productId) {
+	    	//재고확인
+	    	return sqlSessionTemplate.selectOne("CartMapper.getStock", productId);
+	    }
+	    
 		public SqlSessionTemplate getSqlSessionTemplate() {
 			return sqlSessionTemplate;
 		}

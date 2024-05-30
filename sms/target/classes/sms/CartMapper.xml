@@ -5,16 +5,16 @@
 
 <mapper namespace="CartMapper">
 
-    <!-- 특정 사용자의 장바구니 조회 -->
-<select id="listCartItems" resultType="CartDto">
-    SELECT c.cart_id, c.user_id, c.totalprice, c.cart_date, c.state,
-           cd.product_id, cd.quantity, p.product_price, p.product_name AS product_name
-    FROM cart c, cart_detail cd, product p
-    WHERE c.cart_id = cd.cart_id
-      AND cd.product_id = p.product_id
-      AND c.user_id = #{userId}
-      AND c.state = '장바구니'
-</select>
+  <!-- 특정 사용자의 장바구니 조회 -->
+    <select id="listCartItems" resultType="sms.dto.CartDto" parameterType="String">
+        SELECT c.cart_id, c.user_id, c.totalprice, c.cart_date, c.state,
+               cd.product_id, cd.quantity, cd.price, p.product_name
+        FROM cart c, cart_detail cd, product p
+        WHERE c.cart_id = cd.cart_id
+          AND cd.product_id = p.product_id
+          AND c.user_id = #{userId}
+          AND c.state = '장바구니'
+    </select>
 
     <!-- 장바구니 내 상품의 수량 업데이트 및 총액 재계산 -->
     <update id="updateCartItemAndTotal" parameterType="CartDto">
@@ -58,5 +58,10 @@
             INSERT (cart_id, product_id, quantity)
             VALUES (src.cart_id, src.product_id, src.quantity)
     </insert>
-
+ 	<!-- 특정 상품의 재고 확인 -->
+    <select id="getStock" resultType="int" parameterType="String">
+        SELECT quantity
+        FROM inventory
+        WHERE product_id = #{product_id}
+    </select>
 </mapper>

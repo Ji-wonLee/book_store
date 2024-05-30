@@ -34,5 +34,5 @@ public interface CartService {
 	void updateCartState(CartDto cartDto);		// 카트 상태 업데이트
 	void createNewCart(CartDto cartDto);	// 새 장바구니 생성
 	void addProductToCartDetails(CartDto cartDto);	//장바구니 상품추가
-
+	int getStock(String productId);		//재고확인
 }

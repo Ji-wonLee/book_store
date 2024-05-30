@@ -25,6 +25,8 @@ public class CartController {
 
 	@Autowired
 	CartService cartService; 
+	
+
 
 	@RequestMapping(value = "/test", method = RequestMethod.POST)
 	public String testMethod(ModelMap model) {
@@ -47,7 +49,7 @@ public class CartController {
 //        model.addAttribute("userId", user_id); // userId도 함께 모델에 추가
 //        return "cart/cart_itemList"; // JSP 파일의 경로
 //    }
-    /**
+	   /**
      * 특정 사용자의 장바구니 항목을 조회합니다.
      * @param userId 사용자 ID (옵션)
      * @param model 모델 객체
@@ -56,7 +58,7 @@ public class CartController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String listCartItems(@RequestParam(name = "userId", required = false) String userId, ModelMap model) {
         if (userId == null || userId.isEmpty()) {
-            userId = "guest"; // 비회원용 기본값 설정
+            userId = "DGo9fGM"; 
         }
         List<CartDto> cartItems = cartService.listCartItems(userId);
         if (cartItems.isEmpty()) {

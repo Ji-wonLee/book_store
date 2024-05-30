@@ -13,17 +13,35 @@ public class PaymentDto {
 	public PaymentDto() {}
 
 
-	public PaymentDto(String cartId, String paymentId, String userId, String recipientName, String recipientAddress,
-			String payerName, String payerAccount) {
 
-		this.cart_id = cartId;
-		this.payment_id = paymentId;
-		this.user_id = userId;
-		this.receiver_name = recipientName;
-		this.receiver_address = recipientAddress;
-		this.payer_name = payerName;
-		this.payer_account = payerAccount;
+
+	public PaymentDto(String cart_id, String payment_id, String user_id, String receiver_name, String receiver_address,
+			String payer_name, String payer_account, String newCartId) {
+		
+		this.cart_id = cart_id;
+		this.payment_id = payment_id;
+		this.user_id = user_id;
+		this.receiver_name = receiver_name;
+		this.receiver_address = receiver_address;
+		this.payer_name = payer_name;
+		this.payer_account = payer_account;
+		this.newCartId = newCartId;
 	}
+
+
+	public PaymentDto(String cart_id, String payment_id, String user_id, String receiver_name, String receiver_address,
+			String payer_name, String payer_account) {
+		
+		this.cart_id = cart_id;
+		this.payment_id = payment_id;
+		this.user_id = user_id;
+		this.receiver_name = receiver_name;
+		this.receiver_address = receiver_address;
+		this.payer_name = payer_name;
+		this.payer_account = payer_account;
+	
+	}
+
 
 	public PaymentDto(String cartId, String paymentId) {
 		this.cart_id = cartId;

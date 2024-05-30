@@ -54,8 +54,14 @@ public class CartServiceImpl implements CartService {
 		cartDao.addProductToCartDetails(cartItemUpdateDto);
 	}
 
+	@Override
+	public int getStock(String productId) {
+		//재고 확인
+		return cartDao.getStock(productId);
+	}
 	private String generateCartId() {
-		// cart_id는 CART-로 시작하고 일련번호를 사용합니다.
-		return "CART-" + UUID.randomUUID().toString();
+		// UUID의 일부를 사용하여 20자 이내의 고유한 cart_id 생성
+		String uuid = UUID.randomUUID().toString().replace("-", "").substring(0, 15);
+		return "CART-" + uuid;
 	}
 }
