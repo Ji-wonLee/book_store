@@ -18,10 +18,9 @@ public class ProductListController {
 	@RequestMapping(value="/customermain", method=RequestMethod.GET) // 수정, 페이지 호출 입력
 	public String productList(ModelMap model) {
 		model.addAttribute("productList", productSvc.productList());
-		
 		return "product/productMain"; //수정, 페이지 위치 입력
 	}
-
+	
 	public ProductSvc getProductSvc() {
 		return productSvc;
 	}

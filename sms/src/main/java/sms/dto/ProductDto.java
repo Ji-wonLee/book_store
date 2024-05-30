@@ -63,8 +63,9 @@ public class ProductDto {
 	}
 
 	//사용자 상세 조회
-	public ProductDto(String name, String description, String price, String manufactureName, String categoryName,
+	public ProductDto(String id, String name, String description, String price, String manufactureName, String categoryName,
 			String imgurl, int page, String state) {
+		product_id = id;
 		product_name = name;
 		this.description = description;
 		product_price = price;
