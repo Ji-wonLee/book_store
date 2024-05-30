@@ -16,7 +16,7 @@ public class ProductInfoController {
 	@Autowired
 	private ProductSvc productSvc;
 	
-	@RequestMapping(value="/productinfo", method=RequestMethod.GET)
+	@RequestMapping(value="/bookInfo", method=RequestMethod.GET)
 	public String productInfo(@RequestParam(value="product_id") String productId, ModelMap model) {
 		
 		model.addAttribute("product_imgurl", productSvc.productInfo(productId).getProduct_imgurl());
