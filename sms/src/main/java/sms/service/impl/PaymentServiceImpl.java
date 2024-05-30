@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import sms.dao.CartDao;
@@ -13,6 +14,7 @@ import sms.dto.CartDto;
 import sms.dto.PaymentDto;
 import sms.service.PaymentService;
 
+@Service
 public class PaymentServiceImpl implements PaymentService {
 
 	@Autowired
@@ -74,4 +76,23 @@ public class PaymentServiceImpl implements PaymentService {
 		// cart_id는 CART-로 시작하고 일련번호를 사용합니다.
 		return "CART-" + UUID.randomUUID().toString();
 	}
+
+	public PaymentDao getPaymentDao() {
+		return paymentDao;
+	}
+
+	public void setPaymentDao(PaymentDao paymentDao) {
+		this.paymentDao = paymentDao;
+	}
+
+	public CartDao getCartDao() {
+		return cartDao;
+	}
+
+	public void setCartDao(CartDao cartDao) {
+		this.cartDao = cartDao;
+	}
+	
+	
+	
 }

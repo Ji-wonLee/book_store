@@ -90,7 +90,7 @@ public class PaymentController {
         String userId = "defaultUserId"; // 테스트용 하드코딩된 userId
         List<CartDto> cartItems = cartService.listCartItems(userId);
         model.addAttribute("cartItems", cartItems);
-        return "payPage";
+        return "pay/payPage";
     }
 
     /**

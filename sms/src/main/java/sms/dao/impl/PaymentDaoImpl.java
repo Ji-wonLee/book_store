@@ -3,11 +3,13 @@ package sms.dao.impl;
 import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import sms.dao.PaymentDao;
 import sms.dto.CartDto;
 import sms.dto.PaymentDto;
 
+@Repository
 public class PaymentDaoImpl implements PaymentDao {
 
 	@Autowired

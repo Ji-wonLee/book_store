@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import sms.dao.CartDao;
@@ -12,14 +13,15 @@ import sms.service.CartService;
 import sms.dto.CartDto;
 import sms.dto.PaymentDto;
 
+@Service
 public class CartServiceImpl implements CartService {
 
 	@Autowired
 	CartDao cartDao;
 	@Override
-	public List<CartDto> listCartItems(String userId) {
+	public List<CartDto> listCartItems(String user_id) {
 		// 특정 사용자의 장바구니 항목을 조회
-		return cartDao.listCartItems(userId);
+		return cartDao.listCartItems(user_id);
 	}
 
 	@Override

@@ -1,7 +1,10 @@
 package sms.dao.impl;
 
 import org.mybatis.spring.SqlSessionTemplate;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +15,8 @@ import sms.dto.CartDto;
 import sms.dto.PaymentDto;
 import sms.dao.CartDao;
 
+
+@Repository
 public class CartDaoImpl implements CartDao {
 
 
@@ -20,9 +25,9 @@ public class CartDaoImpl implements CartDao {
 
 
 	 @Override
-	    public List<CartDto> listCartItems(String userId) {
+	    public List<CartDto> listCartItems(String user_id) {
 	        // 특정 사용자의 장바구니 항목을 조회
-	        return sqlSessionTemplate.selectList("CartMapper.listCartItems", userId);
+	        return sqlSessionTemplate.selectList("CartMapper.listCartItems", user_id);
 	    }
 
 	    @Override

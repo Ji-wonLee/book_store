@@ -29,7 +29,7 @@ public interface CartService {
 	//
 	//	// 새로운 장바구니를 생성하는 메소드
 	//	String createNewCart(String userId);
-	List<CartDto> listCartItems(String userId); // 장바구니 항목 조회
+	List<CartDto> listCartItems(String user_id); // 장바구니 항목 조회
 	void updateCartItemAndTotal(CartDto cartDto);// 수량, 총액, 시간 업데이트
 	void updateCartState(CartDto cartDto);		// 카트 상태 업데이트
 	void createNewCart(CartDto cartDto);	// 새 장바구니 생성

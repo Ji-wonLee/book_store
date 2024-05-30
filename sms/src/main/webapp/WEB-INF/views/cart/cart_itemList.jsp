@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <!DOCTYPE html>
@@ -9,7 +9,7 @@
 </head>
 <body>
     <h1>장바구니</h1>
-    <a href="/main">메인화면</a>
+    <a href="/sms/index">메인화면</a>
     <table border="1">
         <thead>
             <tr>
@@ -24,7 +24,7 @@
                     <td>${item.product_id}</td>
                     <td>${item.product_name}</td>
                     <td>
-                        <form:form action="/cart/update" method="post">
+                        <form:form action="/sms/cart/update" method="post">
                             <form:hidden path="cartId" value="${item.cart_id}" />
                             <form:hidden path="productId" value="${item.product_id}" />
                             <form:hidden path="userId" value="${item.user_id}" />
@@ -36,6 +36,6 @@
             </c:forEach>
         </tbody>
     </table>
-    <a href="/payment/payPage?userId=${userId}">결제</a>
+    <a href="/sms/payment/payPage?userId=${user_id}">결제</a>
 </body>
 </html>
