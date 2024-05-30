@@ -12,11 +12,16 @@
 	* {
  		 box-sizing: border-box;
 	}
+	
+	section {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+	}
 
 	nav {
 		float: left;
   		width: 20%;
-  		height: 1000px;
   		background: #c2c2d6;
  		padding: 20px;
 	}
@@ -25,7 +30,6 @@
 		float: left;
 		padding: 20px;
  		width: 80%;
- 		height: 1000px;
  		background-color: #f2f2f2;
 	}
 	
@@ -69,7 +73,7 @@
 </head>
 <body>
 	<section>
-		<nav>
+		<nav id="nav">
 			<!-- 좌측 유저정보 및 사이트 목록 표시 -->
 				<div class = "userText">
 					<h3>사용자 </h3>
@@ -81,7 +85,7 @@
 					<li><a href="http://localhost:8080/sms/customermain">상품 조회</a></li>
    				</ul>
 		</nav>
-		<article>
+		<article id="article">
 			<form action="/sms/search" method="get">
 				<div>
 					<select name = "category_id" id = "category_id">
@@ -118,6 +122,17 @@
 			</form>
 		</article>
 	</section>
+	<script>
+        // 화면 크기가 변경될 때마다 높이를 조정
+        window.addEventListener('resize', function() {
+            var section = document.getElementById('section');
+            var article = document.getElementById('article');
+            section.style.height = article.offsetHeight + 'px';
+        });
+
+        // 초기 로드 시에도 높이를 조정
+        window.dispatchEvent(new Event('resize'));
+    </script>
 	<footer>
 		<p> - 2024년도 kitri 보안개발 8기 포트폴리오 프로젝트 1팀 -</p>
 	</footer>
