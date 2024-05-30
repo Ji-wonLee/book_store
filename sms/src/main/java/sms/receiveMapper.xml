@@ -22,4 +22,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE receive_id = #{receive_id}
 	]]>
 	</select>
+	
+	<!--order할 상품 목록 가져오기 -->
+	<select id="updateReceiveDetail" parameterType="receiveDetail" resultType="string">
+	<![CDATA[
+		UPDATE receive_detail
+		SET quantity = ${quantity}
+		WHERE receive_id =#{receive_id} AND product_id = #{product_id}
+	]]>
+	</select>
+	
+	<!--order할 상품 목록 가져오기 -->
+	<select id="updateReceive" parameterType="string" resultType="string">
+	<![CDATA[
+		UPDATE receives
+		SET totalprice = (SELECT SUM(price*quantity) FROM receive_detail WHERE receive_id= #{receive_id} )
+		WHERE receive_id= #{receive_id}
+	]]>
+	</select>
+	
+	<!--order할 상품 목록 가져오기 -->
+	<select id="receiveToInventory" parameterType="inventory" resultType="string">
+	<![CDATA[
+		UPDATE inventory SET quantity = quantity + #{quantity} WHERE product_id = #{product_id}
+	]]>
+	</select>
 </mapper>

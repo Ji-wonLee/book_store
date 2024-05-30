@@ -39,12 +39,12 @@ public class ReceiveController {
 	}
 	
 	@RequestMapping(value = "/toInventory", method = RequestMethod.POST)
-	public String toInventory(@RequestParam String receive_id,@RequestParam Map<String, Integer> paramMap, ModelMap model) {	
+	public String toInventory(@RequestParam String receive_id,@RequestParam Map<String, String> paramMap, ModelMap model) {	
 		System.out.println(paramMap);
-		//입고서 수정
+		//입고서 수정//입고서 총액 수정
 		receiveSvc.updateReceive(paramMap, receive_id);
-		//입고서 총액 수정
 		//재고 수정
+		receiveSvc.receiveToInventory(paramMap);
 		return "receive/receivePage";
 	}
 }

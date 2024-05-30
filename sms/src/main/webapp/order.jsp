@@ -11,7 +11,7 @@
 	<form action="/sms/order" method="post">
 		<input type="submit" value="발주">
 	</form>
-	<form action="/sms/order" method="post">
+	<form action="/sms/receive" method="post">
 		<input type="submit" value="입고">
 	</form>
 </body>

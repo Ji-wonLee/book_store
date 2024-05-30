@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import sms.dao.ReceiveDao;
+import sms.dto.Inventory;
 import sms.dto.Order;
+import sms.dto.Receive;
 import sms.dto.ReceiveDetail;
 @Repository
 public class ReceiveDaoImpl implements ReceiveDao{
@@ -26,20 +28,20 @@ public class ReceiveDaoImpl implements ReceiveDao{
 	}
 
 	@Override
-	public int updateReceive() {
-		// TODO Auto-generated method stub
+	public int updateReceive(String receive_id) {
+		sqlSessionTemplate.update("receive.updateReceive", receive_id);
 		return 0;
 	}
 
 	@Override
-	public int updateReceiveDetail() {
-		// TODO Auto-generated method stub
+	public int updateReceiveDetail(ReceiveDetail receiveDetail) {
+		sqlSessionTemplate.update("receive.updateReceiveDetail", receiveDetail);
 		return 0;
 	}
 
 	@Override
-	public int receiveToInventory() {
-		// TODO Auto-generated method stub
+	public int receiveToInventory(Inventory inventory) {
+		sqlSessionTemplate.update("receive.receiveToInventory", inventory);
 		return 0;
 	}
 

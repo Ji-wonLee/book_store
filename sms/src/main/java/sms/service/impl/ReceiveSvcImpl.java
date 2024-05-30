@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 
 import sms.dao.OrderDao;
 import sms.dao.ReceiveDao;
+import sms.dto.Inventory;
 import sms.dto.Order;
 import sms.dto.OrderDetail;
+import sms.dto.Receive;
 import sms.dto.ReceiveDetail;
 import sms.service.ReceiveSvc;
 @Service
@@ -30,15 +32,31 @@ public class ReceiveSvcImpl implements ReceiveSvc{
 	}
 
 	@Override
-	public int updateReceive(Map<String, Integer> receiveMap, String receive_id) {
+	public int updateReceive(Map<String, String> receiveMap, String receive_id) {
 		//receiveDetail 수정
-		
+		for(String key : receiveMap.keySet()) {
+			if(!key.equals("receive_id")) {
+				System.out.println(key +"/"+receiveMap.get(key));
+				int test = Integer.parseInt( receiveMap.get(key));
+				ReceiveDetail receiveDetail = new ReceiveDetail(receive_id, key,test, 0);
+				receiveDao.updateReceiveDetail(receiveDetail);
+			}
+		}
+		//receive 총액 수정
+		receiveDao.updateReceive(receive_id);
 		return 0;
 	}
 
 	@Override
-	public int receiveToInventory() {
-		// TODO Auto-generated method stub
+	public int receiveToInventory(Map<String, String> receiveMap) {
+		// 재고수정
+		for(String product_id: receiveMap.keySet()) {
+			if(!product_id.equals("receive_id")) {
+				int test = Integer.parseInt(receiveMap.get(product_id));
+				Inventory inventory = new Inventory(product_id,test);
+				receiveDao.receiveToInventory(inventory);
+			}
+		}
 		return 0;
 	}
 

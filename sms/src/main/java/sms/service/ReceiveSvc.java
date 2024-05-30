@@ -10,6 +10,6 @@ import sms.dto.ReceiveDetail;
 public interface ReceiveSvc {
 	public List<Order> selectOrder();
 	public List<ReceiveDetail> selectReceiveDetail(String order_id);
-	public int updateReceive(Map<String, Integer> receiveMap, String receive_id);
-	public int receiveToInventory();
+	public int updateReceive(Map<String, String> receiveMap, String receive_id);
+	public int receiveToInventory(Map<String, String> receiveMap);
 }

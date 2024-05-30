@@ -24,7 +24,7 @@
 					<td>${receiveDetail.product_id}</td>
 					<td>${receiveDetail.price}</td>
 					<td>${receiveDetail.quantity}</td>
-					<td><input type="number" name="${receiveDetail.receive_id}"
+					<td><input type="number" name="${receiveDetail.product_id}"
 						value="${receiveDetail.quantity}"></td>
 				</tr>
 			</c:forEach>
