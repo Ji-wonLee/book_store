@@ -18,9 +18,13 @@ public class InventoryController {
 	
 	@RequestMapping(value="/inventory", method = RequestMethod.GET)
 	public String inventoryList(ModelMap model) {
-		
-		model.addAttribute("inventoryList", inventorySvc.inventoryList());
-		
+		model.addAttribute("inventorylist", inventorySvc.inventoryList());
+		return "inventory/inventoryList";
+	}
+	
+	@RequestMapping(value="/inventorysearch", method = RequestMethod.GET)
+	public String inventorySearch(@RequestParam(value="searchtext") String searchtext, ModelMap model) {
+		model.addAttribute("inventorylist", inventorySvc.inventorySearchWithText(searchtext));
 		return "inventory/inventoryList";
 	}
 	
