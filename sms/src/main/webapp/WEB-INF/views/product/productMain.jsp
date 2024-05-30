@@ -84,12 +84,12 @@
 		<article>
 			<form action="/sms/search" method="get">
 				<div>
-					<select name = "categorySelect" id = "category">
+					<select name = "category_id" id = "category_id">
 						<c:forEach var = "Category" items = "${categorylist}">
 							<option value = "${Category.category_id}">${Category.category_name}</option>
 						</c:forEach>
 					</select>
-					<input type="text" id="searchText" placeholder="검색어 입력"/> <!-- 검색어 입력 text 박스 -->
+						<input type="text" name="searchtext" id="searchText" placeholder="검색어 입력"/> <!-- 검색어 입력 text 박스 -->
 					<input type="submit" value="검색"/>
 				</div>
 	
