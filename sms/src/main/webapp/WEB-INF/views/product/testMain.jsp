@@ -29,7 +29,7 @@
 		<input type="text" id="searchText" placeholder="검색어 입력"/> <!-- 검색어 입력 text 박스 -->
 		<input type="submit" value="검색"/>
 	</div>
-	<div>
+	<div class = "productlist">
 		<table>
 			<tr>
 				<th> </th>
@@ -43,7 +43,7 @@
 			<tr>
 				<td>${idx.count}</td>
 				<td>${product.category_name}</td>
-				<td><a href="<c:url value='/bookInfo'><c:param name="product_id" value="${product.product_id}"/></c:url>">${product.product_name}</a></td>
+				<td><a href="<c:url value='/bookInfo'><c:param name='product_id' value='${product.product_id}'/></c:url>">${product.product_name}</a></td>
 				<td>${product.product_page}</td>
 				<td>${product.product_price}</td>
 				<td>${product.state}</td>

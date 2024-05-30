@@ -54,7 +54,8 @@ public class ProductDto {
 	}
 
 	//사용자 전체 조회
-	public ProductDto(String name, String price, String categoryName, int page, String state) {
+	public ProductDto(String id, String name, String price, String categoryName, int page, String state) {
+		product_id = id;
 		product_name = name;
 		product_price = price;
 		category_name = categoryName;

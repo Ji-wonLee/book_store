@@ -78,9 +78,9 @@
 				</div>
 				
 				<ul>
-     				<li><a href="#">내 정보 조회</a></li> <!-- 내정보 화면 연결 -->
-    				<li><a href="#">장바구니</a></li> <!-- 장바구니 화면 연결 -->
-      				<li><a href="#">상품 조회</a></li> <!-- 메인화면 연결 -->
+     				<li><a href="http://localhost:8080/sms">내 정보 조회</a></li>
+					<li><a href="http://localhost:8080/sms">장바구니</a></li>
+					<li><a href="http://localhost:8080/sms/customermain">상품 조회</a></li>
    				</ul>
 		</nav>
 		<article>
