@@ -1,5 +1,5 @@
 package sms.service;
 
-public class cartService {
+public interface cartService {
 
 }
