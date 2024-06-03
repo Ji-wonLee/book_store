@@ -45,11 +45,14 @@
             </c:forEach>
         </tbody>
     </table>
-    <form action="/sms/payment/processPayment" method="post" onsubmit="return validateForm()">
-        <input type="hidden" name="user_id" value="${user_id}" />
-        <label>이름:</label> <input type="text" id="receiver_name" name="receiver_name" value="${user_name}" /><br />
-        <label>주소:</label> <input type="text" id="receiver_address" name="receiver_address" value="${user_address}" /><br />
-        <input type="submit" value="확인" />
-    </form>
+   <form action="/nextPaymentStep" method="post">
+	    <input type="hidden" name="receiver_name" value="${receiver_name}" />
+	    <input type="hidden" name="receiver_address" value="${receiver_address}" />
+	    <!-- 다음 단계의 입력 필드 -->
+	    <label>입금자 이름:</label> <input type="text" name="payer_name" /><br />
+	    <label>입금자 계좌:</label> <input type="text" name="payer_account" /><br />
+	    <input type="submit" value="확인" />
+	</form>
+
 </body>
 </html>

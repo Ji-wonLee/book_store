@@ -3,12 +3,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>결제 완료</title>
+    <title>결제 성공</title>
 </head>
 <body>
-    <h1>결제 완료</h1>
-    <p>${message}</p>
-    <a href="/main">메인화면으로 돌아가기</a>
+    <h1>${message}</h1>
+    <a href="/main">홈으로 돌아가기</a>
 </body>
 </html>
