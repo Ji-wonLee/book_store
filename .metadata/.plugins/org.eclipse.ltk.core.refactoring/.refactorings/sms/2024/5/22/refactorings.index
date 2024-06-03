@@ -29,3 +29,20 @@
 1716946708385	Delete elements
 1716946711226	Delete element
 1716950197162	Delete element
+1716975331256	Rename package 'users.controller'
+1716975337437	Rename package 'users.service'
+1716975345560	Rename package 'users.vo'
+1716975623037	Rename package 'sms.users.controller'
+1716975629886	Rename package 'sms.users.service'
+1716975646034	Rename package 'sms.users.vo'
+1716975673399	Rename type 'UsersVO'
+1716975680211	Move compilation unit
+1716975696928	Rename type 'UsersServiceImpl'
+1716975711388	Rename type 'UsersDao'
+1716975719638	Rename type 'UsersDTO'
+1716975725535	Rename type 'UsersService'
+1716975734665	Rename type 'UsersController'
+1716976158724	Delete element
+1717058951650	Delete element
+1717059060182	Delete elements
+1717059063303	Rename resource 'userList_user.jsp'

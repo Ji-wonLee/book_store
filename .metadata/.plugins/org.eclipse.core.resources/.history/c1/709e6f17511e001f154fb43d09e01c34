@@ -1,0 +1,78 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    isELIgnored="false" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.14.3/xlsx.full.min.js"></script>
+	<script>
+		function excelExport(event){
+			excelExportCommon(event, handleExcelDataAll);
+		}
+		
+		function excelExportCommon(event, callback){
+	    	var input = event.target;
+	   	 	var reader = new FileReader();
+	    	reader.onload = function(){
+	        	var fileData = reader.result;
+	        	var wb = XLSX.read(fileData, {type : 'binary'});
+	        	var sheetNameList = wb.SheetNames; // 시트 이름 목록 가져오기 
+	        	var firstSheetName = sheetNameList[0]; // 첫번째 시트명
+	        	var firstSheet = wb.Sheets[firstSheetName]; // 첫번째 시트 
+	        	callback(firstSheet);      
+	    `	};
+	    	reader.readAsBinaryString(input.files[0]);
+		}
+		function handleExcelDataAll(sheet){
+			handleExcelDataHeader(sheet); // header 정보 
+			handleExcelDataJson(sheet); // json 형태
+			handleExcelDataCsv(sheet); // csv 형태
+			handleExcelDataHtml(sheet); // html 형태
+		}
+		
+		function handleExcelDataHeader(sheet){
+	    	var headers = get_header_row(sheet);
+	    	$("#displayHeaders").html(JSON.stringify(headers));
+		}
+		
+		function handleExcelDataJson(sheet){
+	    	$("#displayExcelJson").html(JSON.stringify(XLSX.utils.sheet_to_json (sheet)));
+		}
+		
+		function handleExcelDataCsv(sheet){
+	    	$("#displayExcelCsv").html(XLSX.utils.sheet_to_csv (sheet));
+		}
+		
+		function handleExcelDataHtml(sheet){
+	    	$("#displayExcelHtml").html(XLSX.utils.sheet_to_html (sheet));
+		}
+	</script>
+	<meta charset="UTF-8">
+	<button onclick="history.back()" type="submit" >뒤로가기</button>
+	<input type="button" id="dnldBtn" value="다운로드" onclick="excelExport(event);"/>
+	
+	<title>회원 관리</title>
+</head>
+
+<body>
+
+<table id="userAdmTbl" border='1' style='margin-top:10px'>
+	<tr>
+		<th>사용자아이디</th>
+		<th>사용자명</th>
+		<th>사용자주소</th>
+		<th>사용자연락처</th>
+		<th>사용자등급</th>
+	</tr>
+	<c:forEach var = "t" items="${userList}">
+		<tr>
+			<td>${t.user_id}</td>
+			<td>${t.name}</td>
+			<td>${t.address}</td>
+			<td>${t.phonenum}</td>
+			<td>${t.gname}</td>
+		</tr>
+	</c:forEach>
+</table>
+</body>
+</html>

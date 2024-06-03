@@ -1,0 +1,63 @@
+package sms.dto;
+
+public class inventoryDTO {
+
+
+	public String getProduct_id() {
+		return product_id;
+	}
+	public void setProduct_id(String product_id) {
+		this.product_id = product_id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public int getPrice() {
+		return price;
+	}
+	public void setPrice(int price) {
+		this.price = price;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	public String getManufacture_name() {
+		return manufacture_name;
+	}
+	public void setManufacture_name(String manufacture_name) {
+		this.manufacture_name = manufacture_name;
+	}
+	public String getManufacture_address() {
+		return manufacture_address;
+	}
+	public void setManufacture_address(String manufacture_address) {
+		this.manufacture_address = manufacture_address;
+	}
+	public int getQuentity() {
+		return quentity;
+	}
+	public void setQuentity(int quentity) {
+		this.quentity = quentity;
+	}
+	private String product_id;
+	private String name;
+	private String description;
+	private int price;
+	private String state;
+	private String manufacture_name;
+	private String manufacture_address;
+	private int quentity;
+	
+}

@@ -6,8 +6,10 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="System.out.println"/>
+		<item key="selection" value="s2ab"/>
 		<list key="findhistory">
+			<item value="s2ab"/>
+			<item value="s"/>
 			<item value="System.out.println"/>
 			<item value="sm"/>
 		</list>

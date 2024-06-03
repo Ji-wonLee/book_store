@@ -5,7 +5,7 @@
 	<head>
 		<title>회원 가입</title>
 		<button onclick="history.back()" type="submit">뒤로가기</button>
-	</head>
+		</head>
 	<script type="text/javascript">
 		function checkForm(){
 			
@@ -29,7 +29,6 @@
 		}
 	</script>
 	<body>
-		
 		<p>내 정보</p>
 		<form action=<c:url value='/updateMyInfo'><c:param name="userId" value='${myInfoList[0].user_id}'/></c:url>
 			 name="modifyForm" onsubmit="return checkForm()" method="get">
@@ -89,5 +88,4 @@
 			</table>
 		</form>
 	</body>
-	
 </html>

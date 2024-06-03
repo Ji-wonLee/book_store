@@ -11,12 +11,10 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
 		
-	<context:component-scan base-package="users"/>
-	<context:component-scan base-package="cart"/>
-	
+	<context:component-scan base-package="sms"/>
 	<tx:annotation-driven />
 	
-	<bean id="transactionManager" 
+	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager" 
 		p:dataSource-ref="datasource" />
 		
@@ -25,14 +23,14 @@
 		name="datasource" 
 		p:driverClassName="oracle.jdbc.OracleDriver" 
 		p:url="jdbc:oracle:thin:@192.168.10.11:1521:DB19" 
-		p:username="dst07" p:password="dst07" />
+		p:username="dst03" p:password="dst03" />
 		
 	<bean 
 		class="org.mybatis.spring.SqlSessionFactoryBean" 
 		name="sqlSessionFactoryBean"
 		p:dataSource-ref="datasource"
 		p:mapperLocations="classpath:/mybatis/*.xml"
-		p:typeAliasesPackage="users.vo"/>
+		p:typeAliasesPackage="sms.dto"/>
 		
 	<bean 
 		class="org.mybatis.spring.SqlSessionTemplate" 

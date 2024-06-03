@@ -1,0 +1,15 @@
+package sms.dto;
+
+public class inventoryDTO {
+
+
+	private String product_id;
+	private String name;
+	private String description;
+	private int price;
+	private String state;
+	private String manufacture_name;
+	private String manufacture_address;
+	private int quentity;
+	
+}

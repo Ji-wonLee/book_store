@@ -3,13 +3,13 @@
 
 <mapper namespace="users">
 
-<select id="selectUsersList" resultType="usersvo">
+<select id="selectUsersList" resultType="usersDTO">
 	<![CDATA[
 		 SELECT user_id , name , passwd , address , phonenum , gname FROM users u , grade g WHERE u.grade_no = g.grade_no
 	]]>
  </select>
  
- <select id="selectMyInfo" resultType="usersvo">
+ <select id="selectMyInfo" resultType="usersDTO">
 	<![CDATA[
 		 SELECT user_id , name , passwd , address , phonenum FROM users WHERE user_id = #{user_id}
 	]]>
@@ -44,5 +44,4 @@
 		UPDATE users SET passwd = #{passwd} , address = #{address} , phonenum = #{phonenum} WHERE user_id = #{user_id}
 	]]>
  </update>
-  
 </mapper>
