@@ -308,7 +308,7 @@ public class PaymentController {
         @RequestParam("receiver_address") String receiverAddress,
         ModelMap model) {
 
-        PaymentDto paymentDto = new PaymentDto(userId, payerName, payerAccount, receiverName, receiverAddress);
+        PaymentDto paymentDto = new PaymentDto(userId,receiverName,receiverAddress, payerName, payerAccount);
         try {
             paymentService.savePaymentInfo(paymentDto);
             return "/payment/paymentSuccess"; 
