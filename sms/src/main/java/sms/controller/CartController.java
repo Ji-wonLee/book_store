@@ -2,13 +2,8 @@ package sms.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,7 +26,7 @@ public class CartController {
 	@RequestMapping(value = "/test", method = RequestMethod.POST)
 	public String testMethod(ModelMap model) {
 	    model.addAttribute("message", "테스트 페이지");
-	    return "test"; // test.jsp 파일이 있어야 합니다.
+	    return "test"; 
 	}
 //	/**
 //     * 특정 사용자의 장바구니 항목을 조회합니다.
@@ -56,7 +51,7 @@ public class CartController {
      * @return 장바구니 항목 리스트를 보여주는 JSP 페이지
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String listCartItems(@RequestParam(name = "userId", required = false) String userId, ModelMap model) {
+    public String listCartItems(@RequestParam(name = "user_id", required = false) String userId, ModelMap model) {
         if (userId == null || userId.isEmpty()) {
             userId = "DGo9fGM"; 
         }
