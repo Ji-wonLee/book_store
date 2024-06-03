@@ -56,17 +56,17 @@ public class CartController {
      * @return 장바구니 항목 리스트를 보여주는 JSP 페이지
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String listCartItems(@RequestParam(name = "user_id", required = false) String userId, ModelMap model) {
-        if (userId == null || userId.isEmpty()) {
-            userId = "DGo9fGM"; 
+    public String listCartItems(@RequestParam(name = "user_id", required = false) String user_id, ModelMap model) {
+        if (user_id == null || user_id.isEmpty()) {
+        	user_id = "DGo9fGM"; 
         }
-        List<CartDto> cartItems = cartService.listCartItems(userId);
+        List<CartDto> cartItems = cartService.listCartItems(user_id);
         if (cartItems.isEmpty()) {
             model.addAttribute("error", "장바구니에 항목이 없습니다.");
         } else {
             model.addAttribute("cartItems", cartItems);
         }
-        model.addAttribute("userId", userId); // userId도 함께 모델에 추가
+        model.addAttribute("user_id", user_id); // userId도 함께 모델에 추가
         return "cart/cart_itemList"; // JSP 파일의 경로
     }
 	/**

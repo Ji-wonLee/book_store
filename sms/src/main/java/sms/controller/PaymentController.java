@@ -36,9 +36,12 @@ public class PaymentController {
      */
 	@RequestMapping(value = "/checkStock", method = RequestMethod.POST)
 	public String checkStock(@RequestParam("user_id") String user_id, ModelMap model) {
-		 System.out.println("Received user_id: " + user_id);
+		 
 		
-		List<CartDto> cartItems = cartService.listCartItems(user_id);
+		String user_id1 = "DGo9fGM";
+		System.out.println("Received user_id: " + user_id1);
+		
+		List<CartDto> cartItems = cartService.listCartItems(user_id1);
 	    boolean outOfStock = false;
 	    for (CartDto item : cartItems) {
 	        int availableStock = cartService.getStock(item.getProduct_id());
@@ -53,7 +56,7 @@ public class PaymentController {
 	        return "cart/cart_itemList";
 	    }
 	    model.addAttribute("cartItems", cartItems);
-	    model.addAttribute("user_id", user_id);
+	    model.addAttribute("user_id", user_id1);
 	    return "pay/payPage";
 	}
 	  /**
@@ -64,7 +67,7 @@ public class PaymentController {
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String savePaymentInfo(PaymentDto paymentDto, ModelMap model) {
-        paymentDto.setUser_id("defaultUserId"); // 테스트용 하드코딩된 userId
+        paymentDto.setUser_id("DGo9fGM"); // 테스트용 하드코딩된 userId
         paymentService.savePaymentInfo(paymentDto);
         return "payment/payInner";
     }
@@ -77,7 +80,7 @@ public class PaymentController {
      */
     @RequestMapping(value = "/updateStateToCompleted", method = RequestMethod.POST)
     public String updateCartStateToCompleted(CartDto cartStatusUpdateDto, ModelMap model) {
-        cartStatusUpdateDto.setUser_id("defaultUserId"); // 테스트용 하드코딩된 userId
+        cartStatusUpdateDto.setUser_id("DGo9fGM"); // 테스트용 하드코딩된 userId
         paymentService.updateCartStateToCompleted(cartStatusUpdateDto);
         return "redirect:/payment/payInner";
     }
@@ -107,7 +110,7 @@ public class PaymentController {
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String createPaymentRecord(PaymentDto paymentDto, ModelMap model) {
-        paymentDto.setUser_id("defaultUserId"); // 테스트용 하드코딩된 userId
+        paymentDto.setUser_id("DGo9fGM"); // 테스트용 하드코딩된 userId
         paymentService.createPaymentRecord(paymentDto);
         return "redirect:/payment/payPage";
     }
@@ -120,7 +123,7 @@ public class PaymentController {
      */
     @RequestMapping(value = "/createWithNewCart", method = RequestMethod.POST)
     public String createPaymentRecordAndNewCart(PaymentDto paymentDto, ModelMap model) {
-        paymentDto.setUser_id("defaultUserId"); // 테스트용 하드코딩된 userId
+        paymentDto.setUser_id("DGo9fGM"); // 테스트용 하드코딩된 userId
         paymentService.createPaymentRecordAndNewCart(paymentDto);
         return "redirect:/payment/payInner";
     }
@@ -145,7 +148,7 @@ public class PaymentController {
      */
     @RequestMapping(value = "/payInner", method = RequestMethod.GET)
     public String showPayInner(ModelMap model) {
-        String userId = "defaultUserId"; // 테스트용 하드코딩된 userId
+        String userId = "DGo9fGM"; // 테스트용 하드코딩된 userId
         double totalAmount = calculateTotalAmount(userId);
         model.addAttribute("totalAmount", totalAmount);
         return "payInner";

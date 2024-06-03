@@ -55,9 +55,9 @@ public class CartDaoImpl implements CartDao {
 	    }
 	    
 	    @Override
-	    public int getStock(String productId) {
+	    public int getStock(String product_id) {
 	    	//재고확인
-	    	return sqlSessionTemplate.selectOne("CartMapper.getStock", productId);
+	    	return sqlSessionTemplate.selectOne("CartMapper.getStock", product_id);
 	    }
 	    
 		public SqlSessionTemplate getSqlSessionTemplate() {
