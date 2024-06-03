@@ -137,6 +137,46 @@
 
         <!-- 초기 로드 시에도 높이를 조정-->
         window.dispatchEvent(new Event('resize'));
+    </script>'
+    <script>
+    let changedValues = {};
+    let inputId = {};
+
+    function valueChanged(input) {
+        changedValues[input.id] = input.value;
+    }
+
+    function sendChangedValues() {
+        // 변경된 값이 없으면 전송하지 않음
+        if (Object.keys(changedValues).length === 0) {
+            alert("변경된 값이 없습니다.");
+            return;
+        }
+
+        // 변경된 값만을 서버로 전송
+        fetch('InventoryController', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(changedValues),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('서버 응답 실패');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // 서버 응답 처리
+            console.log(data);
+            // 변경된 값 초기화
+            changedValues = {};
+        })
+        .catch(error => {
+            console.error('에러:', error);
+        });
+    }
     </script>
 	<footer>
 		<p> - 2024년도 kitri 보안개발 8기 포트폴리오 프로젝트 1팀 -</p>
