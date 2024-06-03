@@ -9,7 +9,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd
  	http://www.springframework.org/schema/context
- 	http://www.springframework.org/schema/context/spring-context.xsd">
+ 	http://www.springframework.org/schema/context/spring-context.xsd
+ 	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-4.3.xsd">
  	
  	<context:component-scan base-package="sms"></context:component-scan>
  	
@@ -34,4 +38,5 @@
  	<bean name="sqlSessionTemplate" 
  		  class="org.mybatis.spring.SqlSessionTemplate" 
  		  c:sqlSessionFactory-ref="sqlSessionFactoryBean" />
+
 </beans>

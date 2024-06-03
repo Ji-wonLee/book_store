@@ -4,11 +4,11 @@ public class Category {
 	// 검색을 위한 카테고리 Entity
 	private String category_id;
 	private String category_name;
-	
+
 	public Category() {
 		
 	}
-	
+
 	public Category(String id, String name) {
 		category_id = id;
 		category_name = name;
@@ -28,10 +28,5 @@ public class Category {
 
 	public void setCategory_name(String category_name) {
 		this.category_name = category_name;
-	}
-
-	@Override
-	public String toString() {
-		return "Category [category_id=" + category_id + ", category_name=" + category_name + "]";
 	}
 }
