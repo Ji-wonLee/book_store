@@ -11,7 +11,7 @@
  	http://www.springframework.org/schema/context
  	http://www.springframework.org/schema/context/spring-context.xsd">
  	
- 	<context:component-scan base-package="com.sms"></context:component-scan>
+ 	<context:component-scan base-package="sms"></context:component-scan>
  	
  	<!-- View Resolver 설정 -->
  	<bean name="viewResolver" 
@@ -28,8 +28,8 @@
  	<bean name="sqlSessionFactoryBean" 
  		  class="org.mybatis.spring.SqlSessionFactoryBean" 
  		  p:dataSource-ref="dataSource" 
- 		  p:mapperLocations="classpath:/mybatis/*.xml" 
- 		  p:typeAliasesPackage="com.springmvc_mybatis_project.entity" />
+ 		  p:mapperLocations="classpath:/sms/*.xml" 
+ 		  p:typeAliasesPackage="sms.dto" />
  		  
  	<bean name="sqlSessionTemplate" 
  		  class="org.mybatis.spring.SqlSessionTemplate" 
