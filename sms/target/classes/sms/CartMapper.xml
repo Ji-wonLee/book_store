@@ -12,7 +12,7 @@
         FROM cart c, cart_detail cd, product p
         WHERE c.cart_id = cd.cart_id
           AND cd.product_id = p.product_id
-          AND c.user_id = #{userId}
+          AND c.user_id = #{user_id,jdbcType=VARCHAR}
           AND c.state = '장바구니'
     </select>
 
@@ -21,7 +21,7 @@
         <!-- 상품 수량 업데이트 -->
         UPDATE cart_detail
         SET quantity = #{quantity}
-        WHERE cart_id = #{cartId} AND product_id = #{product_id};
+        WHERE cart_id = #{cart_id} AND product_id = #{product_id};
 
         <!-- 장바구니 총액 업데이트 -->
         UPDATE cart
@@ -38,7 +38,7 @@
     <update id="updateCartState" parameterType="CartDto">
         UPDATE cart
         SET state = #{state}, cart_date = SYSDATE
-        WHERE cart_id = #{cartId} AND user_id = #{userId}
+        WHERE cart_id = #{cart_id} AND user_id = #{user_id}
     </update>
 
     <!-- 새 장바구니 생성 -->

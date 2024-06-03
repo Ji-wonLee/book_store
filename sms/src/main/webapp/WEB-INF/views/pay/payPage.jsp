@@ -12,8 +12,8 @@
     <title>결제 진행</title>
     <script>
         function validateForm() {
-            var name = document.getElementById("recipientName").value;
-            var address = document.getElementById("recipientAddress").value;
+            var name = document.getElementById("receiver_name").value;
+            var address = document.getElementById("receiver_address").value;
             if (name === "" || address === "") {
                 alert("이름과 주소는 필수 입력 사항입니다.");
                 return false;
@@ -46,9 +46,9 @@
         </tbody>
     </table>
     <form action="/sms/payment/processPayment" method="post" onsubmit="return validateForm()">
-        <input type="hidden" name="userId" value="${userId}" />
-        <label>이름:</label> <input type="text" id="recipientName" name="recipientName" value="${userName}" /><br />
-        <label>주소:</label> <input type="text" id="recipientAddress" name="recipientAddress" value="${userAddress}" /><br />
+        <input type="hidden" name="user_id" value="${user_id}" />
+        <label>이름:</label> <input type="text" id="receiver_name" name="receiver_name" value="${user_name}" /><br />
+        <label>주소:</label> <input type="text" id="receiver_address" name="receiver_address" value="${user_address}" /><br />
         <input type="submit" value="확인" />
     </form>
 </body>

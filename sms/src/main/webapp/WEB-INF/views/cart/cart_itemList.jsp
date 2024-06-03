@@ -39,7 +39,7 @@
                 </tbody>
             </table>
             <form action="/sms/payment/checkStock" method="post">
-                <input type="hidden" name="user_id" value="${user_id}" />
+                <input type="hidden" name="user_id" value="DGo9fGM" />
                 <button type="submit">결제</button>
             </form>
         </c:otherwise>

@@ -36,7 +36,9 @@ public class PaymentController {
      */
 	@RequestMapping(value = "/checkStock", method = RequestMethod.POST)
 	public String checkStock(@RequestParam("user_id") String user_id, ModelMap model) {
-	    List<CartDto> cartItems = cartService.listCartItems(user_id);
+		 System.out.println("Received user_id: " + user_id);
+		
+		List<CartDto> cartItems = cartService.listCartItems(user_id);
 	    boolean outOfStock = false;
 	    for (CartDto item : cartItems) {
 	        int availableStock = cartService.getStock(item.getProduct_id());
@@ -157,8 +159,8 @@ public class PaymentController {
      */
     @RequestMapping(value = "/processPayment", method = RequestMethod.POST)
     public String processPayment(@ModelAttribute PaymentDto paymentDto, ModelMap model) {
-        String userId = paymentDto.getUser_id();
-        List<CartDto> cartItems = cartService.listCartItems(userId);
+        String user_id = paymentDto.getUser_id();
+        List<CartDto> cartItems = cartService.listCartItems(user_id);
 
         boolean outOfStock = false;
         for (CartDto item : cartItems) {

@@ -6,19 +6,19 @@
 <mapper namespace="PaymentMapper">
     <!-- 결제 정보 저장 -->
     <insert id="savePaymentInfo" parameterType="PaymentDto">
-        INSERT INTO payment_details (payment_id, user_id, recipient_name, recipient_address, payer_name, payer_account)
-        VALUES (#{paymentId}, #{userId}, #{recipientName}, #{recipientAddress}, #{payerName}, #{payerAccount})
+        INSERT INTO payment_detail (payment_id, user_id, receiver_name, receiver_address, payer_name, payer_account)
+        VALUES (#{payment_id}, #{user_id}, #{receiver_name}, #{receiver_address}, #{payer_name}, #{payer_account})
     </insert>
     <!-- 결제 상태 변경 -->
     <update id="updateCartStateToCompleted" parameterType="CartDto">
         UPDATE cart
         SET state = '결제완료'
-        WHERE cart_id = #{cartId} AND user_id = #{userId} AND state = '결제중'
+        WHERE cart_id = #{cart_id} AND user_id = #{user_id} AND state = '결제중'
     </update>
     <!-- 결제 기록 생성 -->
     <insert id="createPaymentRecord" parameterType="PaymentDto">
-        INSERT INTO payments (payment_id, cart_id, payment_date)
-        VALUES (#{paymentId}, #{cartId}, NOW())
+        INSERT INTO payment (payment_id, cart_id, payment_date)
+        VALUES (#{payment_id}, #{cart_id}, SYSDATE)
     </insert>
 
 </mapper>
