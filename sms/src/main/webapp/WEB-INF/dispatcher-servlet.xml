@@ -6,32 +6,31 @@
 	xmlns:c="http://www.springframework.org/schema/c"
 	xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans.xsd
- 	http://www.springframework.org/schema/context
- 	http://www.springframework.org/schema/context/spring-context.xsd">
- 	
- 	<context:component-scan base-package="com.sms"></context:component-scan>
- 	
- 	<!-- View Resolver 설정 -->
- 	<bean name="viewResolver" 
- 		  class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/views/" p:suffix=".jsp" />
- 		  <!--  view file location -->
- 		  
- 	<bean name="dataSource" 
- 		  class="org.apache.commons.dbcp2.BasicDataSource" 
- 		  p:driverClassName="oracle.jdbc.OracleDriver" 
- 		  p:url="jdbc:oracle:thin:@192.168.10.11:1521:DB19" 
- 		  p:username="dst03" 
- 		  p:password="dst03" />
- 	
- 	<bean name="sqlSessionFactoryBean" 
- 		  class="org.mybatis.spring.SqlSessionFactoryBean" 
- 		  p:dataSource-ref="dataSource" 
- 		  p:mapperLocations="classpath:/mybatis/*.xml" 
- 		  p:typeAliasesPackage="com.springmvc_mybatis_project.entity" />
- 		  
- 	<bean name="sqlSessionTemplate" 
- 		  class="org.mybatis.spring.SqlSessionTemplate" 
- 		  c:sqlSessionFactory-ref="sqlSessionFactoryBean" />
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+
+	<context:component-scan
+		base-package="sms" />
+
+	<!-- View Resolver 설정 -->
+	<bean name="viewresolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		p:prefix="/WEB-INF/views/" p:suffix=".jsp" />
+
+	<bean name="datasource"
+		class="org.apache.commons.dbcp2.BasicDataSource"
+		p:driverClassName="oracle.jdbc.OracleDriver"
+		p:url="jdbc:oracle:thin:@192.168.10.11:1521:DB19" p:username="dst03"
+		p:password="dst03" />
+
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean"
+		name="sqlSessionFactoryBean" p:dataSource-ref="datasource"
+		p:mapperLocations="classpath:/sms/*.xml"
+		p:typeAliasesPackage="sms.dto" />
+
+	<bean class="org.mybatis.spring.SqlSessionTemplate"
+		name="sqlSessionTemplate"
+		c:sqlSessionFactory-ref="sqlSessionFactoryBean" />
 </beans>

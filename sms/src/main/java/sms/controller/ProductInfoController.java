@@ -17,16 +17,16 @@ public class ProductInfoController {
 	private ProductSvc productSvc;
 	
 	@RequestMapping(value="/bookInfo", method=RequestMethod.GET)
-	public String productInfo(@RequestParam(value="product_id") String productId, ModelMap model) {
+	public String productInfo(@RequestParam(value="product_id") String product_id, ModelMap model) {
 		
-		model.addAttribute("product_imgurl", productSvc.productInfo(productId).getProduct_imgurl());
-		model.addAttribute("product_name", productSvc.productInfo(productId).getProduct_name());
-		model.addAttribute("category_name", productSvc.productInfo(productId).getCategory_name());
-		model.addAttribute("product_page", productSvc.productInfo(productId).getProduct_page());
-		model.addAttribute("description", productSvc.productInfo(productId).getDescription());
-		model.addAttribute("manufacture_name", productSvc.productInfo(productId).getManufacture_name());
-		model.addAttribute("product_price", productSvc.productInfo(productId).getProduct_price());
-		model.addAttribute("state", productSvc.productInfo(productId).getState());
+		model.addAttribute("product_imgurl", productSvc.productInfo(product_id).getProduct_imgurl());
+		model.addAttribute("product_name", productSvc.productInfo(product_id).getProduct_name());
+		model.addAttribute("category_name", productSvc.productInfo(product_id).getCategory_name());
+		model.addAttribute("product_page", productSvc.productInfo(product_id).getProduct_page());
+		model.addAttribute("description", productSvc.productInfo(product_id).getDescription());
+		model.addAttribute("manufacture_name", productSvc.productInfo(product_id).getManufacture_name());
+		model.addAttribute("product_price", productSvc.productInfo(product_id).getProduct_price());
+		model.addAttribute("state", productSvc.productInfo(product_id).getState());
 		
 		return "product/productInfo";
 	}

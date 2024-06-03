@@ -34,9 +34,9 @@ public class ProductDaoImpl implements ProductDao{
 	}
 
 	@Override
-	public ProductDto productInfo(String ProductId) { // 惑前 惑技
+	public ProductDto productInfo(String product_id) { // 惑前 惑技
 		
-		ProductDto selectProduct = sqlSessionTemplate.selectOne("product.productInfo", ProductId);
+		ProductDto selectProduct = sqlSessionTemplate.selectOne("product.productInfo", product_id);
 		
 		return selectProduct;
 	}

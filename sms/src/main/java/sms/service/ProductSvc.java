@@ -13,7 +13,7 @@ public interface ProductSvc {
 	List<ProductDto> productList();
 	// 사용자에게 제공되는 객체 List를 받아옴
 
-	ProductDto productInfo(String ProductId);
+	ProductDto productInfo(String product_id);
 	// id값으로 객체를 받아옴, 상세 조회에서 사용
 	
 	List<ProductDto> productSearchList(SearchDto searchDto);

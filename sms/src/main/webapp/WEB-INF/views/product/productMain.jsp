@@ -111,7 +111,7 @@
 							<tr>
 								<td>${idx.count}</td>
 								<td>${product.category_name}</td>
-								<td><a href="<c:url value='/bookInfo'><c:param name='product_id' value='${product.product_id}'/></c:url>">${product.product_name}</a></td>
+								<td><a href="<c:url value='/bookInfo'><c:param name='product_id' value="${product.product_id}"/></c:url>">${product.product_name}</a></td>
 								<td>${product.product_page}</td>
 								<td>${product.product_price}</td>
 								<td>${product.state}</td>

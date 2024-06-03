@@ -30,8 +30,8 @@ public class ProductSvcImpl implements ProductSvc{
 	}
 
 	@Override
-	public ProductDto productInfo(String ProductId) {
-		ProductDto selectProduct = productDao.productInfo(ProductId);
+	public ProductDto productInfo(String product_id) {
+		ProductDto selectProduct = productDao.productInfo(product_id);
 		return selectProduct;
 	}
 	
