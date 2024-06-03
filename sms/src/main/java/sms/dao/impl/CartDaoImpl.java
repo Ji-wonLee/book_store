@@ -2,7 +2,6 @@ package sms.dao.impl;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -15,14 +14,11 @@ import sms.dto.CartDto;
 import sms.dto.PaymentDto;
 import sms.dao.CartDao;
 
-
 @Repository
 public class CartDaoImpl implements CartDao {
 
-
 	@Autowired
 	SqlSessionTemplate sqlSessionTemplate;
-
 
 	 @Override
 	    public List<CartDto> listCartItems(String user_id) {
@@ -55,9 +51,9 @@ public class CartDaoImpl implements CartDao {
 	    }
 	    
 	    @Override
-	    public int getStock(String productId) {
+	    public int getStock(String product_id) {
 	    	//재고확인
-	    	return sqlSessionTemplate.selectOne("CartMapper.getStock", productId);
+	    	return sqlSessionTemplate.selectOne("CartMapper.getStock", product_id);
 	    }
 	    
 		public SqlSessionTemplate getSqlSessionTemplate() {
@@ -67,6 +63,4 @@ public class CartDaoImpl implements CartDao {
 		public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate) {
 			this.sqlSessionTemplate = sqlSessionTemplate;
 		}
-	
-
 }

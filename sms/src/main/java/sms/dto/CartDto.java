@@ -16,7 +16,6 @@ public class CartDto {
 
 	public CartDto() {}
 
-
 	public CartDto(String cartId, String userId, int totalPrice, Date cartDate, String state, String productId,
 			int quantity, int price, String productName, String newCartId) {
 		
@@ -31,7 +30,6 @@ public class CartDto {
 		this.product_name = productName;
 		this.newCartId = newCartId;
 	}
-
 
 	/**
 	 * cartDetail
@@ -98,106 +96,83 @@ public class CartDto {
 		this.quantity = quantity;
 	}
 
-
 	public String getCart_id() {
 		return cart_id;
 	}
-
 
 	public void setCart_id(String cart_id) {
 		this.cart_id = cart_id;
 	}
 
-
 	public String getUser_id() {
 		return user_id;
 	}
-
 
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
 	}
 
-
 	public int getTotalprice() {
 		return totalprice;
 	}
-
 
 	public void setTotalprice(int totalprice) {
 		this.totalprice = totalprice;
 	}
 
-
 	public Date getCart_Date() {
 		return cart_Date;
 	}
-
 
 	public void setCart_Date(Date cart_Date) {
 		this.cart_Date = cart_Date;
 	}
 
-
 	public String getState() {
 		return state;
 	}
-
 
 	public void setState(String state) {
 		this.state = state;
 	}
 
-
 	public String getProduct_id() {
 		return product_id;
 	}
-
 
 	public void setProduct_id(String product_id) {
 		this.product_id = product_id;
 	}
 
-
 	public int getQuantity() {
 		return quantity;
 	}
-
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
 
-
 	public int getPrice() {
 		return price;
 	}
-
 
 	public void setPrice(int price) {
 		this.price = price;
 	}
 
-
 	public String getProduct_name() {
 		return product_name;
 	}
-
 
 	public void setProduct_name(String product_name) {
 		this.product_name = product_name;
 	}
 
-
 	public String getNewCartId() {
 		return newCartId;
 	}
 
-
 	public void setNewCartId(String newCartId) {
 		this.newCartId = newCartId;
 	}
-
-
-
 }

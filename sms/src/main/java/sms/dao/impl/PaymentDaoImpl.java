@@ -46,8 +46,5 @@ public class PaymentDaoImpl implements PaymentDao {
 
 		public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate) {
 			this.sqlSessionTemplate = sqlSessionTemplate;
-		}
-
-
-	    
+		} 
 }

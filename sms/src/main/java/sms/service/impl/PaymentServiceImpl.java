@@ -92,7 +92,4 @@ public class PaymentServiceImpl implements PaymentService {
 	public void setCartDao(CartDao cartDao) {
 		this.cartDao = cartDao;
 	}
-	
-	
-	
 }
