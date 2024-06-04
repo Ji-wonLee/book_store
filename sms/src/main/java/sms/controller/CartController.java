@@ -47,7 +47,8 @@ public class CartController {
         }
         List<CartDto> cartItems = cartService.listCartItems(user_id);
         if (cartItems.isEmpty()) {
-            model.addAttribute("장바구니에 항목이 없습니다.");
+        	model.addAttribute("message", "장바구니에 항목이 없습니다.");
+
         } else {
             model.addAttribute("cartItems", cartItems);
         }
