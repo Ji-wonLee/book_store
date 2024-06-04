@@ -84,66 +84,23 @@
 		<nav>
 			<c:set var="userLoginStt" value="${userLoginStt}"/>
 			<c:set var="userClientStt" value="${userClientStt}"/>
-			<fieldset style='width:160px;border:none;margin-left:-20px;margin-top:-20px;'>
-				<c:choose>
-					<c:when test ="${userLoginStt eq 'success'}">
-						<c:choose>
-							<c:when test="${userClientStt eq 'admin'}">
-								${userName}님, 어서오세요<br>
-								<a href="javascript:window.history.back();">로그아웃</a>
-								<form action="/sms/admStt" method="get">
-									<table>
-										<tr>
-											<td>
-												<input style='width:69.33px' type='submit' value='입고' name='lnkDt' id='receive'></input>
-											</td>
-											<td>
-												<input style='width:69.33px' type='submit' value='발주' name='lnkDt' id='order'></input>
-											</td>
-
-										</tr>
-										<tr>
-											<td>
-												<input style='width:69.33px' type='submit' value='사용자' name='lnkDt' id='receive'></input>
-											</td>
-											<td>
-												<input style='width:69.33px' type='submit' value='재고' name='lnkDt' id='order'></input>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<input style='width:69.33px' type='submit' value='상품' name='lnkDt' id='order'></input>
-											</td>
-										</tr>						
-									</table>						
-								</form>
-							</c:when>
-						<c:otherwise>
-							${userName}님, 어서오세요<br>
-							<a href="javascript:window.history.back();">로그아웃</a>
-							<a href="cart?lnkDt=cart">장바구니</a><br>
-							<a href="<c:url value='myInfo?lnkDt=myInfo'><c:param name="userId" value="${user_id}"/></c:url>">내정보</a>
-						</c:otherwise>
-						</c:choose>
-					</c:when>
-					<c:otherwise>
-						<form action="/sms/mainLgn.do" method="get">
-							<table style='border:none;'>
-								<tr>
-									<td><input type='text' id='userId' name='userId' placeholder='LOGIN' style='margin-top:10px;width:100px;' required></input></td>
-									<td rowspan="2"><input type='submit' id='lgnBtn' value='LOGIN' style='margin-top:10px;width:50px;height:50px;display:flex;justify-content:center;' ></input></td>
-								</tr>
-								<tr>
-									<td><input type='password' id='userPass' name='userPass' placeholder='PASSWORD' style='margin-top:10px;width:100px' required></input></td>
-								</tr>
-								<tr>
-									<td><a href='join?lnkDt=join' style='font-size:10px'>회원가입</a></td>				
-								</tr>
-							</table>
+			<c:choose>
+				<c:when test="${userLoginStt eq null}">
+					<fieldset style='width:160px;border:none;margin-left:-20px;margin-top:-20px;'>
+						<form action="/sms/login" method="get">
+							<input type="submit" value="로그인"/>
 						</form>
-					</c:otherwise>
-				</c:choose>
-			</fieldset>
+					</fieldset>
+				</c:when>
+				<c:otherwise>
+					<fieldset style='width:160px;border:none;margin-left:-20px;margin-top:-20px;'>
+						${userName}님, 어서오세요<br>
+						<a href="javascript:window.history.back();">로그아웃</a>
+						<a href="cart?lnkDt=cart">장바구니</a><br>
+						<a href="<c:url value='myInfo?lnkDt=myInfo'><c:param name="userId" value="${user_id}"/></c:url>">내정보</a>
+					</fieldset>
+				</c:otherwise>
+			</c:choose>
 		</nav>
 		<article>
 			<div class = "searchBox"> <!-- 상단 검색 구성 -->

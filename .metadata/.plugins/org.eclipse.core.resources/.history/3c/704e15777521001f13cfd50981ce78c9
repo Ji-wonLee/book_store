@@ -1,0 +1,15 @@
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"> <!-- 추가할부분 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 추가할부분 -->
+	<meta http-equiv="X-UA-Compatible" content="ie=edge"> <!-- 추가할부분 -->
+
+<title>cart</title>
+</head>
+<body>
+<p>cart</p>
+</body>
+</html>

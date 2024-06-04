@@ -1,0 +1,25 @@
+package sms.service;
+
+import java.util.HashMap;
+import java.util.List;
+
+import sms.dto.usersDTO;
+
+public interface usersService {
+	List<usersDTO> selectUsersList() throws Exception;
+	
+	int selectIdCheck(String id) throws Exception;
+
+	int insertUsers(HashMap<String, Object> param);
+
+	int deleteUsers(HashMap<String, Object> map);
+	
+	String selectLoginCheck(HashMap<String, Object> param) throws Exception;
+	
+	String selectCheckClient(HashMap<String, Object> param) throws Exception;
+	
+	List<usersDTO> selectMyInfo(String id) throws Exception;
+	
+	int updateMyInfo(HashMap<String, Object> param) throws Exception;
+	
+}

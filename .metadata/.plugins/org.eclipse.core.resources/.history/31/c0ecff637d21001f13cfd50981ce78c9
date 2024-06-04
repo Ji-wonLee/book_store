@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="users">
+
+<select id="selectUsersList" resultType="usersDTO">
+	<![CDATA[
+		 SELECT user_id , name , passwd , address , phonenum , gname FROM users u , grade g WHERE u.grade_no = g.grade_no
+	]]>
+ </select>
+ 
+ <select id="selectMyInfo" resultType="usersDTO">
+	<![CDATA[
+		 SELECT user_id , name , passwd , address , phonenum FROM users WHERE user_id = #{user_id}
+	]]>
+ </select>
+ 
+ <select id="selectIdCheck" resultType="int">
+	<![CDATA[
+		 SELECT COUNT(*) FROM users WHERE user_id = #{user_id}
+	]]>
+ </select>
+ 
+ <select id="selectLoginCheck" resultType="String">
+	<![CDATA[
+		 SELECT name FROM users WHERE user_id=#{user_id} and passwd=#{passwd}
+	]]>
+ </select>
+ 
+ <select id="selectCheckClient" resultType="String">
+	<![CDATA[
+		 SELECT gname FROM users u , grade g WHERE user_id=#{user_id} and u.grade_no = g.grade_no
+	]]>
+ </select>
+ 
+ <insert id="insertUsers" parameterType="hashMap" useGeneratedKeys="true" keyProperty="user_id">
+ 	<![CDATA[
+ 		INSERT INTO users (user_id, name , passwd , address , phonenum , grade_no) VALUES (#{user_id} , #{name} , #{passwd} , #{address} , #{phonenum} , #{grade_no})
+ 	]]>
+ </insert>
+ 
+ <update id="updateMyInfo" parameterType="hashMap">
+ 	<![CDATA[
+		UPDATE users SET passwd = #{passwd} , address = #{address} , phonenum = #{phonenum} WHERE user_id = #{user_id}
+	]]>
+ </update>
+ 
+    <!-- 결제 완료 후 장바구니 메뉴 제거 -->
+    <delete id="deleteCartMenu" parameterType="String">
+        DELETE cart FROM cart c , users u  WHERE cart_id = #{cart_id} and c.user_id = u.user_id
+    </delete>
+    
+    <!-- 결제 완료 후 장바구니 상세 메뉴 제거 -->
+    <delete id="deleteCartDetailMenu" parameterType="String">
+        DELETE cart_detail FROM cart c , cart_detail cd , users u WHERE cart_id = ${cart_id} and c.user_id = u.user_id and c.cart_id = cd.cart_id
+    </delete>
+    
+</mapper>

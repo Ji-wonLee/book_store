@@ -44,4 +44,5 @@
 		UPDATE users SET passwd = #{passwd} , address = #{address} , phonenum = #{phonenum} WHERE user_id = #{user_id}
 	]]>
  </update>
+    
 </mapper>

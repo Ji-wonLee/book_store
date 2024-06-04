@@ -1,0 +1,11 @@
+package sms.dto;
+
+public class cartDto {
+
+	private String cart_id;
+	
+	@Override
+	public String toString() {
+		return user_id + ":" + name + ":" + passwd + ":" + address+":"+grade_no+":"+gname+":"+phonenum;
+	}
+}

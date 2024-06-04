@@ -1,0 +1,19 @@
+package sms.dto;
+
+public class cartDto {
+
+	public String getCart_id() {
+		return cart_id;
+	}
+
+	public void setCart_id(String cart_id) {
+		this.cart_id = cart_id;
+	}
+
+	private String cart_id;
+	
+	@Override
+	public String toString() {
+		return cart_id;
+	}
+}

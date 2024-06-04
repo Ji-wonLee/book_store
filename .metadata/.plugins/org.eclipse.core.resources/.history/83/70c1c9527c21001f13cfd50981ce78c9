@@ -1,0 +1,84 @@
+package sms.dao;
+
+import java.util.HashMap;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import sms.dto.usersDTO;
+import sms.service.usersService;
+
+@Service
+public class usersDao implements usersService {
+
+	@Autowired
+	private SqlSessionTemplate sqlSessionTemplate;
+	//사용자 관리
+	@Transactional
+	public List<usersDTO> selectUsersList() throws Exception {
+		return sqlSessionTemplate.selectList("selectUsersList");
+	}
+	//사용자 회원가입
+	@Transactional
+	public int insertUsers(HashMap<String, Object> map) {
+		return sqlSessionTemplate.insert("insertUsers", map);
+	}
+	//사용자 로그인
+	@Transactional
+	public String selectLoginCheck(HashMap<String, Object> map) {
+		return sqlSessionTemplate.selectOne("selectLoginCheck", map);
+	}
+	//사용자 삭제
+	@Transactional
+	public int deleteUsers(HashMap<String, Object> map) {
+		return sqlSessionTemplate.delete("users.deleteUsers",map);
+	}
+	//사용자 아이디 중복 체크
+	@Transactional
+	public int selectIdCheck(String id) throws Exception {
+		return sqlSessionTemplate.selectOne("selectIdCheck" , id);
+	}
+	//사용자 등급 관리
+	@Transactional
+	public String selectCheckClient(HashMap<String, Object> map) throws Exception {
+		return sqlSessionTemplate.selectOne("selectCheckClient", map);
+	}
+	//사용자 내정보
+	@Transactional
+	public List<usersDTO> selectMyInfo(String id) throws Exception {
+		return sqlSessionTemplate.selectList("selectMyInfo", id);
+	}
+	//사용자 정보 수정
+	@Transactional
+	public int updateMyInfo(HashMap<String, Object> map) throws Exception {
+		return sqlSessionTemplate.update("updateMyInfo", map);
+	}
+
+	@Transactional
+	public int selectOrder(HashMap<String, Object> map) throws Exception {
+		return sqlSessionTemplate.update("selectOrder", map);
+	}
+	
+	@Transactional
+	public int deleteCartMenu(String userId) throws Exception {
+		return sqlSessionTemplate.delete("deleteCartMenu",userId);
+	}
+	@Transactional
+	public int deleteCartDetailMenu(String userId) throws Exception {
+		return sqlSessionTemplate.delete("deleteCartDetailMenu",userId);
+	}	
+
+	public SqlSessionTemplate getSqlSessionTemplate() {
+		return sqlSessionTemplate;
+	}
+
+	public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate) {
+		this.sqlSessionTemplate = sqlSessionTemplate;
+	}
+
+}
