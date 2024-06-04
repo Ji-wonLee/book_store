@@ -33,11 +33,13 @@ public class OrderController {
 
 		return "order/goodsOrderPage";
 	}
+	//발주 상품 확인
 	@RequestMapping(value = "/orderCheck", method = RequestMethod.GET)
 	public String orderCheck(@RequestParam Map<String, Integer> paramMap,ModelMap model) {	
 		model.addAttribute("orderList", paramMap);
 		return "order/orderCheck";
 	}
+	//발주끝
 	@RequestMapping(value = "/orderComplete", method = RequestMethod.GET)
 	public String orderComplete(@RequestParam Map<String, String> paramMap, HttpServletResponse response ,ModelMap model) {				
 		orderSvc.orderSave(paramMap);

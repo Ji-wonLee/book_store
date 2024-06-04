@@ -21,6 +21,7 @@ public class ReceiveController {
 	@Autowired
 	private ReceiveSvc receiveSvc;
 	
+	//발주목록 출력
 	@RequestMapping(value = "/receive", method = RequestMethod.GET)
 	public String choiceOrder(ModelMap model) {	
 		//order 선택하게 하기
@@ -28,7 +29,7 @@ public class ReceiveController {
 		model.addAttribute("orderIdList", orderIdList);
 		return "receive/orderList"; //-> 그 페이지 가서 상품들 선택
 	}
-	
+	//선택한 발주와 매칭되는 입고서 출력
 	@RequestMapping(value = "/updateReceive", method = RequestMethod.GET)
 	public String updateReceive(@RequestParam String order_id,ModelMap model) {	
 		// orderdetial 목록 model에 저장. 
@@ -36,7 +37,7 @@ public class ReceiveController {
 		model.addAttribute("rdList", rdList);
 		return "receive/receivePage";
 	}
-	
+	//입고서 수정 및 재고 반영
 	@RequestMapping(value = "/toInventory", method = RequestMethod.GET)
 	public String toInventory(@RequestParam String receive_id,@RequestParam Map<String, String> paramMap, ModelMap model) {	
 		//System.out.println(paramMap);
