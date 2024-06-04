@@ -11,6 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT p.product_id, product_name, product_price, manufacture_name,
  		c.category_name, product_imgurl , state
 		FROM product p JOIN category c ON p.category_id = c.category_id
+		WHERE p.state != '절판'
 	]]>
 	</select>
 

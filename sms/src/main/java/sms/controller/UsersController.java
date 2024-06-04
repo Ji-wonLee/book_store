@@ -43,7 +43,7 @@ public class UsersController {
 		if(loginChk == null) {
 			//리튼을 로그인 창으로?
 			model.addAttribute("userLoginStt" , "fail");
-		}else if(!loginChk.equals("null")) {
+		}else{
 			model.addAttribute("userLoginStt" , "success");
 			String clientChk = usersDao.selectCheckClient(param); //gname
 			model.addAttribute("userName" , loginChk);
@@ -51,7 +51,7 @@ public class UsersController {
 			model.addAttribute("user_id" , userId);
 
 			if(clientChk.equals("admin")) {   //관리자
-				return "Menu/admin";
+				return "menu/admin";
 			}else { //사용자
 				return "product/first";
 			}
@@ -119,11 +119,22 @@ public class UsersController {
 
 		String myInfoId = req.getParameter("userId");
 		model.addAttribute("userId", myInfoId);
+		
+		System.out.println(myInfoId);
 
 		List<UsersDto> myInfoList = usersDao.selectMyInfo(myInfoId);
 		model.addAttribute("myInfoList", myInfoList);
-		return "myInfo";
+		return "user/myInfo";
 	}
+
+	/*
+	 * //
+	 * 
+	 * @RequestMapping(value = "/toInfo", method = RequestMethod.GET) public String
+	 * toInfo() {
+	 * 
+	 * return "user/myInfo"; }
+	 */
 	//사용자 정보 변경
 	@RequestMapping(value = "updateMyInfo", method = RequestMethod.GET)
 	public String updateMyInfo(ModelMap model,HttpServletRequest req,

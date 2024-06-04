@@ -30,7 +30,7 @@
 	</script>
 	<body>
 		<p>내 정보</p>
-		<form action=<c:url value='/updateMyInfo'><c:param name="userId" value='${myInfoList[0].user_id}'/></c:url>
+		<form action=<c:url value='/sms/updateMyInfo'><c:param name="userId" value='${myInfoList[0].user_id}'/></c:url>
 			 name="modifyForm" onsubmit="return checkForm()" method="get">
 			<table>
 				<tr>

@@ -50,7 +50,10 @@ public class OrderSvcImpl implements OrderSvc {
 		if(org_order_id==null) {
 			new_order_id = "OD"+formatedNow+String.format("%02d", 1);
 		}else {
-			new_order_id = org_order_id.substring(0,6)+String.format("%02d", Integer.parseInt(org_order_id.substring(6))+1);			
+			 // 마지막 2자리를 추출
+		    int lastTwoDigits = Integer.parseInt(org_order_id.substring(8, 10));
+		    // 새로운 order_id 생성
+		    new_order_id = org_order_id.substring(0, 8) + String.format("%02d", lastTwoDigits + 1);			
 		}
 		orderDao.insertOrder(new Order(new_order_id,formatedNow, "writer",totalprice)); 
 

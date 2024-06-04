@@ -24,7 +24,6 @@ public class ReceiveController {
 	@RequestMapping(value = "/receive", method = RequestMethod.GET)
 	public String choiceOrder(ModelMap model) {	
 		//order 선택하게 하기
-		System.out.println("choiceOrder - controller");
 		List<Order> orderIdList = receiveSvc.selectOrder();
 		model.addAttribute("orderIdList", orderIdList);
 		return "receive/orderList"; //-> 그 페이지 가서 상품들 선택
@@ -40,12 +39,15 @@ public class ReceiveController {
 	
 	@RequestMapping(value = "/toInventory", method = RequestMethod.GET)
 	public String toInventory(@RequestParam String receive_id,@RequestParam Map<String, String> paramMap, ModelMap model) {	
-		System.out.println(paramMap);
+		//System.out.println(paramMap);
 		//입고서 수정//입고서 총액 수정
 		receiveSvc.updateReceive(paramMap, receive_id);
 		//재고 수정
 		receiveSvc.receiveToInventory(paramMap);
-		return "receive/receivePage";
+		//수정확인된 화면으로
+		List<ReceiveDetail> rdList = receiveSvc.selectReceiveDetail(receive_id);
+		model.addAttribute("rdList", rdList);
+		return "receive/endReceive";
 	}
 }
 

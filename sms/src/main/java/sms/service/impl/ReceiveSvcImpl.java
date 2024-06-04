@@ -36,7 +36,7 @@ public class ReceiveSvcImpl implements ReceiveSvc{
 		//receiveDetail ¼öÁ¤
 		for(String key : receiveMap.keySet()) {
 			if(!key.equals("receive_id")) {
-				System.out.println(key +"/"+receiveMap.get(key));
+				//System.out.println(key +"/"+receiveMap.get(key));
 				int test = Integer.parseInt( receiveMap.get(key));
 				ReceiveDetail receiveDetail = new ReceiveDetail(receive_id, key,test, 0);
 				receiveDao.updateReceiveDetail(receiveDetail);

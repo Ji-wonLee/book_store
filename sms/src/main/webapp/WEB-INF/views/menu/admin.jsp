@@ -94,18 +94,16 @@ footer {
 				${userName}님, 어서오세요<br> <a
 					href="javascript:window.history.back();">로그아웃</a>
 
+				<br>
 				<form action="/sms/order" method="get">
 					<input type="submit" value="발주">
 				</form>
-				<br>
 				<form action="/sms/receive" method="get">
 					<input type="submit" value="입고">
 				</form>
-				<br>
 				<form action="/sms/inventory" method="get">
 					<input type="submit" value="재고">
 				</form>
-				<br>
 				<form action="/sms/admStt" method="get">
 					<input type="submit" value="사용자">
 				</form>

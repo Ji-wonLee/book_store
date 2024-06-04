@@ -78,7 +78,7 @@
 				</div>
 				
 				<ul>
-     				<li><a href="http://localhost:8080/sms/">내 정보 조회</a></li>
+     				<li><a href="http://localhost:8080/sms/myInfo">내 정보 조회</a></li>
 					<li><a href="http://localhost:8080/sms/list">장바구니</a></li>
 					<li><a href="http://localhost:8080/sms/customermain">상품 조회</a></li>
    				</ul>
@@ -121,6 +121,7 @@
 			            </tr>
 			        </table>
     			</div>
+    			<%-- <input type="number" name="${product_id}" value="0" > --%>
     			<input type="button" id="onCart" value="장바구니 추가">
 			</div>
 		</form>
