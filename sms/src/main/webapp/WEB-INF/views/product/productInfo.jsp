@@ -66,27 +66,33 @@
  		 }
 	}
 </style>
+	<script>
+	function checkNum(){
+        var number = parseInt("${number}");
+        var quantity = parseInt("${quantity}");
+        
+        if(number <= quantity){
+            document.getElementById("stateCheck").submit();
+        } else {
+            alert("죄송합니다. 상품의 재고량을 넘어가는 값을 입력하셨습니다. 입고를 기다려 주십시오.");
+            history.back();
+        }
+    }
+    
+    function getCart(){
+        var state = "${state}";
 
-<script>
-	function getCart(){
-		
-		var state = "${state}";
-		var number = "${number}";
-		var 
-		
-		if(state == "품절") {
-			alert("품절 상품 입니다.");
-			history.back();
-		} else if(state == "임시품절") {
-			alert("임시 품절 상품 입니다.");
-			history.back();
-		}
-		else {
-			document.getElementById("stateCheck").submit();
-		}
-	}
-</script>
-
+        if(state == "품절") {
+            alert("품절 상품 입니다.");
+            history.back();
+        } else if(state == "임시품절") {
+            alert("임시 품절 상품 입니다.");
+            history.back();
+        } else {
+            checkNum();
+        }
+    }
+	</script>
 <title>상품 정보</title>
 </head>
 <body>

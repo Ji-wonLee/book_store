@@ -11,7 +11,6 @@ import sms.service.ProductSvc;
 
 @Controller
 public class ProductInfoController {
-	// ???¡Æ ??¨ù¨ù ?¡©¢¬?
 	
 	@Autowired
 	private ProductSvc productSvc;
