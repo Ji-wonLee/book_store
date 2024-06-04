@@ -66,6 +66,27 @@
  		 }
 	}
 </style>
+
+<script>
+	function getCart(){
+		
+		var state = "${state}";
+		var number = "${number}";
+		var 
+		
+		if(state == "품절") {
+			alert("품절 상품 입니다.");
+			history.back();
+		} else if(state == "임시품절") {
+			alert("임시 품절 상품 입니다.");
+			history.back();
+		}
+		else {
+			document.getElementById("stateCheck").submit();
+		}
+	}
+</script>
+
 <title>상품 정보</title>
 </head>
 <body>
@@ -84,7 +105,7 @@
    				</ul>
 		</nav>
 		<article>
-		<form action = "/sms/list" method = "GET"> <!-- action 연결 필요 -->
+		<form id="stateCheck" action = "/sms/list" method = "GET"> <!-- action 연결 필요 -->
 			<div class="productInfo">
     			<div class="productImage">
         			<img src="${product_imgurl}" alt="Product Image">
@@ -119,9 +140,19 @@
 			                <th>판매현황</th>
 			                <td>${state}</td>
 			            </tr>
+			            <tr>
+			            	<th>구매 수량</th>
+			            	<td><input type="number" name="number" value="${quantity}"></td>
+			            </tr>
 			        </table>
     			</div>
-    			<input type="button" id="onCart" value="장바구니 추가">
+    			
+ 				<input type="hidden" name="product_id" value="${product_id}">
+ 				<input type="hidden" name="product_price" value="${product_price}">
+ 				<input type="hidden" name="product_name" value="${product_name}">
+ 				
+    			<input type="submit" id="addCart" value="장바구니 추가" onclick="getCart(); return false;">
+				
 			</div>
 		</form>
 		</article>
