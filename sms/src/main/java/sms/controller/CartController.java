@@ -33,25 +33,10 @@ public class CartController {
 	    model.addAttribute("message", "테스트 페이지");
 	    return "test"; 
 	}
-//	/**
-//     * 특정 사용자의 장바구니 항목을 조회합니다.
-//     * @param userId 사용자 ID (옵션)
-//     * @param model 모델 객체
-//     * @return 장바구니 항목 리스트를 보여주는 JSP 페이지
-//     */
-//    @RequestMapping(value = "/list", method = RequestMethod.GET)
-//    public String listCartItems(@RequestParam(name = "user_id", required = false) String user_id, ModelMap model) {
-//        if (user_id == null || user_id.isEmpty()) {
-//        	user_id = "guest"; // 비회원용 기본값 설정
-//        }
-//        List<CartDto> cartItems = cartService.listCartItems(user_id);
-//        model.addAttribute("cartItems", cartItems);
-//        model.addAttribute("userId", user_id); // userId도 함께 모델에 추가
-//        return "cart/cart_itemList"; // JSP 파일의 경로
-//    }
+
 	   /**
      * 특정 사용자의 장바구니 항목을 조회합니다.
-     * @param userId 사용자 ID (옵션)
+     * @param userId 사용자 ID
      * @param model 모델 객체
      * @return 장바구니 항목 리스트를 보여주는 JSP 페이지
      */
@@ -62,7 +47,7 @@ public class CartController {
         }
         List<CartDto> cartItems = cartService.listCartItems(user_id);
         if (cartItems.isEmpty()) {
-            model.addAttribute("error", "장바구니에 항목이 없습니다.");
+            model.addAttribute("장바구니에 항목이 없습니다.");
         } else {
             model.addAttribute("cartItems", cartItems);
         }
@@ -105,13 +90,5 @@ public class CartController {
 		return "redirect:/cart";
 	}
 
-	/**
-	 * 상품 등록 폼을 보여줍니다.
-	 * @param model 모델 객체
-	 * @return 상품 등록 폼 JSP 페이지
-	 */
-	@RequestMapping(value = "/itemRegistration", method = RequestMethod.GET)
-	public String showCartItemRegistrationForm(ModelMap model) {
-		return "cart_item_registration";
-	}
+
 }

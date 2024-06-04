@@ -98,6 +98,12 @@ public class CartDto {
 		this.quantity = quantity;
 	}
 
+	public CartDto(String newCartId, String user_id, String state, Date cart_Date) {
+		this.cart_id = newCartId;
+		this.user_id = user_id;
+		this.state = state;
+		this.cart_Date = cart_Date;
+	}
 
 	public String getCart_id() {
 		return cart_id;

@@ -60,6 +60,18 @@ public class CartDaoImpl implements CartDao {
 	    	return sqlSessionTemplate.selectOne("CartMapper.getStock", product_id);
 	    }
 	    
+	    // 최신 id 
+	    @Override
+	    public String getLatestCartId() {
+	        return sqlSessionTemplate.selectOne("CartMapper.getLatestCartId");
+	    }
+	    
+	    // 새로운 Cart 삽입
+	    @Override
+	    public void insertNewCart(CartDto cartDto) {
+	        sqlSessionTemplate.insert("CartMapper.insertNewCart", cartDto);
+	    }
+	    
 		public SqlSessionTemplate getSqlSessionTemplate() {
 			return sqlSessionTemplate;
 		}

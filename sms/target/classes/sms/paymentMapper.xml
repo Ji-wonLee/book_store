@@ -5,7 +5,7 @@
 
 <mapper namespace="PaymentMapper">
     <!-- 결제 정보 저장 -->
-   <insert id="savePaymentInfo" parameterType="sms.dto.PaymentDto">
+   <insert id="savePaymentInfo" parameterType="PaymentDto">
 	    INSERT INTO payment (user_id, receiver_name, receiver_address, payer_name, payer_account)
 	    VALUES (#{user_id}, #{receiver_name}, #{receiver_address}, #{payer_name}, #{payer_account})
 	</insert>

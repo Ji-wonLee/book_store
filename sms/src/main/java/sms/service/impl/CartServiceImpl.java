@@ -1,7 +1,11 @@
 package sms.service.impl;
 
+
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.UUID;
+import java.util.Date;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,14 +42,14 @@ public class CartServiceImpl implements CartService {
 		cartDao.updateCartState(cartStatusUpdateDto);
 	}
 
-	@Override
-	@Transactional
-	public void createNewCart(CartDto cartResetDto) {
-		// 새 장바구니 생성
-		String newCartId = generateCartId();
-		cartResetDto.setCart_id(newCartId);
-		cartDao.createNewCart(cartResetDto);
-	}
+//	@Override
+//	@Transactional
+//	public void createNewCart(CartDto cartResetDto) {
+//		// 새 장바구니 생성
+//		String newCartId = generateCartId();
+//		cartResetDto.setCart_id(newCartId);
+//		cartDao.createNewCart(cartResetDto);
+//	}
 
 	@Override
 	@Transactional
@@ -59,9 +63,46 @@ public class CartServiceImpl implements CartService {
 		//재고 확인
 		return cartDao.getStock(productId);
 	}
-	private String generateCartId() {
-		// UUID의 일부를 사용하여 20자 이내의 고유한 cart_id 생성
-		String uuid = UUID.randomUUID().toString().replace("-", "").substring(0, 15);
-		return "CART-" + uuid;
+
+
+	@Override
+	public String createNewCart(String userId) {
+		// 최신 cart_id 가져오기
+		String latestCartId = cartDao.getLatestCartId();
+		// 새 cart_id 생성
+		String newCartId = generateNewCartId(latestCartId);
+		// 동일한 일련번호를 사용하여 payment_id 생성
+		String paymentId = generateNewPaymentId(newCartId);
+
+		// 생성한 cart_id와 payment_id를 이용하여 CartDto 객체 생성
+		CartDto newCart = new CartDto(newCartId, userId, "장바구니", new java.sql.Date(System.currentTimeMillis()));
+
+		// 데이터베이스에 새로운 장바구니 정보 저장
+		cartDao.insertNewCart(newCart);
+
+		// 생성된 payment_id 반환 (또는 필요에 따라 생성된 cart_id 반환 가능)
+		return newCartId;
 	}
+
+	private String generateNewCartId(String latestCartId) {
+		// 로직 구현 (latestCartId에서 숫자를 추출하고 1을 더함)
+		int lastNumber = Integer.parseInt(latestCartId.substring(5)) + 1;
+		return "CART-" + String.format("%04d", lastNumber);
+	}
+
+	private String generateNewPaymentId(String newCartId) {
+		// 로직 구현 (오늘 날짜와 newCartId에서 추출한 숫자 사용)
+		String dateString = new SimpleDateFormat("yyyyMMdd").format(new Date());
+		return "SO" + dateString + "-" + newCartId.substring(5);
+	}
+
+	public CartDao getCartDao() {
+		return cartDao;
+	}
+
+	public void setCartDao(CartDao cartDao) {
+		this.cartDao = cartDao;
+	}
+
+
 }
