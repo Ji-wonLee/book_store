@@ -83,6 +83,7 @@
      				<li><a href="http://localhost:8080/sms">내 정보 조회</a></li>
 					<li><a href="http://localhost:8080/sms">장바구니</a></li>
 					<li><a href="http://localhost:8080/sms/customermain">상품 조회</a></li>
+					<li><a href="http://localhost:8080/sms">로그아웃</a></li>
    				</ul>
 		</nav>
 		<article id="article">

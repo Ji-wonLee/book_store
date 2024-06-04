@@ -81,6 +81,7 @@
      				<li><a href="http://localhost:8080/sms">내 정보 조회</a></li>
 					<li><a href="http://localhost:8080/sms">장바구니</a></li>
 					<li><a href="http://localhost:8080/sms/customermain">상품 조회</a></li>
+					<li><a href="http://localhost:8080/sms">로그아웃</a></li>
    				</ul>
 		</nav>
 		<article>
@@ -121,7 +122,7 @@
 			            </tr>
 			        </table>
     			</div>
-    			<input type="button" id="onCart" value="장바구니 추가">
+    			<input type="submit" id="onCart" value="장바구니 추가">
 			</div>
 		</form>
 		</article>
