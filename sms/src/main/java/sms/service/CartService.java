@@ -16,5 +16,5 @@ public interface CartService {
 	void addProductToCartDetails(CartDto cartDto);	//장바구니 상품추가
 	int getStock(String productId);		//재고확인
 	
-	 String createNewCart(String userId); //새 id 부여
+	void completePaymentAndCreateNewCart(PaymentDto paymentDto); //새 id 부여
 }

@@ -22,4 +22,5 @@
         VALUES (#{payment_id}, #{cart_id}, SYSDATE)
     </insert>
 
+
 </mapper>

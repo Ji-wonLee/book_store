@@ -85,10 +85,27 @@
 	<!-- 가장 최근 cart_id 가져오기 -->
 	<select id="getLatestCartId" resultType="string">
 		SELECT cart_id
+		FROM (
+		SELECT cart_id
 		FROM cart
-		WHERE DATE(cart_date) = CURDATE()
-		ORDER BY cart_date DESC
-		LIMIT 1
+		WHERE TRUNC(cart_date) = TRUNC(SYSDATE)
+		ORDER BY
+		cart_date DESC
+		)
+		WHERE ROWNUM = 1
 	</select>
 
+	<!-- 새 장바구니 저장 -->
+	<insert id="insertNewCart" parameterType="sms.model.Cart">
+		INSERT INTO cart
+		(cart_id, user_id, state, cart_date)
+		VALUES (#{cartId}, #{userId},
+		#{state}, SYSDATE)
+	</insert>
+
+	<!-- 새 결제 정보 저장 -->
+	<insert id="insertNewPayment" parameterType="sms.model.Payment">
+		INSERT INTO payment (payment_id, cart_id)
+		VALUES (#{paymentId}, #{cartId})
+	</insert>
 </mapper>

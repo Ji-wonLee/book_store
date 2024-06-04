@@ -72,18 +72,18 @@ public class PaymentController {
 		return "payment/payInner";
 	}
 
-	/**
-	 * 결제 상태를 '결제완료'로 업데이트합니다.
-	 * @param cartStatusUpdateDto 업데이트할 상태 정보
-	 * @param model 모델 객체
-	 * @return 결제 완료 페이지로 리다이렉트
-	 */
-	@RequestMapping(value = "/updateStateToCompleted", method = RequestMethod.POST)
-	public String updateCartStateToCompleted(CartDto cartStatusUpdateDto, ModelMap model) {
-		cartStatusUpdateDto.setUser_id("DGo9fGM"); // 테스트용 하드코딩된 userId
-		paymentService.updateCartStateToCompleted(cartStatusUpdateDto);
-		return "redirect:/payment/payInner";
-	}
+	//	/**
+	//	 * 결제 상태를 '결제완료'로 업데이트합니다.
+	//	 * @param cartStatusUpdateDto 업데이트할 상태 정보
+	//	 * @param model 모델 객체
+	//	 * @return 결제 완료 페이지로 리다이렉트
+	//	 */
+	//	@RequestMapping(value = "/updateStateToCompleted", method = RequestMethod.POST)
+	//	public String updateCartStateToCompleted(CartDto cartStatusUpdateDto, ModelMap model) {
+	//		cartStatusUpdateDto.setUser_id("DGo9fGM"); // 테스트용 하드코딩된 userId
+	//		paymentService.updateCartStateToCompleted(cartStatusUpdateDto);
+	//		return "redirect:/payment/payInner";
+	//	}
 
 
 
@@ -171,13 +171,31 @@ public class PaymentController {
 			@RequestParam("payer_account") String payerAccount, 
 			@RequestParam("receiver_name") String receiverName,
 			@RequestParam("receiver_address") String receiverAddress,
+			@RequestParam("cart_id") String cartId,
 			ModelMap model) {
 
-		PaymentDto paymentDto = new PaymentDto(userId, payerName, payerAccount, receiverName, receiverAddress);
+		//		PaymentDto paymentDto = new PaymentDto(userId, payerName, payerAccount, receiverName, receiverAddress);
+		//
+		//		// 결제 정보 저장 로직 호출
 
-		// 결제 정보 저장 로직 호출
+		// PaymentDto 생성
+		PaymentDto paymentDto = new PaymentDto();
+		paymentDto.setUser_id(userId);
+		paymentDto.setPayer_name(payerName);
+		paymentDto.setPayer_account(payerAccount);
+		paymentDto.setReceiver_name(receiverName);
+		paymentDto.setReceiver_address(receiverAddress);
+		paymentDto.setCart_id(cartId);
 
-		paymentService.savePaymentInfo(paymentDto);
+		// 결제 완료 후 새로운 장바구니 생성 및 상태 업데이트
+		cartService.completePaymentAndCreateNewCart(paymentDto);
+
+		// 결제 성공 후 상태 업데이트
+		CartDto cartStatusUpdateDto = new CartDto();
+		cartStatusUpdateDto.setUser_id(userId);
+		cartStatusUpdateDto.setState("결제완료");
+		cartService.updateCartState(cartStatusUpdateDto);
+
 		return "/pay/paymentSuccess";
 
 	}
