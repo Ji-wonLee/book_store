@@ -33,9 +33,9 @@
 	    <input type="hidden" name="receiver_address" value="${receiver_address}" />
 	    <label>입금자 명:</label> <input type="text" name="payer_name" required /><br />  
 	    <label>입금자 계좌:</label> <input type="text" name="payer_account" required /><br /> 
-	    <label>결제 금액:</label> <span>${totalAmount}</span><br />
-	    <label>입금 계좌:</label> <span>000-0000-0000</span><br />
-	    <label>계좌 명:</label> <span>은행 이름</span><br />
+	    <label>결제 금액:</label> <span>${totalprice}</span><br />
+	    <label>입금 계좌:</label> <span>123-1234-1234</span><br />
+	    <label>계좌 명:</label> <span>KB</span><br />
 	    <input type="submit" value="결제 완료" />
 	</form>
 

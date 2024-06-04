@@ -1,3 +1,7 @@
+<%@ page import="sms.dto.CartDto"%>
+<%@ page import="sms.dto.ProductDto"%>
+<%@ page import="java.util.List"%>
+<%@ page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -56,7 +60,7 @@
 				<div class="flex items-center justify-between">
 					<div class="flex items-center space-x-2">
 						<input type="checkbox"></input> <img
-							src="./grapefruit-slice-332-332.jpg" alt="Product Image"
+							src="http://store.seoul.go.kr/images/goods/15436_imgl.jpg" alt="Product Image"
 							class="w-12 h-12 rounded" width="48" height="48"
 							style="aspect-ratio: 48/48; object-fit: cover;" /> <label
 							for="item<%=i%>" class="text-sm font-medium leading-none">클래식
