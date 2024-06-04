@@ -51,7 +51,7 @@ public class PaymentController {
 			}
 		}
 		if (outOfStock) {
-			model.addAttribute("error", "Some items in your cart are out of stock.");
+			model.addAttribute("error", "장바구니에 있는 일부 상품의 재고가 부족합니다.");
 			model.addAttribute("cartItems", cartItems);
 			return "cart/cart_itemList";
 		}
