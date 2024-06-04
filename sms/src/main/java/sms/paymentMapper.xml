@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="PaymentMapper">
+    <!-- 결제 정보 저장 -->
+   <insert id="savePaymentInfo" parameterType="sms.dto.PaymentDto">
+	    INSERT INTO payment (user_id, receiver_name, receiver_address, payer_name, payer_account)
+	    VALUES (#{user_id}, #{receiver_name}, #{receiver_address}, #{payer_name}, #{payer_account})
+	</insert>
+
+    <!-- 결제 상태 변경 -->
+    <update id="updateCartStateToCompleted" parameterType="CartDto">
+        UPDATE cart
+        SET state = '결제완료'
+        WHERE cart_id = #{cart_id} AND user_id = #{user_id} AND state = '결제중'
+    </update>
+    <!-- 결제 기록 생성 -->
+    <insert id="createPaymentRecord" parameterType="PaymentDto">
+        INSERT INTO payment (payment_id, cart_id, payment_date)
+        VALUES (#{payment_id}, #{cart_id}, SYSDATE)
+    </insert>
+
+</mapper>
