@@ -133,20 +133,23 @@ public class UsersController {
 	//사용자 정보 변경
 	@RequestMapping(value = "/updateMyInfo", method = RequestMethod.GET)
 	public String updateMyInfo(ModelMap model,HttpServletRequest req,
-			@RequestParam("userId") String userId,
 			@RequestParam("userPass") String userPass,
 			@RequestParam("userAddr") String userAddr,
 			@RequestParam("userCall") String userCall,UsersDto vo
 			) throws Exception {
 		
-		String myInfoId = req.getParameter("userId");
-		List<UsersDto> myInfoList = usersDao.selectMyInfo(myInfoId);
+		//String myInfoId = req.getParameter("userId");
+		HttpSession session = req.getSession();
+		String user_id = (String)session.getAttribute("user_id");
+		List<UsersDto> myInfoList = usersDao.selectMyInfo(user_id);
 		
-		String passwd = String.valueOf(myInfoList).split(":")[2];
-		String addr = String.valueOf(myInfoList).split(":")[3];
-		String callNum = String.valueOf(myInfoList).split(":")[6];
+		String id = myInfoList.toString().split(":")[0];
+		String idSpl = id.substring(1);
+		String passwd = myInfoList.toString().split(":")[2];
+		String addr = myInfoList.toString().split(":")[3];
+		String callNum = myInfoList.toString().split(":")[6];
 		String callNumSpl = callNum.split("]")[0];
-		
+
 		if(userPass.trim().equals("")) {
 			userPass = passwd;
 		}
@@ -159,15 +162,13 @@ public class UsersController {
 			userCall = callNumSpl;
 		}
 		
-		param.put("user_id", userId);
+		param.put("user_id", idSpl);
 		param.put("passwd", userPass);
 		param.put("address", userAddr);
 		param.put("phonenum", userCall);
+		param.put("grade_no", 1);
 		int userLogin = usersDao.updateMyInfo(param);
-		System.out.println(userLogin);
 		
-		
-		
-		return "/main";
+		return "product/first";
 	}
 }

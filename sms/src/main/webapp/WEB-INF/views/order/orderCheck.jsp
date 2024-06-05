@@ -69,6 +69,12 @@ footer {
 	}
 }
 </style>
+<script>
+	function goMenu(){
+		alert("발주신청이 확정되었습니다. 메인화면으로 돌아갑니다.");
+		window.location.href = "toAdminMain";
+	}
+</script>
 <title>재고 관리 화면</title>
 </head>
 <body>
@@ -90,7 +96,7 @@ footer {
 				<c:forEach var="product" items="${orderList}">
 					<input type="hidden" name="${product.key}" value="${product.value}">
 				</c:forEach>
-				<button type="submit">발주확정</button>
+				<input type="submit" id="orderComplete" value="발주확정" onclick="goMenu(); return false;">
 				<table>
 					<tr>
 						<th>상품 id</th>

@@ -50,8 +50,8 @@ public class UsersDaoImpl implements UsersDao {
 	}
 	//사용자 내정보
 	@Transactional
-	public List<UsersDto> selectMyInfo(String id) throws Exception {
-		return sqlSessionTemplate.selectList("users.selectMyInfo", id);
+	public List<UsersDto> selectMyInfo(String user_id) throws Exception {
+		return sqlSessionTemplate.selectList("users.selectMyInfo", user_id);
 	}
 	//사용자 정보 수정
 	@Transactional

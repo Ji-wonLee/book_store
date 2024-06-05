@@ -71,7 +71,7 @@ footer {
 </style>
 <title>재고 관리 화면</title>
 <script>
-    function filterAndSubmitForm() {
+	function filterAndSubmitForm() {
         const form = document.getElementById('orderForm');
         const inputs = form.querySelectorAll('input[type="number"]');
         inputs.forEach(input => {
@@ -79,6 +79,12 @@ footer {
                 input.name = '';
             }
         });
+        //여기에 코드 추가
+        let hasSelection = Array.from(inputs).some(input => input.value !== '0' && input.value.trim() !== '');
+    if (!hasSelection) {
+        alert("하나 이상의 상품을 선택하세요.");
+        return false;
+    }
         form.submit();
     }
 </script>
@@ -118,7 +124,8 @@ footer {
 							<td>${product.product_price}</td>
 							<td>${product.manufacture_name}</td>
 							<td>${product.category_name}</td>
-							<td><img src="${product.product_imgurl}"  alt="image" width="50" height="60"></td>
+							<td><img src="${product.product_imgurl}" alt="image"
+								width="50" height="60"></td>
 							<td>${product.state}</td>
 							<td><input type="number"
 								name="${product.product_id}_${product.product_price}" value="0"

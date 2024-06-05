@@ -31,7 +31,7 @@
             WHERE cd.cart_id = #{cart_id}
         ),
         cart_date = SYSDATE  <!-- 현재 시간 업데이트 -->
-        WHERE cart_id = #{cart_id};
+        WHERE cart_id = #{cart_id}
     </update>
 
     <!-- 장바구니 상태 업데이트 -->
