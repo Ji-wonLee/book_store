@@ -34,7 +34,7 @@ public class CartController {
 	    return "test"; 
 	}
 
-	   /**
+	/**
      * 특정 사용자의 장바구니 항목을 조회합니다.
      * @param userId 사용자 ID
      * @param model 모델 객체

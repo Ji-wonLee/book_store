@@ -57,7 +57,7 @@ public class CartServiceImpl implements CartService {
 	//	}
 
 	@Override
-	@Transactional
+	@Transactional	
 	public void addProductToCartDetails(CartDto cartItemUpdateDto) {
 		// 장바구니에 상품 추가
 		cartDao.addProductToCartDetails(cartItemUpdateDto);
@@ -70,20 +70,29 @@ public class CartServiceImpl implements CartService {
 	}
 
 
+	/**
+	 * paymentController에 만들걸..... 나중에 시간이 남는다면 옮기자...
+	 */
 	@Override
 	@Transactional
 	public void completePaymentAndCreateNewCart(PaymentDto paymentDto) {
 		// 최신 cart_id 가져오기
 		String latestCartId = cartDao.getLatestCartId();
+		
 		// 새 cart_id 생성
 		String newCartId = generateNewCartId(latestCartId);
+		
 		// 동일한 일련번호를 사용하여 payment_id 생성
 		String newPaymentId = generateNewPaymentId(newCartId);
 
+		
 		// 결제 정보 저장
-		paymentDto.setPayment_id(newPaymentId);
-		paymentDto.setCart_id(latestCartId);
-		paymentDao.savePaymentInfo(paymentDto);
+//		paymentDto.setPayment_id(newPaymentId);
+//		paymentDto.setCart_id(latestCartId);
+//		paymentDao.savePaymentInfo(paymentDto);
+		
+		PaymentDto savepayment = new PaymentDto(newPaymentId, latestCartId );
+		paymentDao.savePaymentInfo(savepayment);
 
 		// 장바구니 상태 업데이트
 		CartDto cartStatusUpdateDto = new CartDto();

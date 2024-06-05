@@ -6,7 +6,7 @@
 <mapper namespace="CartMapper">
 
 	<!-- 특정 사용자의 장바구니 조회 -->
-	<select id="listCartItems" resultType="sms.dto.CartDto"
+	<select id="listCartItems" resultType="CartDto"
 		parameterType="String">
 		SELECT c.cart_id, c.user_id, c.totalprice, c.cart_date,
 		c.state,
@@ -96,7 +96,7 @@
 	</select>
 
 	<!-- 새 장바구니 저장 -->
-	<insert id="insertNewCart" parameterType="sms.model.Cart">
+	<insert id="insertNewCart" parameterType="CartDto">
 		INSERT INTO cart
 		(cart_id, user_id, state, cart_date)
 		VALUES (#{cartId}, #{userId},
@@ -104,7 +104,7 @@
 	</insert>
 
 	<!-- 새 결제 정보 저장 -->
-	<insert id="insertNewPayment" parameterType="sms.model.Payment">
+	<insert id="insertNewPayment" parameterType="PaymentDto">
 		INSERT INTO payment (payment_id, cart_id)
 		VALUES (#{paymentId}, #{cartId})
 	</insert>

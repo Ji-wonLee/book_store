@@ -1,0 +1,9 @@
+diff a/sms/src/main/java/sms/controller/UsersController.java b/sms/src/main/java/sms/controller/UsersController.java	(rejected hunks)
+@@ -84,6 +84,7 @@
+  			@RequestParam("userCall") int userCall,
+  			ModelMap model, UsersDto vo) throws Exception {
+  
+++		String webCtrl = "";
+  		param.put("user_id", userId);
+  		param.put("passwd", userPass);
+  		param.put("address", userAddr);

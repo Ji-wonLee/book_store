@@ -80,6 +80,7 @@
 	<!-- <form action = "/sms/searchList" method = "GET"> --> <!-- action 연결 필요 -->
 	<section>
 		<nav>
+		 <a href="http://localhost:8080/sms/list">Go to Cart</a>
 			<form action="/sms/mainLgn.do" method="get">
 				<table style='border:none;'>
 					<tr>

@@ -29,35 +29,38 @@ public class UsersController {
 	UsersDao usersDao;
 	HashMap<String, Object> param = new HashMap<String, Object>();
 	//로그인
-	@RequestMapping(value = "/mainLgn.do")
-	public String mainLogin(@RequestParam("userId") String userId,
-			@RequestParam("userPass") String userPass,ModelMap model,
-			HttpServletRequest req) throws Exception{
+		@RequestMapping(value = "/mainLgn.do")
+		public String mainLogin(@RequestParam("userId") String userId,
+				@RequestParam("userPass") String userPass,ModelMap model,
+				HttpServletRequest req) throws Exception{
 
-		String webCtrl = "";
-		param.put("user_id", userId);
-		param.put("passwd", userPass);
+			param.put("user_id", userId);
+			param.put("passwd", userPass);
 
-		String loginChk = usersDao.selectLoginCheck(param); // 사용자 이름
+			String loginChk = usersDao.selectLoginCheck(param); // 사용자 이름
 
-		if(loginChk == null) {
-			//리튼을 로그인 창으로?
-			model.addAttribute("userLoginStt" , "fail");
-		}else if(!loginChk.equals("null")) {
-			model.addAttribute("userLoginStt" , "success");
-			String clientChk = usersDao.selectCheckClient(param); //gname
-			model.addAttribute("userName" , loginChk);
-			model.addAttribute("userClientStt" , clientChk);
-			model.addAttribute("user_id" , userId);
+			if(loginChk == null) {
+				//리튼을 로그인 창으로?
+				model.addAttribute("userLoginStt" , "fail");
+			}else{
+				//사용자 id 세션 저장
+				HttpSession session=req.getSession();
+				session.setAttribute("user_id",userId);
+				
+				model.addAttribute("userLoginStt" , "success");
+				String clientChk = usersDao.selectCheckClient(param); //gname
+				model.addAttribute("userName" , loginChk);
+				model.addAttribute("userClientStt" , clientChk);
+				model.addAttribute("user_id" , userId);
 
-			if(clientChk.equals("admin")) {   //관리자
-				return "Menu/admin";
-			}else { //사용자
-				return "product/first";
+				if(clientChk.equals("admin")) {   //관리자
+					return "menu/admin";
+				}else { //사용자
+					return "product/first";
+				}
 			}
+			return "login";
 		}
-		return "login";
-	}
 	//유저 조인 JSP 이동
 	@RequestMapping(value = "/join", method = RequestMethod.GET)
 	public void getRegister() throws Exception{

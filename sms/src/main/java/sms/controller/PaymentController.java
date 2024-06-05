@@ -160,18 +160,9 @@ public class PaymentController {
 			@RequestParam("cart_id") String cartId,
 			ModelMap model) {
 
-		//		PaymentDto paymentDto = new PaymentDto(userId, payerName, payerAccount, receiverName, receiverAddress);
-		//
-		//		// 결제 정보 저장 로직 호출
-
-		// PaymentDto 생성
-		PaymentDto paymentDto = new PaymentDto();
-		paymentDto.setUser_id(userId);
-		paymentDto.setPayer_name(payerName);
-		paymentDto.setPayer_account(payerAccount);
-		paymentDto.setReceiver_name(receiverName);
-		paymentDto.setReceiver_address(receiverAddress);
-		paymentDto.setCart_id(cartId);
+				
+		// 결제 정보 저장 로직 호출
+		PaymentDto paymentDto = new PaymentDto(userId, receiverName, receiverAddress, payerName, payerAccount, cartId);
 
 		// 결제 완료 후 새로운 장바구니 생성 및 상태 업데이트
 		cartService.completePaymentAndCreateNewCart(paymentDto);

@@ -83,7 +83,26 @@ public class PaymentDto {
 		this.payment_id = paymentId;
 	}
 
-
+	/**
+	 * PayInner에서 쓸 것.
+	 * @param user_id
+	 * @param receiver_name
+	 * @param receiver_address
+	 * @param payer_name
+	 * @param payer_account
+	 * @param cart_id
+	 */
+	public PaymentDto(String user_id, String receiver_name, String receiver_address, String payer_name, String payer_account, String cart_id) {
+		this.user_id = user_id;
+		this.receiver_name = receiver_name;
+		this.receiver_address = receiver_address;
+		this.payer_name = payer_name;
+		this.payer_account = payer_account;
+		this.cart_id = cart_id;
+	}
+	
+	
+	
 	public String getCart_id() {
 		return cart_id;
 	}
