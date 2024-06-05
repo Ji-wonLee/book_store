@@ -14,6 +14,42 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE p.state != '절판'
 	]]>
 	</select>
+	
+	<!-- 이름으로 검색 -->
+	<select id="productSearchName" parameterType="OrderSearchDto" resultType="ProductDto">
+	<![CDATA[
+		SELECT p.product_id,product_name, product_price, product_page, category_name, state  
+		FROM product p, category c 
+		WHERE c.category_id = p.category_id 
+		AND (p.product_id LIKE '%' || #{searchText} || '%'
+		OR product_name LIKE '%' || #{searchText} || '%') 
+		AND p.quantity <= #{remaining}
+		ORDER BY p.category_id ASC
+	]]>
+	</select>
+	<!-- 분류로 검색 -->
+	<select id="productSearchCategory" parameterType="OrderSearchDto" resultType="ProductDto">
+	<![CDATA[
+		SELECT p.product_id, product_name, product_price, product_page, category_name, state 
+		FROM product p, category c 
+		WHERE c.category_id = p.category_id AND p.remaining <= #{quantity}
+		AND p.quantity <= #{remaining}
+		ORDER BY p.product_id ASC
+	]]>
+	</select>
+	<!-- 둘 다 사용하여 검색 -->
+	<select id="productSearchDual" parameterType="OrderSearchDto" resultType="ProductDto">
+	<![CDATA[
+		SELECT p.product_id,product_name, product_price, product_page, category_name, state
+		FROM product p, category c 
+		WHERE c.category_id = p.category_id 
+		AND (p.product_id LIKE '%' || #{searchText} || '%'
+		OR product_name LIKE '%' || #{searchText} || '%')
+		AND p.category_id = #{category_id} 
+		AND p.quantity <= #{remaining}
+		ORDER BY p.category_id ASC, p.product_id
+	]]>
+	</select>
 
 	<!-- orderId가져오기 -->
 	<select id="getOrderId" resultType="string">

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import sms.dao.OrderDao;
 import sms.dto.Order;
 import sms.dto.OrderDetail;
+import sms.dto.OrderSearchDto;
 import sms.dto.ProductDto;
 import sms.dto.Receive;
 import sms.dto.ReceiveDetail;
@@ -92,6 +93,24 @@ public class OrderSvcImpl implements OrderSvc {
 		
 		return 0;
 	}
+
+	//카테고리, 상품코드, 개수 검색
+	@Override
+	public List<ProductDto> orderSearch(OrderSearchDto orderSearchDto) {
+		List<ProductDto> productList;
+		//orderSearchDto.getRemaining() 없는 경우 최대수로 설정
+		//카테고리 값이 비어있을경우 제목
+		if(orderSearchDto.getCategory_id().isEmpty() == true) { // 카테고리 값이 비어있을 경우 = 입력된 문자열만을 이용하여 검색
+			productList = orderDao.productSearchWithText(orderSearchDto);
+		} else if(orderSearchDto.getSearchText().isEmpty() == true) { // 입력된 문자열이 비어있는 경우 = 카테고리 값만을 이용하여 검색
+			productList = orderDao.productSearchWithCategory(orderSearchDto);
+		} else { // 두 값을 받아서 검색
+			productList = orderDao.productSearchDual(orderSearchDto);
+		}
+		
+		return productList;
+	}
+	
 	public OrderDao getOrderDao() {
 		return orderDao;
 	}

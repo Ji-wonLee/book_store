@@ -91,7 +91,7 @@ footer {
 		</nav>
 		<article id="article">
 			<!-- 여기에 출력할 코드를 작성(list라던가) -->
-			<form action="/sms/orderComplete" method="get">
+			<form action="/sms/toAdminMain" method="get">
 				<!-- hidden input 필드에 orderList를 전달 -->
 				<c:forEach var="product" items="${orderList}">
 					<input type="hidden" name="${product.key}" value="${product.value}">

@@ -86,7 +86,7 @@ footer {
 		<article id="article">
 			<!-- 여기에 출력할 코드를 작성(list라던가) -->
 			<form action="/sms/toInventory" method="get">
-				<button type="submit">수정완료</button>
+				<button type="submit">재고반영</button>
 				<br> ${rdList[0].receive_id} <input type="hidden"
 					name="receive_id" value="${rdList[0].receive_id}">
 				<table>

@@ -16,13 +16,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import sms.dto.OrderSearchDto;
 import sms.dto.ProductDto;
+import sms.dto.SearchDto;
 import sms.service.OrderSvc;
+import sms.service.ProductSvc;
 
 @Controller
 public class OrderController {
 	@Autowired
 	private OrderSvc orderSvc;
+	@Autowired
+	private ProductSvc productSvc;
 
 	//상품목록 출력 -> 발주가능하게 (절판상품 제외)
 	@RequestMapping(value = "/order", method = RequestMethod.GET)
@@ -43,8 +48,23 @@ public class OrderController {
 	@RequestMapping(value = "/orderComplete", method = RequestMethod.GET)
 	public String orderComplete(@RequestParam Map<String, String> paramMap, HttpServletResponse response ,ModelMap model) {				
 		orderSvc.orderSave(paramMap);
-		//alert 하고 싶은데...
 		return "menu/admin";
+	}
+	
+	//발주 상품코드, 상품이름, 카테고리 분류, 개수 검색
+	@RequestMapping(value = "/orderSearch", method = RequestMethod.GET)
+	public String testSearch(@RequestParam(value="category_id") String category_id,
+							 @RequestParam(value="searchtext") String searchtext,
+							 @RequestParam(value="remaining") int remaining,
+							 ModelMap model) {
+		OrderSearchDto orderSearchDto = new OrderSearchDto(searchtext, category_id,remaining );
+		//카테고리 선택하는 리스트
+		model.addAttribute("categorylist", productSvc.categoryList());
+		//검색한 product리스트
+		List<ProductDto> listProduct = orderSvc.invenList();//수정
+		model.addAttribute("listProduct", listProduct);		
+		//model.addAttribute("productlist", productSvc.productSearchList(searchDto));
+		return "product/productMain";
 	}
 	
 	//관리자 메인화면으로
