@@ -4,10 +4,16 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="PaymentMapper">
-    <!-- 결제 정보 저장 -->
+   <!--  결제 정보 저장
    <insert id="savePaymentInfo" parameterType="PaymentDto">
 	    INSERT INTO payment (user_id, receiver_name, receiver_address, payer_name, payer_account)
 	    VALUES (#{user_id}, #{receiver_name}, #{receiver_address}, #{payer_name}, #{payer_account})
+	</insert> -->
+	
+	<!-- 결제 정보 저장 -->
+	<insert id="savePaymentInfo" parameterType="PaymentDto">
+	    INSERT INTO payment (payment_id, user_id, receiver_name, receiver_address, payer_name, payer_account, cart_id)
+	    VALUES (#{payment_id}, #{user_id}, #{receiver_name}, #{receiver_address}, #{payer_name}, #{payer_account}, #{cart_id})
 	</insert>
 
     <!-- 결제 상태 변경 -->
@@ -23,4 +29,4 @@
     </insert>
 
 
-</mapper>
+</mapper>   
