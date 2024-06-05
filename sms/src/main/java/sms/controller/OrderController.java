@@ -43,6 +43,7 @@ public class OrderController {
 	@RequestMapping(value = "/orderComplete", method = RequestMethod.GET)
 	public String orderComplete(@RequestParam Map<String, String> paramMap, HttpServletResponse response ,ModelMap model) {				
 		orderSvc.orderSave(paramMap);
+		//alert 하고 싶은데...
 		return "menu/admin";
 	}
 	

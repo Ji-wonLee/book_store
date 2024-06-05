@@ -28,7 +28,7 @@ public class UsersController {
 	@Autowired
 	UsersDao usersDao;
 	HashMap<String, Object> param = new HashMap<String, Object>();
-	//로그인
+	//로그인 -> 화면 이동
 	@RequestMapping(value = "/mainLgn.do")
 	public String mainLogin(@RequestParam("userId") String userId,
 			@RequestParam("userPass") String userPass,ModelMap model,
@@ -78,7 +78,7 @@ public class UsersController {
 			@RequestParam("userPass") String userPass,
 			@RequestParam("userAddr") String userAddr,
 			@RequestParam("userName") String userName,
-			@RequestParam("userCall") int userCall,
+			@RequestParam("userCall") String userCall,
 			ModelMap model, UsersDto vo) throws Exception {
 
 		param.put("user_id", userId);
@@ -131,70 +131,43 @@ public class UsersController {
 		return "user/myInfo";
 	}
 	//사용자 정보 변경
-	@RequestMapping(value = "updateMyInfo", method = RequestMethod.GET)
+	@RequestMapping(value = "/updateMyInfo", method = RequestMethod.GET)
 	public String updateMyInfo(ModelMap model,HttpServletRequest req,
 			@RequestParam("userId") String userId,
 			@RequestParam("userPass") String userPass,
 			@RequestParam("userAddr") String userAddr,
-			@RequestParam("userCall") long userCall,UsersDto vo
+			@RequestParam("userCall") String userCall,UsersDto vo
 			) throws Exception {
-
+		
 		String myInfoId = req.getParameter("userId");
 		List<UsersDto> myInfoList = usersDao.selectMyInfo(myInfoId);
-
+		
 		String passwd = String.valueOf(myInfoList).split(":")[2];
 		String addr = String.valueOf(myInfoList).split(":")[3];
 		String callNum = String.valueOf(myInfoList).split(":")[6];
 		String callNumSpl = callNum.split("]")[0];
-
+		
 		if(userPass.trim().equals("")) {
 			userPass = passwd;
 		}
-
+		
 		if(userAddr.trim().equals("")) {
 			userAddr = addr;
 		}
 
 		if(String.valueOf(userCall).trim().equals("")) {
-			userCall = Long.parseLong(callNumSpl);
+			userCall = callNumSpl;
 		}
-
+		
 		param.put("user_id", userId);
 		param.put("passwd", userPass);
 		param.put("address", userAddr);
 		param.put("phonenum", userCall);
 		int userLogin = usersDao.updateMyInfo(param);
 		System.out.println(userLogin);
-
+		
+		
+		
 		return "/main";
-	}
-	//메뉴 이동
-	@RequestMapping(path = "main", method = RequestMethod.GET)
-	public String list(Model model , HttpServletRequest req) {
-
-		String webIdStt = req.getParameter("lnkDt");
-
-		if(webIdStt == null) { webIdStt = ""; }
-		String send = "";
-
-		switch(webIdStt) {
-
-		case "join" :
-			send = webIdStt;
-			break;
-
-		case "cart" :
-			send = webIdStt;
-			break;
-
-		case "myInfo" :
-			send = webIdStt;
-			break;
-
-		default :
-			send = "main";
-			break;
-		}
-		return send;
 	}
 }

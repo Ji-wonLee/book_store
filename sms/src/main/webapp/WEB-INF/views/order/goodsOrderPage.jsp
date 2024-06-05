@@ -99,7 +99,7 @@ footer {
 
 			<form id="orderForm" action="/sms/orderCheck" method="get"
 				onsubmit="filterAndSubmitForm(); return false;">
-				<button type="submit">발주확인</button>
+				<button type="submit">발주선택</button>
 				<table>
 					<tr>
 						<th>상품 id</th>

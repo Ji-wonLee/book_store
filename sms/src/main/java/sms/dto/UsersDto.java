@@ -50,22 +50,30 @@ public class UsersDto {
 		this.gname = gname;
 	}
 	
-	
-	public long getPhonenum() {
+	public String getPhonenum() {
 		return phonenum;
 	}
 
-	public void setPhonenum(long phonenum) {
+	public void setPhonenum(String phonenum) {
 		this.phonenum = phonenum;
 	}
 
+	public String getCart_id() {
+		return cart_id;
+	}
+
+	public void setCart_id(String cart_id) {
+		this.cart_id = cart_id;
+	}
+	
 	private String user_id;
 	private String name;
 	private String passwd;
 	private String address;
-	private long phonenum;
+	private String phonenum;
 	private int grade_no;
 	private String gname;
+	private String cart_id;
 	
 	
 	public UsersDto() {}
@@ -81,7 +89,7 @@ public class UsersDto {
 		this.passwd = passwd;
 	}
 
-	public UsersDto(String user_id, String name, String passwd, String address, long phonenum, int grade_no,
+	public UsersDto(String user_id, String name, String passwd, String address, String phonenum, int grade_no,
 			String gname) {
 		this.user_id = user_id;
 		this.name = name;

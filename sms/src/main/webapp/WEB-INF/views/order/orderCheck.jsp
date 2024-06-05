@@ -90,7 +90,7 @@ footer {
 				<c:forEach var="product" items="${orderList}">
 					<input type="hidden" name="${product.key}" value="${product.value}">
 				</c:forEach>
-				<button type="submit">발주확인</button>
+				<button type="submit">발주확정</button>
 				<table>
 					<tr>
 						<th>상품 id</th>
