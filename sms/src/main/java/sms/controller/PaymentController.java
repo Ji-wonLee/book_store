@@ -72,19 +72,6 @@ public class PaymentController {
 		return "payment/payInner";
 	}
 
-	//	/**
-	//	 * 결제 상태를 '결제완료'로 업데이트합니다.
-	//	 * @param cartStatusUpdateDto 업데이트할 상태 정보
-	//	 * @param model 모델 객체
-	//	 * @return 결제 완료 페이지로 리다이렉트
-	//	 */
-	//	@RequestMapping(value = "/updateStateToCompleted", method = RequestMethod.POST)
-	//	public String updateCartStateToCompleted(CartDto cartStatusUpdateDto, ModelMap model) {
-	//		cartStatusUpdateDto.setUser_id("DGo9fGM"); // 테스트용 하드코딩된 userId
-	//		paymentService.updateCartStateToCompleted(cartStatusUpdateDto);
-	//		return "redirect:/payment/payInner";
-	//	}
-
 
 
 	/**
@@ -163,7 +150,6 @@ public class PaymentController {
 	 * @param model 모델 객체
 	 * @return 결제 완료 페이지로 리다이렉트
 	 */
-
 	@RequestMapping(value = "/completePayment", method = RequestMethod.POST)
 	public String completePayment(
 			@RequestParam("user_id") String userId, 
