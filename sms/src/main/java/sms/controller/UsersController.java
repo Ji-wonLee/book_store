@@ -34,7 +34,6 @@ public class UsersController {
 			@RequestParam("userPass") String userPass,ModelMap model,
 			HttpServletRequest req) throws Exception{
 
-		String webCtrl = "";
 		param.put("user_id", userId);
 		param.put("passwd", userPass);
 
@@ -44,6 +43,10 @@ public class UsersController {
 			//리튼을 로그인 창으로?
 			model.addAttribute("userLoginStt" , "fail");
 		}else{
+			//사용자 id 세션 저장
+			HttpSession session=req.getSession();
+			session.setAttribute("user_id",userId);
+			
 			model.addAttribute("userLoginStt" , "success");
 			String clientChk = usersDao.selectCheckClient(param); //gname
 			model.addAttribute("userName" , loginChk);
@@ -117,24 +120,16 @@ public class UsersController {
 	@RequestMapping(value = "/myInfo", method = RequestMethod.GET)
 	public String myInfo(ModelMap model,HttpServletRequest req) throws Exception {
 
-		String myInfoId = req.getParameter("userId");
+		//String myInfoId = req.getParameter("userId");
+		//세션으로 가져오기
+		HttpSession session=req.getSession();
+		String myInfoId = (String) session.getAttribute("user_id");
 		model.addAttribute("userId", myInfoId);
-		
-		System.out.println(myInfoId);
 
 		List<UsersDto> myInfoList = usersDao.selectMyInfo(myInfoId);
 		model.addAttribute("myInfoList", myInfoList);
 		return "user/myInfo";
 	}
-
-	/*
-	 * //
-	 * 
-	 * @RequestMapping(value = "/toInfo", method = RequestMethod.GET) public String
-	 * toInfo() {
-	 * 
-	 * return "user/myInfo"; }
-	 */
 	//사용자 정보 변경
 	@RequestMapping(value = "updateMyInfo", method = RequestMethod.GET)
 	public String updateMyInfo(ModelMap model,HttpServletRequest req,
