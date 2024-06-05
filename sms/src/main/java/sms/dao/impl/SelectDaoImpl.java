@@ -15,13 +15,13 @@ public class SelectDaoImpl implements SelectDao{
 	
 	@Override
 	public String findCartId(String user_id) {
-		String cartId = sqlSessionTemplate.selectOne("selectMapper/selectCart_id", user_id);
-		return cartId;
+		String cart_id = sqlSessionTemplate.selectOne("selectMapper.selectCartid", user_id);
+		return cart_id;
 	}
 	
 	@Override
 	public int addCart(CartDto cartDto) {
-		int addCart = sqlSessionTemplate.update("selectMapper/addCartProduct", cartDto);
+		int addCart = sqlSessionTemplate.update("selectMapper.addCartProduct", cartDto);
 		return addCart;
 	}
 

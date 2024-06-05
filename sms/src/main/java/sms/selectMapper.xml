@@ -4,7 +4,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="selectMapper">
-	<select id="selectCart_id" parameterType="string" resultType="string">
+	<select id="selectCartid" parameterType="String" resultType="string">
 	<![CDATA[
 		SELECT cart_id 
 		FROM cart 
@@ -13,7 +13,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	]]>
 	</select>
 	
-	<insert id="addCartProduct" parameterType="">
+	<insert id="addCartProduct" parameterType="CartDto">
 	<![CDATA[
 		INSERT INTO cart_detail 
 		VALUES (#{cart_id}, #{product_id}, #{quantity}, #{price})

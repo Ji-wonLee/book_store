@@ -33,7 +33,8 @@ public class ProductInfoController {
 		model.addAttribute("manufacture_name", productSvc.productInfo(productId).getManufacture_name());
 		model.addAttribute("product_price", productSvc.productInfo(productId).getProduct_price());
 		model.addAttribute("state", productSvc.productInfo(productId).getState());
-		
+		model.addAttribute("quantity", productSvc.productInfo(productId).getQuantity());
+		System.out.println(productSvc.productInfo(productId).getQuantity());
 		return "product/productInfo";
 	}
 	
