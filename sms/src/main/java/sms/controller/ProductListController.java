@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import sms.dto.Category;
 import sms.dto.SearchDto;
 import sms.service.ProductSvc;
@@ -21,8 +24,13 @@ public class ProductListController {
 	private ProductSvc productSvc;
 	
 	@RequestMapping(value="/customermain", method=RequestMethod.GET) // 수정, 페이지 호출 입력
-	public String productList(ModelMap model) {
+	public String productList(ModelMap model, HttpServletRequest req) {
 		List<Category> categorylist = productSvc.categoryList();
+		
+		HttpSession session=req.getSession();
+		String userId = (String) session.getAttribute("user_id");
+		model.addAttribute("user_id", userId); // user_id를 세션으로 가져옴
+		
 		model.addAttribute("categorylist",categorylist);
 		model.addAttribute("productlist", productSvc.productList());
 		return "product/productMain"; //수정, 페이지 위치 입력

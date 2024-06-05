@@ -1,5 +1,8 @@
 package sms.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,7 +19,11 @@ public class ProductInfoController {
 	private ProductSvc productSvc;
 	
 	@RequestMapping(value="/bookInfo", method=RequestMethod.GET)
-	public String productInfo(@RequestParam(value="product_id") String productId, ModelMap model) {
+	public String productInfo(@RequestParam(value="product_id") String productId, ModelMap model, HttpServletRequest req) {
+		HttpSession session=req.getSession();
+		String userId = (String) session.getAttribute("user_id");
+		model.addAttribute("user_id", userId);
+		
 		model.addAttribute("product_id", productId);
 		model.addAttribute("product_imgurl", productSvc.productInfo(productId).getProduct_imgurl());
 		model.addAttribute("product_name", productSvc.productInfo(productId).getProduct_name());

@@ -82,6 +82,8 @@ public class CartDto {
 	
 	/**
 	 * update item 
+	 * 장바구니 상품 추가에 사용
+	 * SelectDao, Svc, Controller 확인!
 	 */
 	public CartDto(String cartId, String productId, int quantity,int price) {
 		this.cart_id = cartId ;
@@ -89,6 +91,7 @@ public class CartDto {
 		this.quantity = quantity;
 		this.price = price;
 	}
+	
 	/**
 	 * update item 
 	 */
@@ -98,6 +101,12 @@ public class CartDto {
 		this.quantity = quantity;
 	}
 
+	public CartDto(String newCartId, String user_id, String state, Date cart_Date) {
+		this.cart_id = newCartId;
+		this.user_id = user_id;
+		this.state = state;
+		this.cart_Date = cart_Date;
+	}
 
 	public String getCart_id() {
 		return cart_id;
@@ -197,7 +206,4 @@ public class CartDto {
 	public void setNewCartId(String newCartId) {
 		this.newCartId = newCartId;
 	}
-
-
-
 }

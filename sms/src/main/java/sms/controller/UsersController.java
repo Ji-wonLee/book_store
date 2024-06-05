@@ -1,6 +1,5 @@
 package sms.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -11,13 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import sms.dto.UsersDto;
 import sms.dao.UsersDao;
@@ -34,7 +30,6 @@ public class UsersController {
 			@RequestParam("userPass") String userPass,ModelMap model,
 			HttpServletRequest req) throws Exception{
 
-		String webCtrl = "";
 		param.put("user_id", userId);
 		param.put("passwd", userPass);
 
@@ -43,7 +38,11 @@ public class UsersController {
 		if(loginChk == null) {
 			//리튼을 로그인 창으로?
 			model.addAttribute("userLoginStt" , "fail");
-		}else if(!loginChk.equals("null")) {
+		}else{
+			//사용자 id 세션 저장
+			HttpSession session=req.getSession();
+			session.setAttribute("user_id",userId);
+			
 			model.addAttribute("userLoginStt" , "success");
 			String clientChk = usersDao.selectCheckClient(param); //gname
 			model.addAttribute("userName" , loginChk);
@@ -51,7 +50,7 @@ public class UsersController {
 			model.addAttribute("user_id" , userId);
 
 			if(clientChk.equals("admin")) {   //관리자
-				return "Menu/admin";
+				return "menu/admin";
 			}else { //사용자
 				return "product/first";
 			}
@@ -117,12 +116,15 @@ public class UsersController {
 	@RequestMapping(value = "/myInfo", method = RequestMethod.GET)
 	public String myInfo(ModelMap model,HttpServletRequest req) throws Exception {
 
-		String myInfoId = req.getParameter("userId");
+		//String myInfoId = req.getParameter("userId");
+		//세션으로 가져오기
+		HttpSession session=req.getSession();
+		String myInfoId = (String) session.getAttribute("user_id");
 		model.addAttribute("userId", myInfoId);
 
 		List<UsersDto> myInfoList = usersDao.selectMyInfo(myInfoId);
 		model.addAttribute("myInfoList", myInfoList);
-		return "myInfo";
+		return "user/myInfo";
 	}
 	//사용자 정보 변경
 	@RequestMapping(value = "updateMyInfo", method = RequestMethod.GET)
