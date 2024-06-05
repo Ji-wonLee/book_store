@@ -36,16 +36,17 @@ public class UsersController {
 
 		param.put("user_id", userId);
 		param.put("passwd", userPass);
-
-		String loginChk = usersDao.selectLoginCheck(param); // 사용자 이름
-
+		
+		String loginChk = usersDao.selectLoginCheck(param);
+		String myInfoId = req.getParameter("userId");
+		
 		if(loginChk == null) {
 			//리튼을 로그인 창으로?
 			model.addAttribute("userLoginStt" , "fail");
 		}else{
 			//사용자 id 세션 저장
 			HttpSession session=req.getSession();
-			session.setAttribute("user_id",userId);
+			session.setAttribute("infoClct",myInfoId);
 			
 			model.addAttribute("userLoginStt" , "success");
 			String clientChk = usersDao.selectCheckClient(param); //gname
@@ -117,36 +118,39 @@ public class UsersController {
 		return "user/userList";
 	}
 	//내 정보
-	@RequestMapping(value = "/myInfo", method = RequestMethod.GET)
+	@RequestMapping(value = "myInfo", method = RequestMethod.GET)
 	public String myInfo(ModelMap model,HttpServletRequest req) throws Exception {
 
-		//String myInfoId = req.getParameter("userId");
 		//세션으로 가져오기
-		HttpSession session=req.getSession();
+		HttpSession session = req.getSession();
 		String myInfoId = (String) session.getAttribute("user_id");
 		model.addAttribute("userId", myInfoId);
 
 		List<UsersDto> myInfoList = usersDao.selectMyInfo(myInfoId);
+		
 		model.addAttribute("myInfoList", myInfoList);
+		
 		return "user/myInfo";
 	}
 	//사용자 정보 변경
 	@RequestMapping(value = "/updateMyInfo", method = RequestMethod.GET)
 	public String updateMyInfo(ModelMap model,HttpServletRequest req,
-			@RequestParam("userId") String userId,
 			@RequestParam("userPass") String userPass,
 			@RequestParam("userAddr") String userAddr,
-			@RequestParam("userCall") String userCall,UsersDto vo
+			@RequestParam("userCall") String userCall,
+			UsersDto vo, HttpSession session
 			) throws Exception {
+		Object sid = session.getAttribute("infoClct");
 		
-		String myInfoId = req.getParameter("userId");
-		List<UsersDto> myInfoList = usersDao.selectMyInfo(myInfoId);
+		List<UsersDto> userInfo = usersDao.selectMyInfo(String.valueOf(sid));
 		
-		String passwd = String.valueOf(myInfoList).split(":")[2];
-		String addr = String.valueOf(myInfoList).split(":")[3];
-		String callNum = String.valueOf(myInfoList).split(":")[6];
+		String id = userInfo.toString().split(":")[0];
+		String idSpl = id.substring(1);
+		String passwd = userInfo.toString().split(":")[2];
+		String addr = userInfo.toString().split(":")[3];
+		String callNum = userInfo.toString().split(":")[6];
 		String callNumSpl = callNum.split("]")[0];
-		
+
 		if(userPass.trim().equals("")) {
 			userPass = passwd;
 		}
@@ -159,15 +163,13 @@ public class UsersController {
 			userCall = callNumSpl;
 		}
 		
-		param.put("user_id", userId);
+		param.put("user_id", idSpl);
 		param.put("passwd", userPass);
 		param.put("address", userAddr);
 		param.put("phonenum", userCall);
+		param.put("grade_no", 1);
 		int userLogin = usersDao.updateMyInfo(param);
-		System.out.println(userLogin);
 		
-		
-		
-		return "/main";
-	}
+		return "product/first";
+	}	
 }

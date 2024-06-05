@@ -36,20 +36,20 @@
 				<tr>
 					<td style='text-align:left;width:150px'>아이디 :</td>
 					<td>
-						<input type="text" style='border:none;' id="userId" name="userId" value='${myInfoList[0].user_id}'/>
+						<p>${myInfoList[0].user_id}</p>
 					</td>
 				</tr>
 				<tr>
 					<td style='text-align:left;width:150px'>이름 :</td>
 					<td>
-						<input type="text" style='border:none;' value='${myInfoList[0].name}'/>
+						<p>${myInfoList[0].name}</p>
 					</td>
 				</tr>
 				<tr>
 					<td style='text-align:left;width:150px'>비밀번호 :</td>
 					<td>
 						<div class="form-group has-feedback">
-							<input class="form-control" type="password" id="userPass" name="userPass"/>
+							<input class="form-control" type="password" id="userPass" name="userPass" placeholder='${myInfoList[0].passwd}'/>
 						</div>
 					</td>
 				</tr>
@@ -65,7 +65,7 @@
 					<td style='text-align:left;width:150px'>주소 :</td>
 					<td>
 						<div class="form-group has-feedback">
-							<input class="form-control" id="userAddr" name="userAddr"/>
+							<input class="form-control" id="userAddr" name="userAddr" placeholder='${myInfoList[0].address}'/>
 						</div>
 					</td>
 				</tr>
@@ -73,7 +73,7 @@
 					<td style='text-align:left;width:150px'>전화번호 :</td>
 					<td>
 						<div class="form-group has-feedback">
-							<input class="form-control" id="userCall" name="userCall"/>
+							<input class="form-control" id="userCall" name="userCall" placeholder='${myInfoList[0].phonenum}'/>
 						</div>
 					</td>
 				</tr>

@@ -13,7 +13,7 @@
 
 	<context:component-scan
 		base-package="sms" />
-
+	
 	<!-- View Resolver 설정 -->
 	<bean name="viewresolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
@@ -33,6 +33,7 @@
 	<bean class="org.mybatis.spring.SqlSessionTemplate"
 		name="sqlSessionTemplate"
 		c:sqlSessionFactory-ref="sqlSessionFactoryBean" />
+		
 </beans>
 
 
