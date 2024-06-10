@@ -46,9 +46,10 @@ public class ProductListController {
 		System.out.println(pageFactory);
 		pageFactory.getPageBar(totalData, currentPage, numPerpage, "/sms/customermain");
 		// 카테고리 출력
-//		model.addAttribute("pageBar", pageFactory.getPageBar(totalData, currentPage, numPerpage, "/sms/customermain"));
-		// pageBar을 출력
 		model.addAttribute("productList", productList);
+		//객체 출력
+		model.addAttribute("pageBar", pageFactory.getPageBar(totalData, currentPage, numPerpage, "/sms/customermain"));
+		// pageBar을 출력
 		return "product/productMain"; //수정, 페이지 위치 입력
 	}
 	
