@@ -1,18 +1,22 @@
 package sms.factory;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class PageFactory {
 	
 	public String getPageBar(int totalContext, int currentPage, int numPerPage, String url) {
 		StringBuffer pageBar = new StringBuffer(); //Pagebar의 구성, 가변의 String 값을 받는 객체로 String이 아닌 StringBuffer을 사용하였습니다.
 		int pageBarSize = 20; //한번에 표기할 객체의 수를 결정한다.
 		
+		System.out.println("test");
 		int pageNo = ((currentPage - 1) / pageBarSize) * pageBarSize; // 해당 페이지에서 표시해야하는 객체의 시작점
 		int pageEnd = pageNo + pageBarSize - 1; // 해당 페이지에서 표시해야하는 객체의 마지막 객체 번호
 		int totalPage = (int)Math.ceil((double)totalContext / numPerPage); //나눠지는 페이지 전체 개수
 		
 		pageBar.append("<ul class='pagination justify-content-center pagination-sm'>"); // list를 시작
 		
-		 if(pageNo == 1) //페이지 구성이 하나일 경우
+		 if(pageNo == 1) //페이지 구성이 하나일 경우 메롱 <- 나예은
 	        {
 	            pageBar.append("<li class='page-item' disabled>");
 	            pageBar.append("<a class='page-link' href='#' tabindex='-1'>이전</a>");
@@ -53,6 +57,8 @@ public class PageFactory {
 		pageBar.append("location.assign('" + url + "?cPage='+no+'&numPerpage=" + numPerPage + "'); }");
 		pageBar.append("</script>");
 		 
+		System.out.println(pageBar);
+		
 		return new String(pageBar);
 	}
 }

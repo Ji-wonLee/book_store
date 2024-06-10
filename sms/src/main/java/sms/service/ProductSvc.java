@@ -1,6 +1,7 @@
 package sms.service;
 
 import java.util.List;
+import java.util.Map;
 
 import sms.dto.Category;
 import sms.dto.ProductDto;
@@ -10,7 +11,10 @@ public interface ProductSvc {
 	List<Category> categoryList();
 	// 검색을 위한 카테고리 리스트
 	
-	List<ProductDto> productList();
+	int selectProductCount();
+	// 상품의 개수 출력
+	
+	List<ProductDto> productList(Map<String, Object> param);
 	// 사용자에게 제공되는 객체 List를 받아옴
 
 	ProductDto productInfo(String ProductId);

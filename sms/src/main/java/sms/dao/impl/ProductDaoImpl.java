@@ -1,7 +1,9 @@
 package sms.dao.impl;
 
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -18,7 +20,7 @@ public class ProductDaoImpl implements ProductDao{
 	private SqlSessionTemplate sqlSessionTemplate;
 	//Sql 연결
 	@Override
-	public List<Category> categoryList( ){ // 분류 리스트 출력(검색에서 사용)
+	public List<Category> categoryList(){ // 분류 리스트 출력(검색에서 사용)
 		
 		List<Category> categoryList = sqlSessionTemplate.selectList("product.categoryList"); // mapper의 명칭.호출할 sql문의 이름
 		
@@ -26,10 +28,16 @@ public class ProductDaoImpl implements ProductDao{
 	}
 	
 	@Override
-	public List<ProductDto> productList() { // 상품 리스트(상품 전체 출력)
-		
-		List<ProductDto> productList = sqlSessionTemplate.selectList("product.productlist");
-		
+	public int selectProductCount() { // 출력하는 객체의 전체 개수를 받아온다. 이 경우에는 상품의 전체 개수
+		return sqlSessionTemplate.selectOne("product.productNumber");
+	}
+	
+	@Override
+	public List<ProductDto> productList(Map<String, Object> param) { // 상품 리스트(상품 전체 출력), 코드의 재사용성을 위해 Map<String, Object> 을 사용한다.
+		int currentPage=(int)param.get("currentPage");
+		int numPerpage=(int)param.get("numPerpage");
+		RowBounds rb = new RowBounds((currentPage-1) * numPerpage, numPerpage);
+		List<ProductDto> productList = sqlSessionTemplate.selectList("product.productlist", null, rb);
 		return productList;
 	}
 

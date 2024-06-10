@@ -1,6 +1,7 @@
 package sms.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,13 @@ public class ProductSvcImpl implements ProductSvc{
 	}
 	
 	@Override
-	public List<ProductDto> productList() {
-		List<ProductDto> productList = productDao.productList();
+	public int selectProductCount() {
+		return productDao.selectProductCount();
+	}
+	
+	@Override
+	public List<ProductDto> productList(Map<String, Object> param) {
+		List<ProductDto> productList = productDao.productList(param);
 		return productList;
 	}
 
@@ -49,7 +55,6 @@ public class ProductSvcImpl implements ProductSvc{
 		} else { // 두 값을 받아서 검색
 			productSearchList = productDao.productSearchDual(searchDto);
 		}
-		
 		return productSearchList;
 	}
 

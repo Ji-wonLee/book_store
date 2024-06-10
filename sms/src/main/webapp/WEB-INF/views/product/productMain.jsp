@@ -107,18 +107,23 @@ footer {
 							<th>가격</th>
 							<th>판매 상태</th>
 						</tr>
-						<c:forEach var="product" items="${productlist}" varStatus="idx">
-							<tr>
-								<td>${idx.count}</td>
-								<td>${product.category_name}</td>
-								<td><a
-									href="<c:url value='/bookInfo'><c:param name='product_id' value='${product.product_id}'/></c:url>">${product.product_name}</a></td>
-								<td>${product.product_page}</td>
-								<td>${product.product_price}</td>
-								<td>${product.state}</td>
-							</tr>
-						</c:forEach>
+						<c:if test="${not empty productlist}">
+							<c:forEach var="product" items="${productlist}" varStatus="idx">
+								<tr>
+									<td>${idx.count}</td>
+									<td>${product.category_name}</td>
+									<td><a
+										href="<c:url value='/bookInfo'><c:param name='product_id' value='${product.product_id}'/></c:url>">${product.product_name}</a></td>
+									<td>${product.product_page}</td>
+									<td>${product.product_price}</td>
+									<td>${product.state}</td>
+								</tr>
+							</c:forEach>
+						</c:if>
 					</table>
+					<div id = "pageBar">
+						<c:out value="${pageBar}" escapeXml = "false"/>
+					</div>
 				</div>
 			</form>
 		</article>
