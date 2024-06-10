@@ -33,34 +33,34 @@ public class UsersController {
 	public String mainLogin(@RequestParam("userId") String userId,
 			@RequestParam("userPass") String userPass,ModelMap model,
 			HttpServletRequest req) throws Exception{
-
 		param.put("user_id", userId);
 		param.put("passwd", userPass);
 		
+		String webStt = "";
 		String loginChk = usersDao.selectLoginCheck(param);
-		String myInfoId = req.getParameter("userId");
+		String myInfoId = req.getParameter("user_id");
 		
 		if(loginChk == null) {
 			//리튼을 로그인 창으로?
 			model.addAttribute("userLoginStt" , "fail");
 		}else{
 			//사용자 id 세션 저장
-			HttpSession session=req.getSession();
-			session.setAttribute("infoClct",myInfoId);
+			HttpSession session = req.getSession();
+			session.setAttribute("userId",myInfoId);
 			
 			model.addAttribute("userLoginStt" , "success");
-			String clientChk = usersDao.selectCheckClient(param); //gname
+			String clientChk = usersDao.selectCheckClient(param);
 			model.addAttribute("userName" , loginChk);
 			model.addAttribute("userClientStt" , clientChk);
 			model.addAttribute("user_id" , userId);
 
 			if(clientChk.equals("admin")) {   //관리자
-				return "menu/admin";
+				webStt =  "menu/admin";
 			}else { //사용자
-				return "product/first";
+				webStt = "product/first";
 			}
 		}
-		return "login";
+		return webStt;
 	}
 	//유저 조인 JSP 이동
 	@RequestMapping(value = "/join", method = RequestMethod.GET)
@@ -119,14 +119,15 @@ public class UsersController {
 	}
 	//내 정보
 	@RequestMapping(value = "myInfo", method = RequestMethod.GET)
-	public String myInfo(ModelMap model,HttpServletRequest req) throws Exception {
+	public String myInfo(ModelMap model,HttpServletRequest req,
+			HttpSession session) throws Exception {
 
 		//세션으로 가져오기
-		HttpSession session = req.getSession();
-		String myInfoId = (String) session.getAttribute("user_id");
-		model.addAttribute("userId", myInfoId);
+		Object sid = session.getAttribute("user_id");
+		System.out.println(sid);
+		model.addAttribute("userId", sid);
 
-		List<UsersDto> myInfoList = usersDao.selectMyInfo(myInfoId);
+		List<UsersDto> myInfoList = usersDao.selectMyInfo(String.valueOf(sid));
 		
 		model.addAttribute("myInfoList", myInfoList);
 		
@@ -140,7 +141,7 @@ public class UsersController {
 			@RequestParam("userCall") String userCall,
 			UsersDto vo, HttpSession session
 			) throws Exception {
-		Object sid = session.getAttribute("infoClct");
+		Object sid = session.getAttribute("user_id");
 		
 		List<UsersDto> userInfo = usersDao.selectMyInfo(String.valueOf(sid));
 		

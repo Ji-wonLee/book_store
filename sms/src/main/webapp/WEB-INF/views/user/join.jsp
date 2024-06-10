@@ -1,31 +1,105 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page import="java.sql.ResultSet"%>
+<%@ page import="java.sql.PreparedStatement"%>
+<%@ page import="java.sql.DriverManager"%>
+<%@ page import="java.sql.Connection"%>
+<%@ page import="java.sql.Statement"%>
+<%@ page import="oracle.jdbc.*"%>
+<%@ page import="oracle.jdbc.pool.OracleDataSource"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.List"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import= "java.util.HashMap"%>
+
+<!DOCTYPE html>
 <html>
-	<head>
-		<title>회원 가입</title>
-		<button onclick="history.back()" type="submit" >뒤로가기</button>
-	</head>
-	<p>${idChkSttStr}</p>
-	<script type="text/javascript">
-		function checkForm(){
-			
-			let f = document.joinForm;
-				if (f.userPass.value != f.userPassCheck.value) {
-				alert("비밀번호가 불일치");
-				return false;				
-			} else {
-				return true;
-			}
+<head>
+	<meta charset="UTF-8"> <!-- 추가할부분 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 추가할부분 -->
+	<meta http-equiv="X-UA-Compatible" content="ie=edge"> <!-- 추가할부분 -->
+<style>
+	* {
+ 		 box-sizing: border-box;
+	}
+
+	nav {
+		float: left;
+  		width: 20%;
+  		height: 1000px;
+  		background: #c2c2d6;
+ 		padding: 20px;
+	}
+	
+	article {
+		overflow:auto;
+		float: left;
+		padding: 20px;
+ 		width: 80%;
+ 		height: 1000px;
+ 		background-color: #f2f2f2;
+	}
+	
+	article table {
+		border-collapse: collapse;
+		width : 100%';
+	}
+	
+	article th {
+		border-bottom: 1px solid #dddddd;
+  		text-align: center;
+  		padding: 8px;
+	}
+	
+	article td {
+		border-bottom: 1px solid #dddddd;
+  		text-align: left;
+  		padding: 8px;
+	}
+	
+	section::after {
+		content: "";
+  		display: table;
+  		clear: both;
+	}
+	
+	footer {
+		padding: 10px;
+ 		text-align: center;
+ 		color : #8c8c8c;
+	}
+	
+	@media (max-width: 600px){
+  		nav, article {
+   			 width: 100%;
+    		height: auto;
+ 		 }
+	}
+</style>
+<title>회원 가입</title>
+<script type="text/javascript">
+	function checkForm(){
+		let f = document.joinForm;
+			if (f.userPass.value != f.userPassCheck.value) {
+			alert("비밀번호가 불일치");
+			return false;				
+		} else {
+			return true;
 		}
-	</script>
-	<body>
-		<c:set var ="stt" value="${idChkStt}"/>
+	}
+</script>
+</head>
+<body>
+	<section>
+		<nav>
+		</nav>
+		<article>
+					<c:set var ="stt" value="${idChkStt}"/>
 		<c:if test = "${stt eq 1}">
 			<script>
 				alert('존재한 아이디');
 			</script>
 		</c:if>
+		<button onclick="history.back()" type="submit" >뒤로가기</button>
 		<form action="/sms/join.do" name="joinForm" onsubmit="return checkForm()" method="get">
 			<table>
 				<tr>
@@ -87,6 +161,11 @@
 				</tr>
 			</table>
 		</form>
-	</body>
-	
+		</article>
+	</section>
+	<!-- </form> -->
+</body>
+	<footer>
+		<p> - 2024년도 kitri 보안개발 8기 포트폴리오 프로젝트 1팀 -</p>
+	</footer>
 </html>
