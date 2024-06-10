@@ -67,7 +67,9 @@
 	}
 </style>
 	<script>
-    function checkNum(var num, var quant){
+    function checkNum(){
+    	var num = "${number}";
+    	var quant "${quantity}";
         if(parseInt(num) <= quant){
             document.getElementById("addToCartForm").submit();
         } else {
@@ -76,7 +78,7 @@
         }
     }
     
-    function getCart(var num, var quant){
+    function getCart(){
         var state = "${state}";
         if(state == "품절") {
             alert("품절 상품 입니다.");
@@ -85,7 +87,14 @@
             alert("임시 품절 상품 입니다.");
             history.back();
         } else {
-            checkNum(var num, var quant);
+        	var num = "${number}";
+        	var quant "${quantity}";
+            if(parseInt(num) <= quant){
+                document.getElementById("addToCartForm").submit();
+            } else {
+                alert("죄송합니다. 상품의 재고량을 넘어가는 값을 입력하셨습니다. 입고를 기다려 주십시오.");
+                history.back();
+            }
         }
     }
 	</script>
@@ -152,7 +161,7 @@
  				<input type="hidden" name="product_id" value="${product_id}">
  				<input type="hidden" name="product_price" value="${product_price}">
  				<input type="hidden" name="product_name" value="${product_name}">
-    			<input type="submit" id="addCart" value="장바구니 추가" onclick="getCart(${number}, ${quantity}); return false;">
+    			<input type="submit" id="addCart" value="장바구니 추가" onclick="getCart(); return false;">
 				
 			</div>
 		</form>
