@@ -45,6 +45,8 @@ public class ReceiveController {
 		receiveSvc.updateReceive(paramMap, receive_id);
 		//재고 수정
 		receiveSvc.receiveToInventory(paramMap);
+		//발주서 state 변경
+		receiveSvc.updateOrderState(receive_id);
 		//수정확인된 화면으로
 		List<ReceiveDetail> rdList = receiveSvc.selectReceiveDetail(receive_id);
 		model.addAttribute("rdList", rdList);

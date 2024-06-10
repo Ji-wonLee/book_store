@@ -72,7 +72,7 @@ footer {
 <script>
 	function goMenu(){
 		alert("발주신청이 확정되었습니다. 메인화면으로 돌아갑니다.");
-		window.location.href = "toAdminMain";
+		document.getElementById('orderForm').submit();
 	}
 </script>
 <title>재고 관리 화면</title>
@@ -91,12 +91,12 @@ footer {
 		</nav>
 		<article id="article">
 			<!-- 여기에 출력할 코드를 작성(list라던가) -->
-			<form action="/sms/toAdminMain" method="get">
+			<form action="/sms/orderComplete" method="get">
 				<!-- hidden input 필드에 orderList를 전달 -->
 				<c:forEach var="product" items="${orderList}">
 					<input type="hidden" name="${product.key}" value="${product.value}">
 				</c:forEach>
-				<input type="submit" id="orderComplete" value="발주확정" onclick="goMenu(); return false;">
+				<input type="submit" id="orderComplete" value="발주확정" onclick="goMenu();">
 				<table>
 					<tr>
 						<th>상품 id</th>

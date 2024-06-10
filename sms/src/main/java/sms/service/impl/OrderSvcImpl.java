@@ -33,7 +33,6 @@ public class OrderSvcImpl implements OrderSvc {
 		LocalDate now = LocalDate.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
 		String formatedNow = now.format(formatter);
-
 		//order
 		//totalprice 계산
 		List<String> keyList =  new ArrayList<>(orderMap.keySet());
@@ -56,8 +55,8 @@ public class OrderSvcImpl implements OrderSvc {
 		    // 새로운 order_id 생성
 		    new_order_id = org_order_id.substring(0, 8) + String.format("%02d", lastTwoDigits + 1);			
 		}
-		orderDao.insertOrder(new Order(new_order_id,formatedNow, "writer",totalprice)); 
-
+		orderDao.insertOrder(new Order(new_order_id,formatedNow, "writer",totalprice,"미완료")); 
+		
 		//orderDetail
 		for(String key : orderMap.keySet()) {
 			String product_id=key.split("_")[0];

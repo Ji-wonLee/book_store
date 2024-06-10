@@ -50,7 +50,8 @@ public class OrderController {
 	}
 	//πﬂ¡÷≥°
 	@RequestMapping(value = "/orderComplete", method = RequestMethod.GET)
-	public String orderComplete(@RequestParam Map<String, String> paramMap, HttpServletResponse response ,ModelMap model) {				
+	public String orderComplete(@RequestParam Map<String, String> paramMap, HttpServletResponse response ,ModelMap model) {			
+		
 		orderSvc.orderSave(paramMap);
 		return "menu/admin";
 	}

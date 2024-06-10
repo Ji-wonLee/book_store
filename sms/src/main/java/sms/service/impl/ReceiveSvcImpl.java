@@ -60,6 +60,13 @@ public class ReceiveSvcImpl implements ReceiveSvc{
 		return 0;
 	}
 
+	@Override
+	public int updateOrderState(String receive_id) {
+		String order_id = "OD"+receive_id.substring(2);
+		receiveDao.updateOrderState(order_id);
+		return 0;
+	}
+	
 	public ReceiveDao getReceiveDao() {
 		return receiveDao;
 	}
@@ -67,5 +74,6 @@ public class ReceiveSvcImpl implements ReceiveSvc{
 	public void setReceiveDao(ReceiveDao receiveDao) {
 		this.receiveDao = receiveDao;
 	}
+
 
 }

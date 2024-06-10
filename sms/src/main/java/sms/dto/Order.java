@@ -5,13 +5,15 @@ public class Order {
 	private String order_date;
 	private String writer;
 	private int totalprice;
+	private String state;
 	public Order() {}
-	public Order(String order_id, String order_date, String writer, int totalprice) {
+	public Order(String order_id, String order_date, String writer, int totalprice, String state) {
 		super();
 		this.order_id = order_id;
 		this.order_date = order_date;
 		this.writer = writer;
 		this.totalprice = totalprice;
+		this.state = state;
 	}
 	public String getOrder_id() {
 		return order_id;
@@ -36,6 +38,12 @@ public class Order {
 	}
 	public void setTotalprice(int totalprice) {
 		this.totalprice = totalprice;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
 	}
 	
 	

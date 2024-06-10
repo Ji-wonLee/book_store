@@ -76,35 +76,35 @@ SELECT p.product_id, product_name, product_price, manufacture_name,
 	</select>
 
 	<!-- order테이블 입력 -->
-	<select id="insertOrder" resultType="string">
+	<insert id="insertOrder" parameterType="Order">
 	<![CDATA[
-		INSERT INTO orders (order_id, order_date, writer, totalprice) 
-		VALUES (#{order_id}, TO_DATE(TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS'), 'YYYYMMDDHH24MISS'), #{writer},#{totalprice})
+		INSERT INTO orders (order_id, order_date, writer, totalprice, state) 
+		VALUES (#{order_id}, TO_DATE(TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS'), 'YYYYMMDDHH24MISS'), #{writer},#{totalprice}, #{state})
 	]]>
-	</select>
+	</insert>
 	
 	<!-- orderDetail테이블 입력 -->
-	<select id="insertOrderDetail" resultType="string">
+	<insert id="insertOrderDetail" parameterType="OrderDetail">
 	<![CDATA[
 		INSERT INTO order_detail (product_id, order_id, quantity, price)
 		VALUES (#{product_id}, #{order_id}, #{quantity}, #{price})
 	]]>
-	</select>
+	</insert>
 	
 	<!-- receive 테이블 입력 -->
-	<select id="insertReceive" resultType="string">
+	<insert id="insertReceive" parameterType="Receive">
 	<![CDATA[
 		INSERT INTO receives (receive_id, order_id, receive_date, writer, payer, totalprice)
 		VALUES(#{receive_id},#{order_id}, TO_DATE(TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS'), 'YYYYMMDDHH24MISS')
 		,#{writer}, #{payer},#{totalprice})
 	]]>
-	</select>
+	</insert>
 	
 	<!-- receiveDetail 테이블 입력 -->
-	<select id="insertReceiveDetail" resultType="string">
+	<insert id="insertReceiveDetail" parameterType="ReceiveDetail">
 	<![CDATA[
 		INSERT INTO receive_detail (receive_id, product_id, quantity, price)
 		VALUES (#{receive_id}, #{product_id}, #{quantity}, #{price})
 	]]>
-	</select>
+	</insert>
 </mapper>
