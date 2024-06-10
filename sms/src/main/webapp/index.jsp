@@ -75,11 +75,26 @@
  		 }
 	}
 </style>
+
 </head>
 <body>
 	<!-- <form action = "/sms/searchList" method = "GET"> --> <!-- action 연결 필요 -->
 	<section>
 		<nav>
+			<script>
+				function getParams(){
+			    	var url = window.location.search.replace('?','');
+			    	var params = {};
+			    	var urlPrm = url.split('=')[1];
+			    	if(urlPrm.trim() == "fail"){
+			    		alert('FAILED TO LOGIN');
+			    	}
+			    	return urlPrm;
+				}
+				const params = getParams();
+				
+				console.log(params);
+			</script>
 			<form action="/sms/mainLgn.do" method="get">
 				<table style='border:none;'>
 					<tr>
