@@ -38,15 +38,15 @@ public class UsersController {
 		
 		String webStt = "";
 		String loginChk = usersDao.selectLoginCheck(param);
-		String myInfoId = req.getParameter("user_id");
 		
 		if(loginChk == null) {
 			//리튼을 로그인 창으로?
 			model.addAttribute("userLoginStt" , "fail");
+			webStt = "redirect:index.jsp";
 		}else{
 			//사용자 id 세션 저장
 			HttpSession session = req.getSession();
-			session.setAttribute("userId",myInfoId);
+			session.setAttribute("user_id", userId);
 			
 			model.addAttribute("userLoginStt" , "success");
 			String clientChk = usersDao.selectCheckClient(param);
@@ -124,7 +124,6 @@ public class UsersController {
 
 		//세션으로 가져오기
 		Object sid = session.getAttribute("user_id");
-		System.out.println(sid);
 		model.addAttribute("userId", sid);
 
 		List<UsersDto> myInfoList = usersDao.selectMyInfo(String.valueOf(sid));

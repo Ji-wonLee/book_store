@@ -109,21 +109,21 @@
 			<p>내 정보</p>
 		<form action=<c:url value='/updateMyInfo'><c:param name="userId" value='${myInfoList[0].user_id}'/></c:url>
 			 name="modifyForm" onsubmit="return checkForm()" method="get">
-			<table>
+			<table style='height:40px'>
 				<tr>
-					<td style='text-align:left;width:150px'>아이디 :</td>
-					<td>
-						<p>${myInfoList[0].user_id}</p>
+					<td style='text-align:left;width:150px'>아이디</td>
+					<td >
+						<input type="text" value='${myInfoList[0].user_id}' disabled readonly style="background-color: transparent;border:none"/>
 					</td>
 				</tr>
 				<tr>
-					<td style='text-align:left;width:150px'>이름 :</td>
+					<td style='text-align:left;width:150px'>이름</td>
 					<td>
-						<p>${myInfoList[0].name}</p>
+						<input type="text" value='${myInfoList[0].name}' disabled readonly style="background-color: transparent;border:none"/>
 					</td>
 				</tr>
 				<tr>
-					<td style='text-align:left;width:150px'>비밀번호 :</td>
+					<td style='text-align:left;width:150px'>비밀번호</td>
 					<td>
 						<div class="form-group has-feedback">
 							<input class="form-control" type="password" id="userPass" name="userPass" placeholder='${myInfoList[0].passwd}'/>
@@ -131,7 +131,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td style='text-align:left;width:150px'>비밀번호 확인 :</td>
+					<td style='text-align:left;width:150px'>비밀번호 확인</td>
 					<td>
 						<div class="form-group has-feedback">
 							<input class="form-control" type="password" id="passwordCheck" name="userPassCheck"/>
@@ -139,7 +139,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td style='text-align:left;width:150px'>주소 :</td>
+					<td style='text-align:left;width:150px'>주소</td>
 					<td>
 						<div class="form-group has-feedback">
 							<input class="form-control" id="userAddr" name="userAddr" placeholder='${myInfoList[0].address}'/>
@@ -147,7 +147,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td style='text-align:left;width:150px'>전화번호 :</td>
+					<td style='text-align:left;width:150px'>전화번호</td>
 					<td>
 						<div class="form-group has-feedback">
 							<input class="form-control" id="userCall" name="userCall" placeholder='${myInfoList[0].phonenum}'/>
