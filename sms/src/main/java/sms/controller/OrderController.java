@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import sms.dto.Category;
 import sms.dto.OrderSearchDto;
 import sms.dto.ProductDto;
 import sms.dto.SearchDto;
@@ -32,9 +33,12 @@ public class OrderController {
 	//상품목록 출력 -> 발주가능하게 (절판상품 제외)
 	@RequestMapping(value = "/order", method = RequestMethod.GET)
 	public String order( ModelMap model) {
-		//System.out.println("order");
-		List<ProductDto> listProduct = orderSvc.invenList();
-		model.addAttribute("listProduct", listProduct);		
+		//카테고리 선택하는 리스트
+		List<Category> categorylist = productSvc.categoryList();
+		model.addAttribute("categorylist",categorylist);
+		//상품 전체 리스트
+		List<ProductDto> productList = orderSvc.invenList();
+		model.addAttribute("productList", productList);		
 
 		return "order/goodsOrderPage";
 	}
@@ -50,29 +54,28 @@ public class OrderController {
 		orderSvc.orderSave(paramMap);
 		return "menu/admin";
 	}
-	
+
 	//발주 상품코드, 상품이름, 카테고리 분류, 개수 검색
 	@RequestMapping(value = "/orderSearch", method = RequestMethod.GET)
 	public String testSearch(@RequestParam(value="category_id") String category_id,
-							 @RequestParam(value="searchtext") String searchtext,
-							 @RequestParam(value="remaining") int remaining,
-							 ModelMap model) {
+			@RequestParam(value="searchtext") String searchtext,
+			@RequestParam(value="remaining") int remaining,
+			ModelMap model) {
 		OrderSearchDto orderSearchDto = new OrderSearchDto(searchtext, category_id,remaining );
 		//카테고리 선택하는 리스트
 		model.addAttribute("categorylist", productSvc.categoryList());
 		//검색한 product리스트
-		List<ProductDto> listProduct = orderSvc.invenList();//수정
-		model.addAttribute("listProduct", listProduct);		
-		//model.addAttribute("productlist", productSvc.productSearchList(searchDto));
-		return "product/productMain";
+		List<ProductDto> productList = orderSvc.orderSearch(orderSearchDto);
+		model.addAttribute("productList", productList);
+		return "order/goodsOrderPage"; //수정
 	}
-	
+
 	//관리자 메인화면으로
 	@RequestMapping(value = "/toAdminMain", method = RequestMethod.GET)
 	public String toAdminMain(ModelMap model) {	
 		return "menu/admin";
 	}
-	
+
 	public OrderSvc getOrderSvc() {
 		return orderSvc;
 	}

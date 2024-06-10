@@ -102,7 +102,22 @@ footer {
 			</ul>
 		</nav>
 		<article id="article">
-
+			<form action="/sms/orderSearch" method="get">
+				<div>
+					<select name="category_id" id="category_id">
+						<option value="all">전체</option>
+						<c:forEach var="Category" items="${categorylist}">
+							<option value="${Category.category_id}">${Category.category_name}</option>
+						</c:forEach>
+					</select> 
+					<input type="text" name="searchtext" id="searchText"
+						placeholder="검색어 입력" />
+					<!-- 검색어 입력 text 박스 -->
+					<input type="number" name="remaining" id="remaining"
+						value="999999" placeholder="N개 이하 검색" />
+					<input type="submit" value="검색" />
+				</div>
+			</form>
 			<form id="orderForm" action="/sms/orderCheck" method="get"
 				onsubmit="filterAndSubmitForm(); return false;">
 				<button type="submit">발주선택</button>
@@ -115,9 +130,10 @@ footer {
 						<th>분류</th>
 						<th>표지 url</th>
 						<th>상태</th>
-						<th>수량</th>
+						<th>잔여수량</th>
+						<th>신청수량</th>
 					</tr>
-					<c:forEach var="product" items="${listProduct}">
+					<c:forEach var="product" items="${productList}">
 						<tr>
 							<td>${product.product_id}</td>
 							<td>${product.product_name}</td>
@@ -127,6 +143,7 @@ footer {
 							<td><img src="${product.product_imgurl}" alt="image"
 								width="50" height="60"></td>
 							<td>${product.state}</td>
+							<td>${product.quantity}</td>
 							<td><input type="number"
 								name="${product.product_id}_${product.product_price}" value="0"
 								min="0"></td>

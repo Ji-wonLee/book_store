@@ -9,44 +9,54 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectInventory" resultType="productDTO">
 	<![CDATA[
 		SELECT p.product_id, product_name, product_price, manufacture_name,
- 		c.category_name, product_imgurl , state
-		FROM product p JOIN category c ON p.category_id = c.category_id
-		WHERE p.state != '절판'
+ 		c.category_name, product_imgurl , state , quantity
+		FROM product p, category c, inventory i
+		WHERE (c.category_id = p.category_id)
+			AND (p.product_id=i.product_id)
+			AND p.state != '절판'
 	]]>
 	</select>
 	
 	<!-- 이름으로 검색 -->
 	<select id="productSearchName" parameterType="OrderSearchDto" resultType="ProductDto">
 	<![CDATA[
-		SELECT p.product_id,product_name, product_price, product_page, category_name, state  
-		FROM product p, category c 
-		WHERE c.category_id = p.category_id 
-		AND (p.product_id LIKE '%' || #{searchText} || '%'
-		OR product_name LIKE '%' || #{searchText} || '%') 
-		AND p.quantity <= #{remaining}
+		SELECT p.product_id, product_name, product_price, manufacture_name,
+ 			c.category_name, product_imgurl , state, quantity
+		FROM product p, category c, inventory i
+		WHERE (c.category_id = p.category_id)
+			AND (p.product_id=i.product_id)
+			AND (p.product_id LIKE '%' || #{searchText} || '%'
+			OR product_name LIKE '%' || #{searchText} || '%') 
+			AND i.quantity <= #{remaining}
+			AND p.state != '절판'
 		ORDER BY p.category_id ASC
 	]]>
 	</select>
 	<!-- 분류로 검색 -->
 	<select id="productSearchCategory" parameterType="OrderSearchDto" resultType="ProductDto">
 	<![CDATA[
-		SELECT p.product_id, product_name, product_price, product_page, category_name, state 
-		FROM product p, category c 
-		WHERE c.category_id = p.category_id AND p.remaining <= #{quantity}
-		AND p.quantity <= #{remaining}
+		SELECT p.product_id, product_name, product_price, manufacture_name,
+ 		c.category_name, product_imgurl , state, quantity
+		FROM product p, category c, inventory i
+		WHERE (c.category_id = p.category_id)
+		AND (p.product_id=i.product_id)
+		AND i.quantity <= #{remaining}
+		AND p.state != '절판'
 		ORDER BY p.product_id ASC
 	]]>
 	</select>
 	<!-- 둘 다 사용하여 검색 -->
 	<select id="productSearchDual" parameterType="OrderSearchDto" resultType="ProductDto">
 	<![CDATA[
-		SELECT p.product_id,product_name, product_price, product_page, category_name, state
-		FROM product p, category c 
-		WHERE c.category_id = p.category_id 
+SELECT p.product_id, product_name, product_price, manufacture_name,
+ 		c.category_name, product_imgurl , state, quantity
+		FROM product p, category c, inventory i
+		WHERE (c.category_id = p.category_id)
+		AND (p.product_id=i.product_id)
 		AND (p.product_id LIKE '%' || #{searchText} || '%'
 		OR product_name LIKE '%' || #{searchText} || '%')
-		AND p.category_id = #{category_id} 
-		AND p.quantity <= #{remaining}
+		AND i.quantity <= #{remaining}
+		AND p.state != '절판'
 		ORDER BY p.category_id ASC, p.product_id
 	]]>
 	</select>

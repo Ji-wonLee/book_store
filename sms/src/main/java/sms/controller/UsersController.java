@@ -59,7 +59,7 @@ public class UsersController {
 				return "product/first";
 			}
 		}
-		return "login";
+		return "redirect:index.jsp";
 	}
 	//유저 조인 JSP 이동
 	@RequestMapping(value = "/join", method = RequestMethod.GET)

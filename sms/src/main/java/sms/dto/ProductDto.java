@@ -77,9 +77,9 @@ public class ProductDto {
 		this.state = state;
 	}
 	
-	//test_나예은
+	//test_나예은 : order에 사용
 	public ProductDto(String id, String name, String price, String manufactureName, String categoryName, String imgurl,
-			String state) {
+			String state, int quantity) {
 		product_id = id;
 		product_name = name;
 		product_price = price;
@@ -87,6 +87,7 @@ public class ProductDto {
 		category_name = categoryName;
 		product_imgurl = imgurl;
 		this.state = state;
+		this.quantity = quantity;
 	}
 
 	public String getProduct_id() {
