@@ -53,23 +53,6 @@ public class ProductSvcImpl implements ProductSvc{
 		return productSearchList;
 	}
 
-	/*
-	 * @Override public List<ProductDto> productSearchWithText(String searchText) {
-	 * List<ProductDto> searchTextList =
-	 * productDao.productSearchWithText(searchText); return searchTextList; }
-	 * 
-	 * @Override public List<ProductDto> productSearchWithCategory(String
-	 * categoryId) { List<ProductDto> searchCategoryList =
-	 * productDao.productSearchWithCategory(categoryId); return searchCategoryList;
-	 * }
-	 * 
-	 * @Override public List<ProductDto> productSearchDual(SearchDto searchDto) {
-	 * List<ProductDto> searchDualList = productDao.productSearchDual(searchDto);
-	 * return searchDualList;
-	 *
-	}*/
-	// 위의 하나의 메소드(productSearchList)로 합침
-
 	public ProductDao getProductDao() {
 		return productDao;
 	}

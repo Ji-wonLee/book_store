@@ -46,6 +46,7 @@ public class ProductListController {
 		return "product/productMain";
 	}
 	
+	
 	public ProductSvc getProductSvc() {
 		return productSvc;
 	}
