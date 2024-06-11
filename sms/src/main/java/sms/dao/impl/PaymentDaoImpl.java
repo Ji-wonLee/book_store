@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import sms.dao.PaymentDao;
 import sms.dto.CartDto;
+import sms.dto.PaymentDetailDto;
 import sms.dto.PaymentDto;
 
 @Repository
@@ -34,12 +35,31 @@ public class PaymentDaoImpl implements PaymentDao {
 	    }
 
 	    @Override
-	    public void createPaymentRecordAndNewCart(PaymentDto paymentDto, String newCartId) {
-	        // 搬力 扁废 积己 棺 货肺款 厘官备聪 积己
-	    	sqlSessionTemplate.insert("PaymentMapper.createPaymentRecord", paymentDto);
-	    	sqlSessionTemplate.insert("CartMapper.createNewCart", new CartDto(paymentDto.getUser_id(), newCartId));
+	    public String createPaymentRecordAndNewCart(PaymentDto paymentDto) {
+	        sqlSessionTemplate.insert("PaymentMapper.createPaymentRecordAndNewCart", paymentDto);
+	        return paymentDto.getNewCartId(); // Assuming newCartId is set in the SQL mapper
+	    }
+	    
+	    @Override
+	    public void savePaymentDetail(PaymentDetailDto paymentDetailDto) {
+	    	sqlSessionTemplate.insert("PaymentMapper.savePaymentDetail", paymentDetailDto);
 	    }
 
+	    
+	    @Override
+	    public void updatePaymentInfo(PaymentDto paymentDto) {
+	    	sqlSessionTemplate.update("PaymentMapper.updatePaymentInfo", paymentDto);
+	    }
+	    
+//	    @Override
+//	    public void saveNewPaymentInfo(PaymentDto paymentDto) {
+//	        sqlSessionTemplate.insert("PaymentMapper.saveNewPaymentInfo", paymentDto);
+//	    }
+	    @Override
+	    public boolean existsPaymentId(String paymentId) {
+	        Integer count = sqlSessionTemplate.selectOne("PaymentMapper.existsPaymentId", paymentId);
+	        return count != null && count > 0;
+	    }
 		public SqlSessionTemplate getSqlSessionTemplate() {
 			return sqlSessionTemplate;
 		}

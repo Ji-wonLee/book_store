@@ -5,63 +5,115 @@
 
 <mapper namespace="CartMapper">
 
-  <!-- 특정 사용자의 장바구니 조회 -->
-    <select id="listCartItems" resultType="sms.dto.CartDto" parameterType="String">
-        SELECT c.cart_id, c.user_id, c.totalprice, c.cart_date, c.state,
-               cd.product_id, cd.quantity, cd.price, p.product_name
-        FROM cart c, cart_detail cd, product p
-        WHERE c.cart_id = cd.cart_id
-          AND cd.product_id = p.product_id
-          AND c.user_id = #{user_id,jdbcType=VARCHAR}
-          AND c.state = '장바구니'
-    </select>
+	<!-- 특정 사용자의 장바구니 조회 -->
+	<select id="listCartItems" resultType="CartDto"
+		parameterType="String">
+		SELECT c.cart_id, c.user_id, c.totalprice, c.cart_date,
+		c.state,
+		cd.product_id, cd.quantity, cd.price, p.product_name
+		FROM cart
+		c, cart_detail cd, product p
+		WHERE c.cart_id = cd.cart_id
+		AND
+		cd.product_id = p.product_id
+		AND c.user_id =
+		#{user_id,jdbcType=VARCHAR}
+		AND c.state = '장바구니'
+	</select>
 
-    <!-- 장바구니 내 상품의 수량 업데이트 및 총액 재계산 -->
-    <update id="updateCartItemAndTotal" parameterType="CartDto">
-        <!-- 상품 수량 업데이트 -->
-        UPDATE cart_detail
-        SET quantity = #{quantity}
-        WHERE cart_id = #{cart_id} AND product_id = #{product_id};
+	<!-- 장바구니 내 상품의 수량 업데이트 및 총액 재계산 -->
+	<update id="updateCartItemAndTotal" parameterType="CartDto">
+		<!-- 상품 수량 업데이트 -->
+		UPDATE cart_detail
+		SET quantity = #{quantity}
+		WHERE cart_id = #{cart_id}
+		AND product_id = #{product_id};
 
-        <!-- 장바구니 총액 업데이트 -->
+		<!-- 장바구니 총액 업데이트 -->
+		UPDATE cart
+		SET totalprice = (
+		SELECT SUM(cd.quantity * p.product_price)
+		FROM cart_detail cd
+		JOIN product p ON cd.product_id = p.product_id
+		WHERE cd.cart_id = #{cart_id}
+		),
+		cart_date = SYSDATE  <!-- 현재 시간 업데이트 -->
+		WHERE cart_id = #{cart_id};
+	</update>
+
+	  <!-- Cart 상태를 업데이트하는 쿼리 -->
+    <update id="updateCartState" parameterType="CartDto">
         UPDATE cart
-        SET totalprice = (
-            SELECT SUM(cd.quantity * p.product_price) FROM cart_detail cd
-            JOIN product p ON cd.product_id = p.product_id
-            WHERE cd.cart_id = #{cart_id}
-        ),
-        cart_date = SYSDATE  <!-- 현재 시간 업데이트 -->
+        SET state = #{state}
         WHERE cart_id = #{cart_id}
     </update>
 
-    <!-- 장바구니 상태 업데이트 -->
-    <update id="updateCartState" parameterType="CartDto">
-        UPDATE cart
-        SET state = #{state}, cart_date = SYSDATE
-        WHERE cart_id = #{cart_id} AND user_id = #{user_id}
-    </update>
 
-    <!-- 새 장바구니 생성 -->
-    <insert id="createNewCart" parameterType="CartDto" useGeneratedKeys="true" keyProperty="newCartId">
-        INSERT INTO cart (user_id, state, cart_date)
-        VALUES (#{user_id}, '장바구니', SYSDATE)
-    </insert>
-
-    <!-- 장바구니에 상품 추가 -->
-    <insert id="addProductToCartDetails" parameterType="CartDto">
-        MERGE INTO cart_detail cd
-        USING (SELECT #{cart_id} AS cart_id, #{product_id} AS product_id, #{quantity} AS quantity FROM dual) src
-        ON (cd.cart_id = src.cart_id AND cd.product_id = src.product_id)
-        WHEN MATCHED THEN
-            UPDATE SET cd.quantity = cd.quantity + src.quantity
-        WHEN NOT MATCHED THEN
-            INSERT (cart_id, product_id, quantity)
-            VALUES (src.cart_id, src.product_id, src.quantity)
-    </insert>
- 	<!-- 특정 상품의 재고 확인 -->
-    <select id="getStock" resultType="int" parameterType="String">
-        SELECT quantity
-        FROM inventory
+	<!-- 재고 업데이트 -->
+    <update id="updateStock" parameterType="sms.dto.Inventory">
+        UPDATE Inventory
+        SET quantity = quantity + #{quantity}
         WHERE product_id = #{product_id}
+    </update>
+	
+	<!-- 새로운 Cart를 생성하는 쿼리 -->
+	<insert id="createNewCart" parameterType="CartDto">
+	    INSERT INTO cart (cart_id, user_id, state, cart_date)
+	    VALUES (#{cart_id}, #{user_id}, '장바구니', SYSDATE)
+	</insert>
+
+
+
+    <select id="selectCartid" parameterType="String" resultType="string">
+        <![CDATA[
+            SELECT cart_id 
+            FROM cart 
+            WHERE user_id = #{user_id} 
+            AND state = '장바구니'
+        ]]>
     </select>
+
+    <insert id="addCartProduct" parameterType="CartDto">
+        <![CDATA[
+            INSERT INTO cart_detail (cart_id, product_id, quantity, price)
+            VALUES (#{cart_id}, #{product_id}, #{quantity}, #{price})
+        ]]>
+    </insert>
+	
+	  <!-- 가장 큰 cart_id 가져오기 -->
+    <select id="getMaxCartId" resultType="string">
+        SELECT MAX(cart_id)
+        FROM cart
+    </select>
+	<!-- 특정 상품의 재고 확인 -->
+	<select id="getStock" resultType="int" parameterType="String">
+		SELECT
+		quantity
+		FROM inventory
+		WHERE product_id = #{product_id}
+	</select>
+	<!-- 가장 최근 cart_id 가져오기 -->
+	<select id="getLatestCartId" resultType="string">
+		SELECT cart_id
+		FROM (
+		SELECT cart_id
+		FROM cart
+		WHERE TRUNC(cart_date) = TRUNC(SYSDATE)
+		ORDER BY
+		cart_date DESC
+		)
+		WHERE ROWNUM = 1
+	</select>
+
+	<!-- 새 장바구니 저장 -->
+	<insert id="insertNewCart" parameterType="CartDto">
+	    INSERT INTO cart (cart_id, user_id, state, cart_date)
+	    VALUES (#{cart_id}, #{user_id}, '장바구니', SYSDATE)
+	</insert>
+
+	<!-- 새 결제 정보 저장 -->
+	<insert id="insertNewPayment" parameterType="PaymentDto">
+		INSERT INTO payment (payment_id, cart_id)
+		VALUES (#{payment_id}, #{cart_id})
+	</insert>
 </mapper>

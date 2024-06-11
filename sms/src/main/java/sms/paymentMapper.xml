@@ -4,22 +4,75 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="PaymentMapper">
-    <!-- 결제 정보 저장 -->
-   <insert id="savePaymentInfo" parameterType="sms.dto.PaymentDto">
-	    INSERT INTO payment (user_id, receiver_name, receiver_address, payer_name, payer_account)
-	    VALUES (#{user_id}, #{receiver_name}, #{receiver_address}, #{payer_name}, #{payer_account})
+	<!-- 결제 정보 저장 <insert id="savePaymentInfo" parameterType="PaymentDto"> INSERT 
+		INTO payment (user_id, receiver_name, receiver_address, payer_name, payer_account) 
+		VALUES (#{user_id}, #{receiver_name}, #{receiver_address}, #{payer_name}, 
+		#{payer_account}) </insert> -->
+
+	<!-- 결제 정보 저장 -->
+	<insert id="savePaymentInfo" parameterType="PaymentDto">
+	    INSERT INTO payment (payment_id, user_id, receiver_name, receiver_address,
+	    payer_name, payer_account, cart_id, receive_date)
+	    VALUES (#{payment_id}, #{user_id}, #{receiver_name}, #{receiver_address},
+	    #{payer_name}, #{payer_account}, #{cart_id}, SYSDATE)
 	</insert>
 
-    <!-- 결제 상태 변경 -->
-    <update id="updateCartStateToCompleted" parameterType="CartDto">
-        UPDATE cart
-        SET state = '결제완료'
-        WHERE cart_id = #{cart_id} AND user_id = #{user_id} AND state = '결제중'
-    </update>
-    <!-- 결제 기록 생성 -->
-    <insert id="createPaymentRecord" parameterType="PaymentDto">
-        INSERT INTO payment (payment_id, cart_id, payment_date)
-        VALUES (#{payment_id}, #{cart_id}, SYSDATE)
-    </insert>
+	<!-- 결제 상태 변경 <update id="updateCartStateToCompleted" parameterType="CartDto"> 
+		UPDATE cart SET state = '결제완료' WHERE cart_id = #{cart_id} AND user_id = #{user_id} 
+		AND state = '결제중' </update> -->
 
-</mapper>
+	<!-- 새로운 결제 정보 저장 -->
+	<insert id="saveNewPaymentInfo" parameterType="PaymentDto">
+		INSERT INTO payment (payment_id, user_id, cart_id)
+		VALUES (#{payment_id}, #{user_id}, #{cart_id})
+	</insert>
+
+
+	<insert id="savePaymentDetail"
+		parameterType="PaymentDetailDto">
+		INSERT INTO payment_detail (payment_id, product_id, quantity, price)
+		VALUES (#{payment_id}, #{product_id}, #{quantity}, #{price})
+	</insert>
+
+	<!-- Cart 상태를 '결제완료'로 업데이트하는 쿼리 -->
+	<update id="updateCartStateToCompleted" parameterType="CartDto">
+		UPDATE cart
+		SET state = '결제완료'
+		WHERE cart_id = #{cart_id}
+	</update>
+
+	<!-- Payment 기록을 생성하는 쿼리 -->
+	<insert id="createPaymentRecord" parameterType="PaymentDto">
+		INSERT INTO payment (payment_id, user_id, receiver_name, receiver_address,
+		payer_name, payer_account, cart_id)
+		VALUES (#{payment_id}, #{user_id}, #{receiver_name}, #{receiver_address},
+		#{payer_name}, #{payer_account}, #{cart_id})
+	</insert>
+
+	<!-- Payment 기록을 생성하고 새로운 Cart를 생성하는 쿼리 -->
+	<insert id="createPaymentRecordAndNewCart"
+		parameterType="PaymentDto">
+		<selectKey keyProperty="newCartId" order="BEFORE"
+			resultType="string">
+			SELECT 'CART-' || LPAD(CART_SEQ.NEXTVAL, 4, '0') FROM DUAL
+		</selectKey>
+		INSERT INTO payment (payment_id, user_id, receiver_name,
+		receiver_address, payer_name, payer_account, cart_id)
+		VALUES (#{payment_id}, #{user_id}, #{receiver_name}, #{receiver_address},
+		#{payer_name}, #{payer_account}, #{cart_id});
+		INSERT INTO cart (cart_id, user_id, state, cart_date)
+		VALUES (#{newCartId}, #{user_id}, '장바구니', SYSDATE)
+	</insert>
+	
+	
+	<update id="updatePaymentInfo" parameterType="PaymentDto">
+        UPDATE payment
+        SET receiver_name = #{receiver_name}, receiver_address = #{receiver_address}, 
+            payer_name = #{payer_name}, payer_account = #{payer_account}
+        WHERE payment_id = #{payment_id}
+    </update>
+    
+    <select id="existsPaymentId" parameterType="string" resultType="int">
+        SELECT COUNT(*) FROM payment WHERE payment_id = #{payment_id}
+    </select>
+</mapper>   
