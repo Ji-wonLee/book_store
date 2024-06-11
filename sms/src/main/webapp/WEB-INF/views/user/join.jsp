@@ -78,22 +78,17 @@
 <title>회원 가입</title>
 <c:set var ="stt" value="${idChkStt}"/>
 <script type="text/javascript">
-
 	function checkForm(){
-		
 		let f = document.joinForm;
-		if (f.userPass.value != f.userPassCheck.value) {
+		var mData = ${stt};
+			if (f.userPass.value != f.userPassCheck.value) {
 			alert("비밀번호가 불일치");
-			return false;
-		} else if(lgnStt == false){
-			alert('존재한 아이디');
-			return false;
-		} else {
-			alert("회원가입 성공");
+			return false;				
+		} else if(mData == 0){
+			alert("로그인 성공");
 			return true;
 		}
 	}
-	
 </script>
 </head>
 <body>
@@ -101,15 +96,11 @@
 		<nav>
 		</nav>
 		<article>
-		<c:set var ="stt" value="${idChkStt}"/>
-		<c:choose>
-			<c:when test = "${stt eq 1}">
-				<script>
-					alert('존재한 아이디');
-					var lgnStt = false;
-				</script>
-			</c:when>
-		</c:choose>
+		<c:if test = "${stt eq 1}">
+			<script>
+				alert('존재한 아이디');
+			</script>
+		</c:if>
 		<button onclick="history.back()" type="submit" >뒤로가기</button>
 		<form action="/sms/join.do" name="joinForm" onsubmit="return checkForm()" method="get">
 			<table>

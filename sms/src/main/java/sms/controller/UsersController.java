@@ -62,10 +62,6 @@ public class UsersController {
 		}
 		return webStt;
 	}
-	//유저 조인 JSP 이동
-	@RequestMapping(value = "/join", method = RequestMethod.GET)
-	public void getRegister() throws Exception{
-	}
 	//아이디 중복 체크
 	@ResponseBody
 	@RequestMapping(value="/idChk", method = RequestMethod.POST)
@@ -74,7 +70,7 @@ public class UsersController {
 		return result;
 	}
 	//유저 회원가입
-	@RequestMapping(value = "/join.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/join", method = RequestMethod.GET)
 	public String postRegister(@RequestParam("userId") String userId,
 			@RequestParam("userPass") String userPass,
 			@RequestParam("userAddr") String userAddr,
@@ -91,11 +87,10 @@ public class UsersController {
 		param.put("gname", "일반");
 
 		int idChkStt = usersDao.selectIdCheck(userId);// 1이면 존재
-
 		String webCtrl = "";
-
+		
+		model.addAttribute("idChkStt" , idChkStt);
 		if(idChkStt == 1) {
-			model.addAttribute("idChkStt" , idChkStt);
 			return "user/join";
 		} else if(idChkStt == 0) {
 			int cntInsert = usersDao.insertUsers(param);
@@ -107,7 +102,6 @@ public class UsersController {
 	//회원가입 페이지로
 	@RequestMapping(value = "/toJoin", method = RequestMethod.GET)
 	public String toJoin() {
-		
 		return "user/join";
 	}
 	//사용자 목록 출력
