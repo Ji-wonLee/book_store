@@ -112,6 +112,7 @@ footer {
 				</div>
 
 				<div class="productlist">
+				<p style="font-size:15px; color:#8c8c8c; text-align:left;">검색 결과 : 총 ${totalData} 개의 결과 / 현재 페이지 : ${cPage}</p>
 					<table>
 						<tr>
 							<th></th>
