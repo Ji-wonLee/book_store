@@ -30,7 +30,7 @@ nav {
 	float: left;
 	width: 20%;
 	height: 1000px;
-	background: #c2c2d6;
+	background: #9ec7ae;
 	padding: 20px;
 }
 
@@ -40,7 +40,7 @@ article {
 	padding: 20px;
 	width: 80%;
 	height: 1000px;
-	background-color: #f2f2f2;
+	background-color: #dbf0e6;
 }
 
 article table {
@@ -91,8 +91,9 @@ footer {
 			<fieldset
 				style='width: 160px; border: none; margin-left: -20px; margin-top: -20px;'>
 
-				${user_id}님, 어서오세요<br> <a
-					href="javascript:window.history.back();">로그아웃</a> <br>
+				<h3>${user_id}</h3>
+				<h3>님 환영합니다.</h3>
+				<a href="javascript:window.history.back();">로그아웃</a> <br>
 				<ul>
 					<li><a href="/sms/order">발주</a></li>
 					<li><a href="/sms/receive">입고</a></li>

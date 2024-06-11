@@ -37,11 +37,13 @@ public class UsersController {
 		param.put("user_id", userId);
 		param.put("passwd", userPass);
 
-		String loginChk = usersDao.selectLoginCheck(param); // 사용자 이름
+		String webStt = "";
+		String loginChk = usersDao.selectLoginCheck(param);// 사용자 이름
 
 		if(loginChk == null) {
 			//리튼을 로그인 창으로?
 			model.addAttribute("userLoginStt" , "fail");
+			webStt = "redirect:index.jsp";
 		}else{
 			//사용자 id 세션 저장
 			HttpSession session=req.getSession();
@@ -54,12 +56,12 @@ public class UsersController {
 			model.addAttribute("user_id" , userId);
 
 			if(clientChk.equals("admin")) {   //관리자
-				return "menu/admin";
+				webStt =  "menu/admin";
 			}else { //사용자
-				return "redirect:/customermain";
+				webStt = "redirect:/customermain";
 			}
 		}
-		return "redirect:index.jsp";
+		return webStt;
 	}
 	//유저 조인 JSP 이동
 	@RequestMapping(value = "/join", method = RequestMethod.GET)
@@ -98,7 +100,7 @@ public class UsersController {
 			return "user/join";
 		} else if(idChkStt == 0) {
 			int cntInsert = usersDao.insertUsers(param);
-			return "main";
+			return "redirect:index.jsp";
 		}
 
 		return webCtrl;
@@ -135,19 +137,17 @@ public class UsersController {
 	public String updateMyInfo(ModelMap model,HttpServletRequest req,
 			@RequestParam("userPass") String userPass,
 			@RequestParam("userAddr") String userAddr,
-			@RequestParam("userCall") String userCall,UsersDto vo
+			@RequestParam("userCall") String userCall,UsersDto vo, HttpSession session
 			) throws Exception {
+		Object sid = session.getAttribute("user_id");
 		
-		//String myInfoId = req.getParameter("userId");
-		HttpSession session = req.getSession();
-		String user_id = (String)session.getAttribute("user_id");
-		List<UsersDto> myInfoList = usersDao.selectMyInfo(user_id);
+		List<UsersDto> userInfo = usersDao.selectMyInfo(String.valueOf(sid));
 		
-		String id = myInfoList.toString().split(":")[0];
+		String id = userInfo.toString().split(":")[0];
 		String idSpl = id.substring(1);
-		String passwd = myInfoList.toString().split(":")[2];
-		String addr = myInfoList.toString().split(":")[3];
-		String callNum = myInfoList.toString().split(":")[6];
+		String passwd = userInfo.toString().split(":")[2];
+		String addr = userInfo.toString().split(":")[3];
+		String callNum = userInfo.toString().split(":")[6];
 		String callNumSpl = callNum.split("]")[0];
 
 		if(userPass.trim().equals("")) {
@@ -169,6 +169,7 @@ public class UsersController {
 		param.put("grade_no", 1);
 		int userLogin = usersDao.updateMyInfo(param);
 		
-		return "product/first";
+		// 수정 
+		return "redirect:/customermain";
 	}
 }

@@ -50,6 +50,18 @@ article td {
 	padding: 8px;
 }
 
+.page-link {
+	color: black;
+	float: left;
+	padding: 8px 16px;
+	text-decoration: none;
+}
+
+.page-link:hover:not(.active) {
+	background-color: #c2c2d6;
+	border-radius: 5px;
+}
+
 section::after {
 	content: "";
 	display: table;
@@ -89,6 +101,7 @@ footer {
 			<form action="/sms/search" method="get">
 				<div>
 					<select name="category_id" id="category_id">
+						<option value="all">전체</option>
 						<c:forEach var="Category" items="${categorylist}">
 							<option value="${Category.category_id}">${Category.category_name}</option>
 						</c:forEach>
@@ -108,18 +121,23 @@ footer {
 							<th>가격</th>
 							<th>판매 상태</th>
 						</tr>
-						<c:forEach var="product" items="${productlist}" varStatus="idx">
-							<tr>
-								<td>${idx.count}</td>
-								<td>${product.category_name}</td>
-								<td><a
-									href="<c:url value='/bookInfo'><c:param name='product_id' value='${product.product_id}'/></c:url>">${product.product_name}</a></td>
-								<td>${product.product_page}</td>
-								<td>${product.product_price}</td>
-								<td>${product.state}</td>
-							</tr>
-						</c:forEach>
+						<c:if test="${not empty productlist}">
+							<c:forEach var="product" items="${productlist}" varStatus="idx">
+								<tr>
+									<td>${idx.count}</td>
+									<td>${product.category_name}</td>
+									<td><a
+										href="<c:url value='/bookInfo'><c:param name='product_id' value='${product.product_id}'/></c:url>">${product.product_name}</a></td>
+									<td>${product.product_page}</td>
+									<td>${product.product_price}</td>
+									<td>${product.state}</td>
+								</tr>
+							</c:forEach>
+						</c:if>
 					</table>
+					<div id="pageBar">
+						<c:out value="${pageBar}" escapeXml="false" />
+					</div>
 				</div>
 			</form>
 		</article>

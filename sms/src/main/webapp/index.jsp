@@ -75,11 +75,26 @@
  		 }
 	}
 </style>
+
 </head>
 <body>
 	<!-- <form action = "/sms/searchList" method = "GET"> --> <!-- action 연결 필요 -->
 	<section>
 		<nav>
+			<script>
+				function getParams(){
+			    	var url = window.location.search.replace('?','');
+			    	var params = {};
+			    	var urlPrm = url.split('=')[1];
+			    	if(urlPrm.trim() == "fail"){
+			    		alert('FAILED TO LOGIN');
+			    	}
+			    	return urlPrm;
+				}
+				const params = getParams();
+				
+				console.log(params);
+			</script>
 			<form action="/sms/mainLgn.do" method="get">
 				<table style='border:none;'>
 					<tr>
@@ -90,7 +105,7 @@
 						<td><input type='password' id='userPass' name='userPass' placeholder='PASSWORD' style='margin-top:10px;width:100px' required></input></td>
 					</tr>
 					<tr>
-						<td><a href="http://localhost:8080/sms/toJoin" style='font-size:10px'>회원가입</a></td>				
+						<td><a href="/sms/toJoin" style='font-size:10px'>회원가입</a></td>				
 					</tr>
 				</table>
 			</form>
