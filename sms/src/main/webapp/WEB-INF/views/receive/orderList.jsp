@@ -76,11 +76,12 @@ footer {
 		<nav id="nav">
 			<!-- 좌측 유저정보 및 사이트 목록 표시 -->
 			<div class="userText">
-				<h3>관리자</h3>
+				<h3>${user_id}</h3>
 				<h3>님 환영합니다.</h3>
 			</div>
 			<ul>
-				<li><a href="http://localhost:8090/sms">로그아웃</a></li>
+				<li><a href="/sms/toAdminMain">메인화면</a></li>
+				<li><a href="index.jsp">로그아웃</a></li>
 			</ul>
 		</nav>
 		<article id="article">

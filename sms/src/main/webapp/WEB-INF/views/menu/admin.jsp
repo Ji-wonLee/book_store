@@ -91,23 +91,16 @@ footer {
 			<fieldset
 				style='width: 160px; border: none; margin-left: -20px; margin-top: -20px;'>
 
-				${userName}님, 어서오세요<br> <a
-					href="javascript:window.history.back();">로그아웃</a>
-
-				<br>
-				<form action="/sms/order" method="get">
-					<input type="submit" value="발주">
-				</form>
-				<form action="/sms/receive" method="get">
-					<input type="submit" value="입고">
-				</form>
-				<form action="/sms/inventory" method="get">
-					<input type="submit" value="재고">
-				</form>
-				<form action="/sms/admStt" method="get">
-					<input type="submit" value="사용자">
-				</form>
+				${user_id}님, 어서오세요<br> <a
+					href="javascript:window.history.back();">로그아웃</a> <br>
+				<ul>
+					<li><a href="/sms/order">발주</a></li>
+					<li><a href="/sms/receive">입고</a></li>
+					<li><a href="/sms/inventory">재고</a></li>
+					<li><a href="/sms/admStt">사용자</a></li>
+				</ul>
 			</fieldset>
+
 		</nav>
 		<article></article>
 	</section>

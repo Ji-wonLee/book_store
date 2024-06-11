@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,7 +33,11 @@ public class OrderController {
 
 	//상품목록 출력 -> 발주가능하게 (절판상품 제외)
 	@RequestMapping(value = "/order", method = RequestMethod.GET)
-	public String order( ModelMap model) {
+	public String order( ModelMap model, HttpServletRequest req) {
+		//user_id가져오기
+		HttpSession session=req.getSession();
+		String user_id = (String) session.getAttribute("user_id");
+		model.addAttribute("user_id", user_id);
 		//카테고리 선택하는 리스트
 		List<Category> categorylist = productSvc.categoryList();
 		model.addAttribute("categorylist",categorylist);
@@ -44,15 +49,24 @@ public class OrderController {
 	}
 	//발주 상품 확인
 	@RequestMapping(value = "/orderCheck", method = RequestMethod.GET)
-	public String orderCheck(@RequestParam Map<String, Integer> paramMap,ModelMap model) {	
+	public String orderCheck(@RequestParam Map<String, Integer> paramMap,ModelMap model, HttpServletRequest req) {	
+		//user_id가져오기
+		HttpSession session=req.getSession();
+		String user_id = (String) session.getAttribute("user_id");
+		model.addAttribute("user_id", user_id);
+		
 		model.addAttribute("orderList", paramMap);
 		return "order/orderCheck";
 	}
 	//발주끝
 	@RequestMapping(value = "/orderComplete", method = RequestMethod.GET)
-	public String orderComplete(@RequestParam Map<String, String> paramMap, HttpServletResponse response ,ModelMap model) {			
+	public String orderComplete(@RequestParam Map<String, String> paramMap,ModelMap model, HttpServletRequest req) {			
+		//user_id가져오기
+		HttpSession session=req.getSession();
+		String user_id = (String) session.getAttribute("user_id");
+		model.addAttribute("user_id", user_id);
 		
-		orderSvc.orderSave(paramMap);
+		orderSvc.orderSave(paramMap, user_id);
 		return "menu/admin";
 	}
 
@@ -61,7 +75,11 @@ public class OrderController {
 	public String testSearch(@RequestParam(value="category_id") String category_id,
 			@RequestParam(value="searchtext") String searchtext,
 			@RequestParam(value="remaining") int remaining,
-			ModelMap model) {
+			ModelMap model, HttpServletRequest req) {
+		//user_id가져오기
+		HttpSession session=req.getSession();
+		String user_id = (String) session.getAttribute("user_id");
+		model.addAttribute("user_id", user_id);
 		OrderSearchDto orderSearchDto = new OrderSearchDto(searchtext, category_id,remaining );
 		//카테고리 선택하는 리스트
 		model.addAttribute("categorylist", productSvc.categoryList());
@@ -73,7 +91,11 @@ public class OrderController {
 
 	//관리자 메인화면으로
 	@RequestMapping(value = "/toAdminMain", method = RequestMethod.GET)
-	public String toAdminMain(ModelMap model) {	
+	public String toAdminMain(ModelMap model, HttpServletRequest req) {	
+		//user_id가져오기
+		HttpSession session=req.getSession();
+		String user_id = (String) session.getAttribute("user_id");
+		model.addAttribute("user_id", user_id);
 		return "menu/admin";
 	}
 

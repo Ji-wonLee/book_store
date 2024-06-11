@@ -32,7 +32,13 @@ public class ReceiveSvcImpl implements ReceiveSvc{
 	}
 
 	@Override
-	public int updateReceive(Map<String, String> receiveMap, String receive_id) {
+	public int updateReceive(Map<String, String> receiveMap, String receive_id, String user_id) {
+		//receive writer 수정
+		Receive receive = new Receive();
+		receive.setReceive_id(receive_id);
+		receive.setWriter(user_id);
+		receiveDao.updateWriter(receive);
+		
 		//receiveDetail 수정
 		for(String key : receiveMap.keySet()) {
 			if(!key.equals("receive_id")) {

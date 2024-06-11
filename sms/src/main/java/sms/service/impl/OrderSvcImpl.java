@@ -29,7 +29,7 @@ public class OrderSvcImpl implements OrderSvc {
 		return listProduct;
 	}
 	@Override
-	public int orderSave(Map<String, String> orderMap) {
+	public int orderSave(Map<String, String> orderMap, String user_id) {
 		LocalDate now = LocalDate.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
 		String formatedNow = now.format(formatter);
@@ -55,7 +55,7 @@ public class OrderSvcImpl implements OrderSvc {
 		    // 새로운 order_id 생성
 		    new_order_id = org_order_id.substring(0, 8) + String.format("%02d", lastTwoDigits + 1);			
 		}
-		orderDao.insertOrder(new Order(new_order_id,formatedNow, "writer",totalprice,"미완료")); 
+		orderDao.insertOrder(new Order(new_order_id,formatedNow, user_id,totalprice,"미완료")); 
 		
 		//orderDetail
 		for(String key : orderMap.keySet()) {

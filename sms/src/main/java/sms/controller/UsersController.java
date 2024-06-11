@@ -56,7 +56,7 @@ public class UsersController {
 			if(clientChk.equals("admin")) {   //관리자
 				return "menu/admin";
 			}else { //사용자
-				return "product/first";
+				return "redirect:/customermain";
 			}
 		}
 		return "redirect:index.jsp";

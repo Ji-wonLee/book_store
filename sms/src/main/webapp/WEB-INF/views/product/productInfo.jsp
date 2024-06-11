@@ -77,11 +77,12 @@
 				<h3>님 환영합니다. </h3>
 				</div>
 				
-				<ul>
-     				<li><a href="http://localhost:8080/sms/myInfo">내 정보 조회</a></li>
-					<li><a href="http://localhost:8080/sms/list">장바구니</a></li>
-					<li><a href="http://localhost:8080/sms/customermain">상품 조회</a></li>
-   				</ul>
+			<ul>
+				<li><a href="/sms/myInfo">내 정보 조회</a></li>
+				<li><a href="/sms/list">장바구니</a></li>
+				<li><a href="/sms/customermain">상품 조회</a></li>
+				<li><a href="index.jsp">로그아웃</a></li>
+			</ul>
 		</nav>
 		<article>
 		<form action = "/sms/list" method = "GET"> <!-- action 연결 필요 -->

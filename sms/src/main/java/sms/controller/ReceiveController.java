@@ -3,6 +3,9 @@ package sms.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,10 +23,11 @@ import sms.service.ReceiveSvc;
 public class ReceiveController {
 	@Autowired
 	private ReceiveSvc receiveSvc;
-	
+
 	//발주목록 출력
 	@RequestMapping(value = "/receive", method = RequestMethod.GET)
-	public String choiceOrder(ModelMap model) {	
+	public String choiceOrder(ModelMap model,
+			HttpServletRequest req) {	
 		//order 선택하게 하기
 		List<Order> orderIdList = receiveSvc.selectOrder();
 		model.addAttribute("orderIdList", orderIdList);
@@ -31,7 +35,8 @@ public class ReceiveController {
 	}
 	//선택한 발주와 매칭되는 입고서 출력
 	@RequestMapping(value = "/updateReceive", method = RequestMethod.GET)
-	public String updateReceive(@RequestParam String order_id,ModelMap model) {	
+	public String updateReceive(@RequestParam String order_id,ModelMap model,
+			HttpServletRequest req) {	
 		// orderdetial 목록 model에 저장. 
 		List<ReceiveDetail> rdList = receiveSvc.selectReceiveDetail(order_id);
 		model.addAttribute("rdList", rdList);
@@ -39,10 +44,16 @@ public class ReceiveController {
 	}
 	//입고서 수정 및 재고 반영
 	@RequestMapping(value = "/toInventory", method = RequestMethod.GET)
-	public String toInventory(@RequestParam String receive_id,@RequestParam Map<String, String> paramMap, ModelMap model) {	
+	public String toInventory(@RequestParam String receive_id,@RequestParam Map<String, String> paramMap, ModelMap model,
+			HttpServletRequest req) {	
 		//System.out.println(paramMap);
 		//입고서 수정//입고서 총액 수정
-		receiveSvc.updateReceive(paramMap, receive_id);
+		//user_id가져오기
+		HttpSession session=req.getSession();
+		String user_id = (String) session.getAttribute("user_id");
+
+		receiveSvc.updateReceive(paramMap, receive_id, user_id);
+		
 		//재고 수정
 		receiveSvc.receiveToInventory(paramMap);
 		//발주서 state 변경

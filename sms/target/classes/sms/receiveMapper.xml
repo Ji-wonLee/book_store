@@ -59,4 +59,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE orders SET state= '입고완료' WHERE order_id =#{order_id}
 	]]>
 	</select>
+	
+	<!-- writer -->
+	<select id="updateWriter" parameterType="Receive"
+		resultType="string">
+	<![CDATA[
+		UPDATE receives SET writer= #{writer} WHERE receive_id =#{receive_id}
+	]]>
+	</select>
 </mapper>

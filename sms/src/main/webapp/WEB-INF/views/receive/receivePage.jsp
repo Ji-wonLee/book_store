@@ -76,19 +76,25 @@ footer {
 		<nav id="nav">
 			<!-- 좌측 유저정보 및 사이트 목록 표시 -->
 			<div class="userText">
-				<h3>관리자</h3>
+				<h3>${user_id}</h3>
 				<h3>님 환영합니다.</h3>
 			</div>
 			<ul>
-				<li><a href="http://localhost:8080/sms">로그아웃</a></li>
+				<li><a href="/sms/toAdminMain">메인화면</a></li>
+				<li><a href="index.jsp">로그아웃</a></li>
 			</ul>
 		</nav>
 		<article id="article">
 			<!-- 여기에 출력할 코드를 작성(list라던가) -->
 			<form action="/sms/toInventory" method="get">
 				<button type="submit">재고반영</button>
-				<br> ${rdList[0].receive_id} <input type="hidden"
-					name="receive_id" value="${rdList[0].receive_id}">
+				<div>
+					${rdList[0].receive_id} 총액 : ${totalprice}<br> 
+					<input type="hidden"
+						name="receive_id" value="${rdList[0].receive_id}"> 
+					작성자 : <input type="text" name="writer" id="writer" value="${writer}" />
+					결제자 : <input type="text" name="payer" id="pqyer" value="${payer}" /> 
+				</div>
 				<table>
 					<tr>
 						<th>상품명</th>
