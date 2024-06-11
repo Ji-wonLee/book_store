@@ -90,6 +90,7 @@
 					<input type="submit" value="검색"/>
 				</div>
 				<div class = "printInventoryList">
+				<p style="font-size:15px; color:#8c8c8c; text-align:left;">검색 결과 : 총 ${totalData} 개의 결과 / 현재 페이지 : ${cPage}</p>
 					<table>
 						<tr>
 							<th></th>
@@ -104,6 +105,7 @@
 							<th>판매 상태</th>
 							<th>재고</th>
 						</tr>
+						<c:if test="${not empty inventorylist}">
 						<c:forEach var="inventory" items="${inventorylist}" varStatus="idx">
 							<tr>
 								<td>${idx.count}</td>
@@ -119,7 +121,11 @@
 								<td><input type="number" value="${inventory.quantity}"></td>
 							</tr>
 						</c:forEach>
+						</c:if>
 					</table>
+					<div id = "pageBar">
+						<c:out value="${pageBar}" escapeXml = "false"/>
+					</div>
 				</div>
 			</form>
 		</article>

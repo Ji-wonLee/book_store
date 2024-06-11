@@ -109,6 +109,14 @@
 		
 	]]>
 	</select>
+	<select id = "inventoryListNum" resultType="int">
+	<![CDATA[
+		SELECT COUNT(*)
+		FROM product p, category c, inventory i
+		WHERE c.category_id = p.category_id AND p.product_id = i.product_id
+	]]>
+	</select>
+	
 	<!-- 이름으로 재고 조회 -->
 	<select id = "inventorySearchName" parameterType="String" resultType="ProductDto">
 	<![CDATA[
@@ -118,6 +126,15 @@
 		AND (p.product_id LIKE '%' || #{searchText} || '%'
 		OR product_name LIKE '%' || #{searchText} || '%')
 		ORDER BY p.category_id ASC
+	]]>
+	</select>
+	<select id = "inventorySearchNameNum" resultType="int">
+	<![CDATA[
+		SELECT COUNT(*)
+		FROM product p, category c, inventory i
+		WHERE (c.category_id = p.category_id AND i.product_id = p.product_id)
+		AND (p.product_id LIKE '%' || #{searchText} || '%'
+		OR product_name LIKE '%' || #{searchText} || '%')
 	]]>
 	</select>
 	<!-- 개수를 변경 -->

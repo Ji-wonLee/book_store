@@ -47,7 +47,7 @@ public class ProductListController {
 		model.addAttribute("totalData", totalData); // 전체 객체 수
 		model.addAttribute("productlist", productlist);
 		//객체 출력
-		model.addAttribute("pageBar", pageFactory.getPageBar(totalData, cPage, numPerpage, "/sms/customermain?"));
+		model.addAttribute("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage, "/sms/customermain?"));
 		// pageBar을 출력
 		return "product/productMain"; //수정, 페이지 위치 입력
 	}
@@ -64,7 +64,7 @@ public class ProductListController {
 		model.addAttribute("cPage", cPage); // 현재 페이지
 		model.addAttribute("totalData", searchData); // 객체 수
 		model.addAttribute("productlist", productSvc.productSearchList(searchDto, Map.of("cPage", cPage, "numPerpage", numPerpage)));
-		model.addAttribute("pageBar", pageFactory.getPageBar(searchData, cPage, numPerpage, "/sms/search?category_id=" + category_id + "&searchtext=" + searchtext));
+		model.addAttribute("pageBar", PageFactory.getPageBar(searchData, cPage, numPerpage, "/sms/search?category_id=" + category_id + "&searchtext=" + searchtext));
 		return "product/productMain";
 	}
 	

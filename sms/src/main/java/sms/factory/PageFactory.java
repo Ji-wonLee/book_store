@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PageFactory {
-    public String getPageBar(int totalData, int cPage, int numPerpage, String url) {
+    public static String getPageBar(int totalData, int cPage, int numPerpage, String url) {
         StringBuffer pageBar = new StringBuffer();
         int totalPage = (int) (Math.ceil((double) totalData / numPerpage));
         int pageBarSize = 5;
