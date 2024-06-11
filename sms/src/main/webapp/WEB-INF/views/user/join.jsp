@@ -76,17 +76,24 @@
 	}
 </style>
 <title>회원 가입</title>
+<c:set var ="stt" value="${idChkStt}"/>
 <script type="text/javascript">
+
 	function checkForm(){
+		
 		let f = document.joinForm;
-			if (f.userPass.value != f.userPassCheck.value) {
+		if (f.userPass.value != f.userPassCheck.value) {
 			alert("비밀번호가 불일치");
-			return false;				
+			return false;
+		} else if(lgnStt == false){
+			alert('존재한 아이디');
+			return false;
 		} else {
 			alert("회원가입 성공");
 			return true;
 		}
 	}
+	
 </script>
 </head>
 <body>
@@ -99,6 +106,7 @@
 			<c:when test = "${stt eq 1}">
 				<script>
 					alert('존재한 아이디');
+					var lgnStt = false;
 				</script>
 			</c:when>
 		</c:choose>
