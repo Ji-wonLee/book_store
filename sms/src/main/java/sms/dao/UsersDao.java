@@ -21,5 +21,4 @@ public interface UsersDao {
 	List<UsersDto> selectMyInfo(String id) throws Exception;
 	
 	int updateMyInfo(HashMap<String, Object> param) throws Exception;
-	
 }

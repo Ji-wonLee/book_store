@@ -12,6 +12,7 @@ import java.util.Map;
 
 import sms.dto.ProductDto;
 import sms.dto.CartDto;
+import sms.dto.Inventory;
 import sms.dto.PaymentDto;
 import sms.dao.CartDao;
 
@@ -26,7 +27,7 @@ public class CartDaoImpl implements CartDao {
 
 	 @Override
 	    public List<CartDto> listCartItems(String user_id) {
-	        // 특정 사용자의 장바구니 항목을 조회
+	        // 특정 사용자의 장바구니 항목을 조회	
 	        return sqlSessionTemplate.selectList("CartMapper.listCartItems", user_id);
 	    }
 
@@ -38,20 +39,18 @@ public class CartDaoImpl implements CartDao {
 
 	    @Override
 	    public void updateCartState(CartDto cartDto) {
-	        // 장바구니 상태 업데이트
-	    	sqlSessionTemplate.update("CartMapper.updateCartState", cartDto);
+	    	 sqlSessionTemplate.update("CartMapper.updateCartState", cartDto);
 	    }
 
 	    @Override
-	    public void createNewCart(CartDto cartDto) {
-	        // 새 장바구니 생성
-	    	sqlSessionTemplate.insert("CartMapper.createNewCart", cartDto);
+	    public void updateStock(Inventory inventory) {
+	    	sqlSessionTemplate.update("CartMapper.updateStock", inventory);
 	    }
 
 	    @Override
-	    public void addProductToCartDetails(CartDto cartDto) {
-	        // 장바구니에 상품 추가
-	    	sqlSessionTemplate.insert("CartMapper.addProductToCartDetails", cartDto);
+	    public String createNewCart(CartDto cartDto) {
+	        sqlSessionTemplate.insert("CartMapper.insertNewCart", cartDto);
+	        return cartDto.getCart_id(); // cart_id는 cartDto에 미리 설정됨
 	    }
 	    
 	    @Override
@@ -60,6 +59,11 @@ public class CartDaoImpl implements CartDao {
 	    	return sqlSessionTemplate.selectOne("CartMapper.getStock", product_id);
 	    }
 	    
+	    //큰 cartid 찾기
+	    @Override
+	    public String getMaxCartId() {
+	        return sqlSessionTemplate.selectOne("CartMapper.getMaxCartId");
+	    }
 	    // 최신 id 
 	    @Override
 	    public String getLatestCartId() {
@@ -72,6 +76,24 @@ public class CartDaoImpl implements CartDao {
 	        sqlSessionTemplate.insert("CartMapper.insertNewCart", cartDto);
 	    }
 	    
+	    @Override
+	    public String findCartId(String user_id) {
+	        return sqlSessionTemplate.selectOne("CartMapper.selectCartid", user_id);
+	    }
+
+	    @Override
+	    public int addCart(CartDto cartDto) {
+	        return sqlSessionTemplate.update("CartMapper.addCartProduct", cartDto);
+	    }
+	    private String generateNewCartId() {
+	        String lastCartId = sqlSessionTemplate.selectOne("CartMapper.getLatestCartId");
+	        if (lastCartId == null || lastCartId.isEmpty()) {
+	            return "CART-0001"; // Default starting value if no carts exist
+	        } else {
+	            int lastNumber = Integer.parseInt(lastCartId.substring(5)) + 1;
+	            return "CART-" + String.format("%04d", lastNumber);
+	        }
+	    }
 		public SqlSessionTemplate getSqlSessionTemplate() {
 			return sqlSessionTemplate;
 		}

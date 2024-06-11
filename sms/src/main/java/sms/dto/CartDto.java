@@ -1,6 +1,6 @@
 package sms.dto;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class CartDto {
 	private String cart_id;			// 카트고유번호
@@ -32,7 +32,12 @@ public class CartDto {
 		this.newCartId = newCartId;
 	}
 
-
+	 // 새로운 생성자 추가
+    public CartDto(String user_id) {
+        this.user_id = user_id;
+        this.state = "장바구니";
+        this.cart_Date = new Date();
+    }
 	/**
 	 * cartDetail
 	 * @param cartId
@@ -70,18 +75,39 @@ public class CartDto {
 	}
 
 	/**
-	 * CartStatusUpdateDto
-	 * 결제중-> 장바구니. 
-	 * @param cartId
-	 * @param userId
+	 * 카트 상태 업데이트 
+	 * @param cart_id
+	 * @param state
 	 */
-	public CartDto(String cartId, String userId) {
-		this.cart_id = cartId;
-		this.user_id = userId;
+	public CartDto(String cart_id, String state) {
+        this.cart_id = cart_id;
+        this.state = state;
+    }
+	
+	/**
+	 * 재고 업데이트 
+	 * @param product_id
+	 * @param quantity
+	 */
+	public CartDto(String product_id, int quantity) {
+		this.product_id = product_id;
+		this.quantity = quantity;
 	}
+//	/**
+//	 * 카트 상태 업뎅
+//	 * 결제중-> 장바구니. 
+//	 * @param cartId
+//	 * @param userId
+//	 */
+//	public CartDto(String cartId, String userId) {
+//		this.cart_id = cartId;
+//		this.user_id = userId;
+//	}
 	
 	/**
 	 * update item 
+	 * 장바구니 상품 추가에 사용
+	 * SelectDao, Svc, Controller 확인!
 	 */
 	public CartDto(String cartId, String productId, int quantity,int price) {
 		this.cart_id = cartId ;
