@@ -50,6 +50,24 @@ article td {
 	padding: 8px;
 }
 
+.page-link{
+	color: black;
+  	float: left;
+ 	padding: 8px 16px;
+  	text-decoration: none;
+}
+
+.page-link.active{
+	background-color: #736699;
+  	color: white;
+  	border-radius: 5px;
+}
+
+.page-link:hover:not(.active) {
+  background-color: #c2c2d6;
+  border-radius: 5px;
+}
+
 section::after {
 	content: "";
 	display: table;
@@ -88,6 +106,7 @@ footer {
 			<form action="/sms/search" method="get">
 				<div>
 					<select name="category_id" id="category_id">
+						<option value = "all">전체</option>
 						<c:forEach var="Category" items="${categorylist}">
 							<option value="${Category.category_id}">${Category.category_name}</option>
 						</c:forEach>

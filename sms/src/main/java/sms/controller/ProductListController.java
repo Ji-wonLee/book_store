@@ -29,7 +29,7 @@ public class ProductListController {
 	private ProductSvc productSvc;
 	
 	@RequestMapping(value="/customermain", method=RequestMethod.GET) // 수정, 페이지 호출 입력
-	public String productList(@RequestParam(value="currentPage", defaultValue="1") int currentPage,
+	public String productList(@RequestParam(value="cPage", defaultValue="1") int cPage,
 							  @RequestParam(value="numPerpage", defaultValue="20") int numPerpage, 
 							  ModelMap model, HttpServletRequest req) {
 		List<Category> categorylist = productSvc.categoryList();
@@ -38,17 +38,17 @@ public class ProductListController {
 		String userId = (String) session.getAttribute("user_id");
 		model.addAttribute("user_id", userId); // user_id를 세션으로 가져옴
 		
-		List<ProductDto> productList = productSvc.productList(Map.of("currentPage", currentPage, "numPerpage", numPerpage));
+		List<ProductDto> productlist = productSvc.productList(Map.of("cPage", cPage, "numPerpage", numPerpage));
 		int totalData = productSvc.selectProductCount();
 		// 전체 개수
-		System.out.println(totalData + " : " + currentPage + " : " + numPerpage + " : ");
+		
 		model.addAttribute("categorylist",categorylist);
-		System.out.println(pageFactory);
-		pageFactory.getPageBar(totalData, currentPage, numPerpage, "/sms/customermain");
-		// 카테고리 출력
-		model.addAttribute("productList", productList);
+		//카테고리 출력
+		pageFactory.getPageBar(totalData, cPage, numPerpage, "/sms/customermain");
+		//페이지바를 가져옴
+		model.addAttribute("productlist", productlist);
 		//객체 출력
-		model.addAttribute("pageBar", pageFactory.getPageBar(totalData, currentPage, numPerpage, "/sms/customermain"));
+		model.addAttribute("pageBar", pageFactory.getPageBar(totalData, cPage, numPerpage, "/sms/customermain"));
 		// pageBar을 출력
 		return "product/productMain"; //수정, 페이지 위치 입력
 	}

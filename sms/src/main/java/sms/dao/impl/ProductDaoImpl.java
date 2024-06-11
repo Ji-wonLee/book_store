@@ -34,9 +34,9 @@ public class ProductDaoImpl implements ProductDao{
 	
 	@Override
 	public List<ProductDto> productList(Map<String, Object> param) { // 상품 리스트(상품 전체 출력), 코드의 재사용성을 위해 Map<String, Object> 을 사용한다.
-		int currentPage=(int)param.get("currentPage");
-		int numPerpage=(int)param.get("numPerpage");
-		RowBounds rb = new RowBounds((currentPage-1) * numPerpage, numPerpage);
+		int cPage = (int)param.get("cPage");
+		int numPerpage = (int)param.get("numPerpage");
+		RowBounds rb = new RowBounds((cPage-1) * numPerpage, numPerpage);
 		List<ProductDto> productList = sqlSessionTemplate.selectList("product.productlist", null, rb);
 		return productList;
 	}

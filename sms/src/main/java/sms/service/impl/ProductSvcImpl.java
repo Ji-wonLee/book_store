@@ -48,7 +48,7 @@ public class ProductSvcImpl implements ProductSvc{
 		List<ProductDto> productSearchList;
 		//입력값을 List로 받음
 		
-		if(searchDto.getCategory_id().isEmpty() == true) { // 카테고리 값이 비어있을 경우 = 입력된 문자열만을 이용하여 검색
+		if(searchDto.getCategory_id().equals("all")) { // 카테고리 값이 비어있을 경우 = 입력된 문자열만을 이용하여 검색
 			productSearchList = productDao.productSearchWithText(searchDto.getSearchText());
 		} else if(searchDto.getSearchText().isEmpty() == true) { // 입력된 문자열이 비어있는 경우 = 카테고리 값만을 이용하여 검색
 			productSearchList = productDao.productSearchWithCategory(searchDto.getCategory_id());
