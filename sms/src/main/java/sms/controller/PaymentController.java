@@ -1,6 +1,7 @@
 package sms.controller;
 
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
 
@@ -214,66 +215,68 @@ public class PaymentController {
 		return "product/productMain"; // 뷰 리졸버 설정에 따라 /WEB-INF/views/product/productMain.jsp로 매핑됨
 	}
 
-	   /**
-     * 결제 완료 처리
-     * @param req HttpServletRequest 객체
-     * @param payerName 입금자 이름
-     * @param payerAccount 입금자 계좌
-     * @param response HttpServletResponse 객체
-     * @return 리다이렉션 URL
-     */
-    @RequestMapping(value = "/completePayment", method = RequestMethod.POST)
-    public void completePayment(HttpServletRequest req,
-                                  @RequestParam("payer_name") String payerName,
-                                  @RequestParam("payer_account") String payerAccount,
-                                  HttpServletResponse response) {
-        HttpSession session = req.getSession();
-        String userId = (String) session.getAttribute("user_id");
-        String cartId = (String) session.getAttribute("cart_id");
-        String paymentId = (String) session.getAttribute("payment_id");
-        String receiverName = (String) session.getAttribute("receiver_name");
-        String receiverAddress = (String) session.getAttribute("receiver_address");
+	/**
+	 * 결제 완료 처리
+	 * @param req HttpServletRequest 객체
+	 * @param payerName 입금자 이름
+	 * @param payerAccount 입금자 계좌
+	 * @param response HttpServletResponse 객체
+	 * @return 리다이렉션 URL
+	 * @throws UnsupportedEncodingException 
+	 */
+	@RequestMapping(value = "/completePayment", method = RequestMethod.POST , produces = "text/html; charset=utf-8")
+	public void completePayment(HttpServletRequest req,
+			@RequestParam("payer_name") String payerName,
+			@RequestParam("payer_account") String payerAccount,
+			HttpServletResponse response) throws UnsupportedEncodingException {
+		req.setCharacterEncoding("utf-8"); 
+		HttpSession session = req.getSession();
+		String userId = (String) session.getAttribute("user_id");
+		String cartId = (String) session.getAttribute("cart_id");
+		String paymentId = (String) session.getAttribute("payment_id");
+		String receiverName = (String) session.getAttribute("receiver_name");
+		String receiverAddress = (String) session.getAttribute("receiver_address");
 
-        // 로깅을 통해 세션 정보 확인
-        System.out.println("Session user_id: " + userId);
-        System.out.println("Session cart_id: " + cartId);
-        System.out.println("Session payment_id: " + paymentId);
+		// 로깅을 통해 세션 정보 확인
+		System.out.println("Session user_id: " + userId);
+		System.out.println("Session cart_id: " + cartId);
+		System.out.println("Session payment_id: " + paymentId);
 
-        if (cartId == null || cartId.isEmpty()) {
-            throw new IllegalArgumentException("Invalid cartId");
-        }
+		if (cartId == null || cartId.isEmpty()) {
+			throw new IllegalArgumentException("Invalid cartId");
+		}
 
-        // PaymentDto 생성 및 결제 정보 업데이트
-        PaymentDto paymentDto = new PaymentDto(paymentId, userId, receiverName, receiverAddress, payerName, payerAccount, cartId);
-        System.out.println("PaymentDto: " + paymentDto.toString()); // 디버깅용 로그 추가
-        paymentService.updatePaymentInfo(paymentDto);
+		// PaymentDto 생성 및 결제 정보 업데이트
+		PaymentDto paymentDto = new PaymentDto(paymentId, userId, receiverName, receiverAddress, payerName, payerAccount, cartId);
+		System.out.println("PaymentDto: " + paymentDto.toString()); // 디버깅용 로그 추가
+		paymentService.updatePaymentInfo(paymentDto);
 
-        // 장바구니 상태를 '결제완료'로 업데이트
-        CartDto cartStateUpdateDto = new CartDto(cartId, "결제완료");
-        cartService.updateCartState(cartStateUpdateDto);
+		// 장바구니 상태를 '결제완료'로 업데이트
+		CartDto cartStateUpdateDto = new CartDto(cartId, "결제완료");
+		cartService.updateCartState(cartStateUpdateDto);
 
-        // 새로운 장바구니 생성
-        CartDto newCartDto = new CartDto(userId);
-        String newCartId = cartService.createNewCart(newCartDto);
+		// 새로운 장바구니 생성
+		CartDto newCartDto = new CartDto(userId);
+		String newCartId = cartService.createNewCart(newCartDto);
 
-        // 세션에 새로운 장바구니 ID 저장
-        session.setAttribute("cart_id", newCartId);
+		// 세션에 새로운 장바구니 ID 저장
+		session.setAttribute("cart_id", newCartId);
 
-        // 결제 성공 메시지를 보여주고 물건 리스트 페이지로 이동
-        alertAndGo(response, "결제 성공!", "/sms/customermain");
-    }
+		// 결제 성공 메시지를 보여주고 물건 리스트 페이지로 이동
+		alertAndGo(response, "결제 성공!", "/sms/customermain");
+	}
 
-    public static void alertAndGo(HttpServletResponse response, String msg, String url) {
-        try {
-            response.setContentType("text/html; charset=utf-8");
-            PrintWriter w = response.getWriter();
-            w.write("<script>alert('" + msg + "');location.href='" + url + "';</script>");
-            w.flush();
-            w.close();
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-    }
+	public static void alertAndGo(HttpServletResponse response, String msg, String url) {
+		try {
+			response.setContentType("text/html; charset=utf-8");
+			PrintWriter w = response.getWriter();
+			w.write("<script>alert('" + msg + "');location.href='" + url + "';</script>");
+			w.flush();
+			w.close();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 
 	@RequestMapping(value = "/rollbackState", method = RequestMethod.POST)
