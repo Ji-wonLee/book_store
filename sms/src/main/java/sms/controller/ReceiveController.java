@@ -42,18 +42,21 @@ public class ReceiveController {
 		model.addAttribute("rdList", rdList);
 		return "receive/receivePage";
 	}
+	
 	//입고서 수정 및 재고 반영
 	@RequestMapping(value = "/toInventory", method = RequestMethod.GET)
-	public String toInventory(@RequestParam String receive_id,@RequestParam Map<String, String> paramMap, ModelMap model,
-			HttpServletRequest req) {	
+	public String toInventory(@RequestParam String receive_id, @RequestParam String payer, @RequestParam String writer
+			,@RequestParam Map<String, String> paramMap
+			,ModelMap model, HttpServletRequest req) {	
 		//System.out.println(paramMap);
 		//입고서 수정//입고서 총액 수정
 		//user_id가져오기
 		HttpSession session=req.getSession();
 		String user_id = (String) session.getAttribute("user_id");
-
-		receiveSvc.updateReceive(paramMap, receive_id, user_id);
+		model.addAttribute("user_id", user_id);
+		//System.out.println(receive_id + " " + writer+" " + payer);
 		
+		receiveSvc.updateReceive(paramMap, receive_id, writer, payer);
 		//재고 수정
 		receiveSvc.receiveToInventory(paramMap);
 		//발주서 state 변경

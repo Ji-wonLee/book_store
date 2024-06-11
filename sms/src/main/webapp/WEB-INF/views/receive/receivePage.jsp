@@ -93,7 +93,7 @@ footer {
 					<input type="hidden"
 						name="receive_id" value="${rdList[0].receive_id}"> 
 					작성자 : <input type="text" name="writer" id="writer" value="${writer}" />
-					결제자 : <input type="text" name="payer" id="pqyer" value="${payer}" /> 
+					결제자 : <input type="text" name="payer" id="payer" value="${payer}" /> 
 				</div>
 				<table>
 					<tr>
