@@ -41,9 +41,10 @@ public class ProductListController {
 		List<ProductDto> productlist = productSvc.productList(Map.of("cPage", cPage, "numPerpage", numPerpage));
 		int totalData = productSvc.selectProductCount();
 		// 전체 개수
-		
 		model.addAttribute("categorylist",categorylist);
 		//카테고리 출력
+		model.addAttribute("cPage", cPage); // 현재 페이지
+		model.addAttribute("totalData", totalData); // 전체 객체 수
 		model.addAttribute("productlist", productlist);
 		//객체 출력
 		model.addAttribute("pageBar", pageFactory.getPageBar(totalData, cPage, numPerpage, "/sms/customermain?"));
@@ -60,6 +61,8 @@ public class ProductListController {
 		SearchDto searchDto = new SearchDto(searchtext, category_id);
 		int searchData = productSvc.productSearchListNum(searchDto);
 		model.addAttribute("categorylist", productSvc.categoryList());
+		model.addAttribute("cPage", cPage); // 현재 페이지
+		model.addAttribute("totalData", searchData); // 객체 수
 		model.addAttribute("productlist", productSvc.productSearchList(searchDto, Map.of("cPage", cPage, "numPerpage", numPerpage)));
 		model.addAttribute("pageBar", pageFactory.getPageBar(searchData, cPage, numPerpage, "/sms/search?category_id=" + category_id + "&searchtext=" + searchtext));
 		return "product/productMain";
