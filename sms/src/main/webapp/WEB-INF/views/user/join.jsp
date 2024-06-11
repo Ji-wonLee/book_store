@@ -83,6 +83,7 @@
 			alert("비밀번호가 불일치");
 			return false;				
 		} else {
+			alert("회원가입 성공");
 			return true;
 		}
 	}
@@ -93,12 +94,14 @@
 		<nav>
 		</nav>
 		<article>
-					<c:set var ="stt" value="${idChkStt}"/>
-		<c:if test = "${stt eq 1}">
-			<script>
-				alert('존재한 아이디');
-			</script>
-		</c:if>
+		<c:set var ="stt" value="${idChkStt}"/>
+		<c:choose>
+			<c:when test = "${stt eq 1}">
+				<script>
+					alert('존재한 아이디');
+				</script>
+			</c:when>
+		</c:choose>
 		<button onclick="history.back()" type="submit" >뒤로가기</button>
 		<form action="/sms/join.do" name="joinForm" onsubmit="return checkForm()" method="get">
 			<table>
@@ -163,7 +166,6 @@
 		</form>
 		</article>
 	</section>
-	<!-- </form> -->
 </body>
 	<footer>
 		<p> - 2024년도 kitri 보안개발 8기 포트폴리오 프로젝트 1팀 -</p>

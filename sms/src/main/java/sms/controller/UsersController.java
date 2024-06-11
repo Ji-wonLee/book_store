@@ -99,7 +99,7 @@ public class UsersController {
 			return "user/join";
 		} else if(idChkStt == 0) {
 			int cntInsert = usersDao.insertUsers(param);
-			return "main";
+			return "user/join";
 		}
 
 		return webCtrl;
