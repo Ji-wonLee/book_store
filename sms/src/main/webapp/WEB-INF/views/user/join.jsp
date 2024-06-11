@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.ResultSet"%>
 <%@ page import="java.sql.PreparedStatement"%>
@@ -77,17 +76,24 @@
 	}
 </style>
 <title>회원 가입</title>
+<c:set var ="stt" value="${idChkStt}"/>
 <script type="text/javascript">
+
 	function checkForm(){
+		
 		let f = document.joinForm;
-			if (f.userPass.value != f.userPassCheck.value) {
+		if (f.userPass.value != f.userPassCheck.value) {
 			alert("비밀번호가 불일치");
-			return false;				
+			return false;
+		} else if(lgnStt == false){
+			alert('존재한 아이디');
+			return false;
 		} else {
 			alert("회원가입 성공");
 			return true;
 		}
 	}
+	
 </script>
 </head>
 <body>
@@ -100,6 +106,7 @@
 			<c:when test = "${stt eq 1}">
 				<script>
 					alert('존재한 아이디');
+					var lgnStt = false;
 				</script>
 			</c:when>
 		</c:choose>
@@ -107,7 +114,7 @@
 		<form action="/sms/join.do" name="joinForm" onsubmit="return checkForm()" method="get">
 			<table>
 				<tr>
-					<td style='text-align:left;width:150px'>아이디 :</td>
+					<td style='text-align:left;width:150px'>아이디</td>
 					
 					<td>
 						<div class="form-group has-feedback">
@@ -116,7 +123,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td style='text-align:left;width:150px'>비밀번호 :</td>
+					<td style='text-align:left;width:150px'>비밀번호</td>
 					<td>
 						<div class="form-group has-feedback">
 							<input class="form-control" type="password" id="userPass" name="userPass"required/>
@@ -124,7 +131,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td style='text-align:left;width:150px'>비밀번호 확인 :</td>
+					<td style='text-align:left;width:150px'>비밀번호 확인</td>
 					<td>
 						<div class="form-group has-feedback">
 							<input class="form-control" type="password" id="userPassCheck" name="userPassCheck" required/>
@@ -132,7 +139,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td style='text-align:left;width:150px'>주소 :</td>
+					<td style='text-align:left;width:150px'>주소</td>
 					<td>
 						<div class="form-group has-feedback">
 							<input class="form-control" id="userAddr" name="userAddr" required/>
@@ -140,7 +147,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td style='text-align:left;width:150px'>이름 :</td>
+					<td style='text-align:left;width:150px'>이름</td>
 					<td>
 						<div class="form-group has-feedback">
 							<input class="form-control" id="userName" name="userName" required/>
@@ -148,7 +155,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td style='text-align:left;width:150px'>전화번호 :</td>
+					<td style='text-align:left;width:150px'>전화번호</td>
 					<td>
 						<div class="form-group has-feedback">
 							<input class="form-control" id="userCall" name="userCall" required/>
