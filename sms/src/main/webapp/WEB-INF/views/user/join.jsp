@@ -114,7 +114,7 @@
 		<form action="/sms/join.do" name="joinForm" onsubmit="return checkForm()" method="get">
 			<table>
 				<tr>
-					<td style='text-align:left;width:150px'>아이디 :</td>
+					<td style='text-align:left;width:150px'>아이디</td>
 					
 					<td>
 						<div class="form-group has-feedback">
@@ -123,7 +123,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td style='text-align:left;width:150px'>비밀번호 :</td>
+					<td style='text-align:left;width:150px'>비밀번호</td>
 					<td>
 						<div class="form-group has-feedback">
 							<input class="form-control" type="password" id="userPass" name="userPass"required/>
@@ -131,7 +131,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td style='text-align:left;width:150px'>비밀번호 확인 :</td>
+					<td style='text-align:left;width:150px'>비밀번호 확인</td>
 					<td>
 						<div class="form-group has-feedback">
 							<input class="form-control" type="password" id="userPassCheck" name="userPassCheck" required/>
@@ -139,7 +139,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td style='text-align:left;width:150px'>주소 :</td>
+					<td style='text-align:left;width:150px'>주소</td>
 					<td>
 						<div class="form-group has-feedback">
 							<input class="form-control" id="userAddr" name="userAddr" required/>
@@ -147,7 +147,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td style='text-align:left;width:150px'>이름 :</td>
+					<td style='text-align:left;width:150px'>이름</td>
 					<td>
 						<div class="form-group has-feedback">
 							<input class="form-control" id="userName" name="userName" required/>
@@ -155,7 +155,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td style='text-align:left;width:150px'>전화번호 :</td>
+					<td style='text-align:left;width:150px'>전화번호</td>
 					<td>
 						<div class="form-group has-feedback">
 							<input class="form-control" id="userCall" name="userCall" required/>
