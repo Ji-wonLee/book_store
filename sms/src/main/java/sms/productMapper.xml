@@ -27,6 +27,7 @@
 		ORDER BY p.category_id ASC
 	]]>
 	</select>
+	
 	<!-- 이름으로 검색 -->
 	<select id="productSearchName" parameterType="String" resultType="ProductDto">
 	<![CDATA[
@@ -38,6 +39,16 @@
 		ORDER BY p.category_id ASC
 	]]>
 	</select>
+	<select id="productSearchNameNum" parameterType="String" resultType="int">
+	<![CDATA[
+		SELECT COUNT(*)
+		FROM product p, category c 
+		WHERE c.category_id = p.category_id 
+		AND (p.product_id LIKE '%' || #{searchText} || '%'
+		OR product_name LIKE '%' || #{searchText} || '%')
+	]]>
+	</select>
+	
 	<!-- 분류로 검색 -->
 	<select id="productSearchCategory" parameterType="String" resultType="ProductDto">
 	<![CDATA[
@@ -47,10 +58,29 @@
 		AND p.category_id = #{category_id}
 	]]>
 	</select>
+	<select id="productSearchCategoryNum" parameterType="String" resultType="int">
+	<![CDATA[
+		SELECT COUNT(*) 
+		FROM product p, category c 
+		WHERE c.category_id = p.category_id
+		AND p.category_id = #{category_id}
+	]]>
+	</select>
+	
 	<!-- 둘 다 사용하여 검색 -->
 	<select id="productSearchDual" parameterType="String" resultType="ProductDto">
 	<![CDATA[
 		SELECT p.product_id,product_name, product_price, product_page, category_name, state
+		FROM product p, category c 
+		WHERE c.category_id = p.category_id 
+		AND (p.product_id LIKE '%' || #{searchText} || '%'
+		OR product_name LIKE '%' || #{searchText} || '%')
+		AND p.category_id = #{category_id}
+	]]>
+	</select>
+	<select id="productSearchDualNum" parameterType="String" resultType="int">
+	<![CDATA[
+		SELECT COUNT(*)
 		FROM product p, category c 
 		WHERE c.category_id = p.category_id 
 		AND (p.product_id LIKE '%' || #{searchText} || '%'

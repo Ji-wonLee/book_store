@@ -44,22 +44,24 @@ public class ProductListController {
 		
 		model.addAttribute("categorylist",categorylist);
 		//카테고리 출력
-		pageFactory.getPageBar(totalData, cPage, numPerpage, "/sms/customermain");
-		//페이지바를 가져옴
 		model.addAttribute("productlist", productlist);
 		//객체 출력
-		model.addAttribute("pageBar", pageFactory.getPageBar(totalData, cPage, numPerpage, "/sms/customermain"));
+		model.addAttribute("pageBar", pageFactory.getPageBar(totalData, cPage, numPerpage, "/sms/customermain?"));
 		// pageBar을 출력
 		return "product/productMain"; //수정, 페이지 위치 입력
 	}
 	
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
-	public String testSearch(@RequestParam(value="category_id") String category_id,
+	public String testSearch(@RequestParam(value="cPage", defaultValue="1") int cPage,
+							 @RequestParam(value="numPerpage", defaultValue="20") int numPerpage,
+			  				 @RequestParam(value="category_id") String category_id,
 							 @RequestParam(value="searchtext") String searchtext,
 							 ModelMap model) {
 		SearchDto searchDto = new SearchDto(searchtext, category_id);
+		int searchData = productSvc.productSearchListNum(searchDto);
 		model.addAttribute("categorylist", productSvc.categoryList());
-		model.addAttribute("productlist", productSvc.productSearchList(searchDto));
+		model.addAttribute("productlist", productSvc.productSearchList(searchDto, Map.of("cPage", cPage, "numPerpage", numPerpage)));
+		model.addAttribute("pageBar", pageFactory.getPageBar(searchData, cPage, numPerpage, "/sms/search?category_id=" + category_id + "&searchtext=" + searchtext));
 		return "product/productMain";
 	}
 	

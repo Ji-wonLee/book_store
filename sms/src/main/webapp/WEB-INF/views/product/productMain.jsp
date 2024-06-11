@@ -57,12 +57,6 @@ article td {
   	text-decoration: none;
 }
 
-.page-link.active{
-	background-color: #736699;
-  	color: white;
-  	border-radius: 5px;
-}
-
 .page-link:hover:not(.active) {
   background-color: #c2c2d6;
   border-radius: 5px;

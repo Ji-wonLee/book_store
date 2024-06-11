@@ -21,9 +21,7 @@ public class ProductDaoImpl implements ProductDao{
 	//Sql 연결
 	@Override
 	public List<Category> categoryList(){ // 분류 리스트 출력(검색에서 사용)
-		
 		List<Category> categoryList = sqlSessionTemplate.selectList("product.categoryList"); // mapper의 명칭.호출할 sql문의 이름
-		
 		return categoryList;
 	}
 	
@@ -43,34 +41,51 @@ public class ProductDaoImpl implements ProductDao{
 
 	@Override
 	public ProductDto productInfo(String ProductId) { // 상품 상세
-		
 		ProductDto selectProduct = sqlSessionTemplate.selectOne("product.productInfo", ProductId);
-		
 		return selectProduct;
 	}
 
 	@Override
-	public List<ProductDto> productSearchWithText(String searchText) { // 단어로 조회 
-		
-		List<ProductDto> searchTextList = sqlSessionTemplate.selectList("product.productSearchName", searchText);
-		
+	public List<ProductDto> productSearchWithText(String searchText, Map<String, Object> param) { // 단어로 조회 
+		int cPage = (int)param.get("cPage");
+		int numPerpage = (int)param.get("numPerpage");
+		RowBounds rb = new RowBounds((cPage-1) * numPerpage, numPerpage);
+		List<ProductDto> searchTextList = sqlSessionTemplate.selectList("product.productSearchName", searchText, rb);
 		return searchTextList;
 	}
 
 	@Override
-	public List<ProductDto> productSearchWithCategory(String categoryId) { // 분류로 조회
-		
-		List<ProductDto> searchCategoryList = sqlSessionTemplate.selectList("product.productSearchCategory", categoryId);
-		
+	public int productSearchWithTextNum(String searchText) { //단어로 조회 개수
+		return sqlSessionTemplate.selectOne("product.productSearchNameNum", searchText);
+	}
+	
+	@Override
+	public List<ProductDto> productSearchWithCategory(String categoryId, Map<String, Object> param) { // 분류로 조회
+		int cPage = (int)param.get("cPage");
+		int numPerpage = (int)param.get("numPerpage");
+		RowBounds rb = new RowBounds((cPage-1) * numPerpage, numPerpage);
+		List<ProductDto> searchCategoryList = sqlSessionTemplate.selectList("product.productSearchCategory", categoryId, rb);
 		return searchCategoryList;
+	}
+	
+	@Override
+	public int productSearchWithCategoryNum(String categoryId) { // 분류로 조회 개수
+		return sqlSessionTemplate.selectOne("product.productSearchCategoryNum", categoryId);
 	}
 
 	@Override
-	public List<ProductDto> productSearchDual(SearchDto searchDto) { // 둘 다 사용하여 조회
-		
-		List<ProductDto> searchDualList = sqlSessionTemplate.selectList("product.productSearchDual", searchDto);
+	public List<ProductDto> productSearchDual(SearchDto searchDto, Map<String, Object> param) { // 둘 다 사용하여 조회
+		int cPage = (int)param.get("cPage");
+		int numPerpage = (int)param.get("numPerpage");
+		RowBounds rb = new RowBounds((cPage-1) * numPerpage, numPerpage);
+		List<ProductDto> searchDualList = sqlSessionTemplate.selectList("product.productSearchDual", searchDto, rb);
 		
 		return searchDualList;
+	}
+	
+	@Override
+	public int productSearchDualNum(SearchDto searchDto) { // 둘다 사용하여 조회 개수
+		return sqlSessionTemplate.selectOne("product.productSearchDualNum", searchDto);
 	}
 
 	public SqlSessionTemplate getSqlSessionTemplate() {
