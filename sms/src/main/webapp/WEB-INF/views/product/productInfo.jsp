@@ -67,7 +67,7 @@
 	}
 </style>
 	<script>
-    function checkNum() {
+	function checkNum() {
         var num = "${number}";
         var quant = "${quantity}"; // '=' 기호가 누락되어 있습니다.
         if (parseInt(num) <= parseInt(quant)) { // 정수 변환을 위해 parseInt를 사용합니다.
@@ -87,7 +87,7 @@
             alert("임시 품절 상품 입니다.");
             history.back();
         } else {
-            checkNum(); // 변수 할당 오류를 수정한 checkNum 함수를 호출합니다.
+        	document.getElementById("addToCartForm").submit();
         }    
     }
 	</script>
