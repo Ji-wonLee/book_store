@@ -37,7 +37,7 @@ public class InventoryController {
 		model.addAttribute("cPage", cPage); // 현재 페이지
 		model.addAttribute("totalData", totalData); // 객체 수
 		model.addAttribute("inventorylist", inventorySvc.inventoryList(Map.of("cPage", cPage, "numPerpage", numPerpage)));
-		model.addAttribute("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage, "/sms/customermain?"));
+		model.addAttribute("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage, "/sms/inventory?"));
 		return "inventory/inventoryList";
 	}
 	
@@ -50,7 +50,7 @@ public class InventoryController {
 		model.addAttribute("cPage", cPage); // 현재 페이지
 		model.addAttribute("totalData", totalData); // 객체 수
 		model.addAttribute("inventorylist", inventorySvc.inventorySearchWithText(searchtext, Map.of("cPage", cPage, "numPerpage", numPerpage)));
-		model.addAttribute("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage, "/sms/customermain?"));
+		model.addAttribute("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage, "/sms/inventory?"));
 		// pageBar을 출력
 		return "inventory/inventoryList";
 	}

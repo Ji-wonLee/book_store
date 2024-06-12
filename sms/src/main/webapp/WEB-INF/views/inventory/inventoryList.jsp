@@ -50,6 +50,19 @@
   		padding: 8px;
 	}
 	
+	.page-link{
+		color: black;
+  		float: left;
+ 		padding: 8px 16px;
+  		text-decoration: none;
+	}
+
+	.page-link:hover:not(.active) {
+  		background-color: #c2c2d6;
+ 		border-radius: 5px;
+	}
+	
+	
 	section::after {
 		content: "";
   		display: table;
