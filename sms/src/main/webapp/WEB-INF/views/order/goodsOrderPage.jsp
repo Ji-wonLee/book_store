@@ -71,7 +71,7 @@ footer {
 </style>
 <title>재고 관리 화면</title>
 <script>
-    function filterAndSubmitForm() {
+	function filterAndSubmitForm() {
         const form = document.getElementById('orderForm');
         const inputs = form.querySelectorAll('input[type="number"]');
         inputs.forEach(input => {
@@ -79,6 +79,12 @@ footer {
                 input.name = '';
             }
         });
+        //여기에 코드 추가
+        let hasSelection = Array.from(inputs).some(input => input.value !== '0' && input.value.trim() !== '');
+    if (!hasSelection) {
+        alert("하나 이상의 상품을 선택하세요.");
+        return false;
+    }
         form.submit();
     }
 </script>
@@ -88,18 +94,34 @@ footer {
 		<nav id="nav">
 			<!-- 좌측 유저정보 및 사이트 목록 표시 -->
 			<div class="userText">
-				<h3>관리자</h3>
+				<h3>${user_id}</h3>
 				<h3>님 환영합니다.</h3>
 			</div>
 			<ul>
-				<li><a href="http://localhost:8080/sms">로그아웃</a></li>
+				<li><a href="/sms/toAdminMain">메인화면</a></li>
+				<li><a href="index.jsp">로그아웃</a></li>
 			</ul>
 		</nav>
 		<article id="article">
-
+			<form action="/sms/orderSearch" method="get">
+				<div>
+					<select name="category_id" id="category_id">
+						<option value="all">전체</option>
+						<c:forEach var="Category" items="${categorylist}">
+							<option value="${Category.category_id}">${Category.category_name}</option>
+						</c:forEach>
+					</select> 
+					<input type="text" name="searchtext" id="searchText"
+						placeholder="검색어 입력" />
+					<!-- 검색어 입력 text 박스 -->
+					<input type="number" name="remaining" id="remaining"
+						value="999999" placeholder="N개 이하 검색" />
+					<input type="submit" value="검색" />
+				</div>
+			</form>
 			<form id="orderForm" action="/sms/orderCheck" method="get"
 				onsubmit="filterAndSubmitForm(); return false;">
-				<button type="submit">발주확인</button>
+				<button type="submit">발주선택</button>
 				<table>
 					<tr>
 						<th>상품 id</th>
@@ -109,17 +131,20 @@ footer {
 						<th>분류</th>
 						<th>표지 url</th>
 						<th>상태</th>
-						<th>수량</th>
+						<th>잔여수량</th>
+						<th>신청수량</th>
 					</tr>
-					<c:forEach var="product" items="${listProduct}">
+					<c:forEach var="product" items="${productList}">
 						<tr>
 							<td>${product.product_id}</td>
 							<td>${product.product_name}</td>
 							<td>${product.product_price}</td>
 							<td>${product.manufacture_name}</td>
 							<td>${product.category_name}</td>
-							<td><img src="${product.product_imgurl}"  alt="image" width="50" height="60"></td>
+							<td><img src="${product.product_imgurl}" alt="image"
+								width="50" height="60"></td>
 							<td>${product.state}</td>
+							<td>${product.quantity}</td>
 							<td><input type="number"
 								name="${product.product_id}_${product.product_price}" value="0"
 								min="0"></td>

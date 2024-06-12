@@ -28,10 +28,10 @@
 	</insert>
 
 
-	<insert id="savePaymentDetail"
-		parameterType="PaymentDetailDto">
-		INSERT INTO payment_detail (payment_id, product_id, quantity, price)
-		VALUES (#{payment_id}, #{product_id}, #{quantity}, #{price})
+	<!-- PaymentDetail 저장 쿼리 -->
+	<insert id="savePaymentDetail" parameterType="sms.dto.PaymentDetailDto">
+	    INSERT INTO payment_detail (payment_id, product_id, quantity, price, cart_id)
+	    VALUES (#{payment_id}, #{product_id}, #{quantity}, #{price}, #{cart_id})
 	</insert>
 
 	<!-- Cart 상태를 '결제완료'로 업데이트하는 쿼리 -->
@@ -75,4 +75,13 @@
     <select id="existsPaymentId" parameterType="string" resultType="int">
         SELECT COUNT(*) FROM payment WHERE payment_id = #{payment_id}
     </select>
+    
+        <!-- 특정 cart_id에 해당하는 PaymentDetail 정보 조회 -->
+    <select id="selectPaymentDetails" resultType="PaymentDetailDto" parameterType="String">
+        SELECT pd.payment_id, pd.product_id, pd.quantity, pd.price
+        FROM payment_detail pd
+        JOIN payment p ON pd.payment_id = p.payment_id
+        WHERE p.cart_id = #{cart_id}
+    </select>
+    
 </mapper>   

@@ -32,11 +32,22 @@ public class ReceiveSvcImpl implements ReceiveSvc{
 	}
 
 	@Override
-	public int updateReceive(Map<String, String> receiveMap, String receive_id) {
+	public int updateReceive(Map<String, String> receiveMap, String receive_id, String writer, String payer) {
+		//receive writer 수정
+		Receive receive = new Receive();
+		receive.setReceive_id(receive_id);
+		receive.setWriter(writer);
+		receive.setPayer(payer);
+		receiveDao.updateWriter(receive);
+		
+		receiveMap.remove("writer");
+		receiveMap.remove("payer");
+		
 		//receiveDetail 수정
 		for(String key : receiveMap.keySet()) {
+			//System.out.println(key);
 			if(!key.equals("receive_id")) {
-				System.out.println(key +"/"+receiveMap.get(key));
+				//System.out.println(key +"/"+receiveMap.get(key));
 				int test = Integer.parseInt( receiveMap.get(key));
 				ReceiveDetail receiveDetail = new ReceiveDetail(receive_id, key,test, 0);
 				receiveDao.updateReceiveDetail(receiveDetail);
@@ -60,6 +71,13 @@ public class ReceiveSvcImpl implements ReceiveSvc{
 		return 0;
 	}
 
+	@Override
+	public int updateOrderState(String receive_id) {
+		String order_id = "OD"+receive_id.substring(2);
+		receiveDao.updateOrderState(order_id);
+		return 0;
+	}
+	
 	public ReceiveDao getReceiveDao() {
 		return receiveDao;
 	}
@@ -67,5 +85,6 @@ public class ReceiveSvcImpl implements ReceiveSvc{
 	public void setReceiveDao(ReceiveDao receiveDao) {
 		this.receiveDao = receiveDao;
 	}
+
 
 }

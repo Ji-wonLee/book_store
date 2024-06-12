@@ -108,7 +108,7 @@ public class PaymentDto {
 	}
 
 	/**
-	 * PayInner¿¡¼­ ¾µ °Í.
+	 * PayInnerÂ¿Â¡Â¼Â­ Â¾Âµ Â°Ã.
 	 * @param user_id
 	 * @param receiver_name
 	 * @param receiver_address

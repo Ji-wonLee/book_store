@@ -38,6 +38,42 @@ public class ProductDto {
 		this.quantity = quantity;
 	}
 	
+	
+	/**
+	 * <select id="productlist" resultType="ProductDto">
+<![CDATA[
+    SELECT p.product_id, p.product_name, p.product_price, p.product_page, c.category_name, p.state, p.product_imgurl
+    FROM product p, category c 
+    WHERE c.category_id = p.category_id
+    ORDER BY p.category_id ASC
+]]>
+</select>
+
+
+	 * @param id
+	 * @param name
+	 * @param price
+	 * @param manufactureName
+	 * @param manufactureAddress
+	 * @param categoryId
+	 * @param categoryName
+	 * @param page
+	 * @param state
+	 * @param quantity
+	 */
+	
+	public ProductDto(String product_id, String product_name, String product_price, int product_page, String category_name, String state, String product_imgurl) {
+		this.product_id = product_id;
+		this.product_name = product_name;
+		this.product_price = product_price;
+		this.product_page = product_page;
+		this.category_name = category_name;
+		this.state = state;
+		this.product_imgurl = product_imgurl;
+		
+	}
+	
+	
 	//관리자 전체 조회
 	public ProductDto(String id, String name, String price, String manufactureName, String manufactureAddress,
 			String categoryId, String categoryName, int page, String state, int quantity) {
@@ -77,9 +113,9 @@ public class ProductDto {
 		this.state = state;
 	}
 	
-	//test_나예은
+	//test_나예은 : order에 사용
 	public ProductDto(String id, String name, String price, String manufactureName, String categoryName, String imgurl,
-			String state) {
+			String state, int quantity) {
 		product_id = id;
 		product_name = name;
 		product_price = price;
@@ -87,6 +123,7 @@ public class ProductDto {
 		category_name = categoryName;
 		product_imgurl = imgurl;
 		this.state = state;
+		this.quantity = quantity;
 	}
 
 	public String getProduct_id() {

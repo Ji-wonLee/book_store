@@ -13,5 +13,8 @@ public interface ReceiveDao {
 	public int updateReceive(String receive_id);
 	public int updateReceiveDetail(ReceiveDetail receiveDetail);
 	public int receiveToInventory(Inventory inventory);
-	
+	//orderSatate 입고완료로 변경
+	public int updateOrderState(String order_id);
+	//writer 작성
+	public int updateWriter(Receive receive);
 }

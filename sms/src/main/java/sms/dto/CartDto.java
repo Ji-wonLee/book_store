@@ -10,34 +10,54 @@ public class CartDto {
 	private String state;			// 카트 상태; 장바구니, 결제중, 결제완료
 	private String product_id;		// 상품 id
 	private int quantity;			// 수량	
-	private int price;				// 단가
+	private int product_price;				// 단가
 	private String product_name;	// 상품 이름
 	private String newCartId;		//새 장바구니id
+
+	private String product_imgurl; // 상품 이미지 URL
+	
+
 
 	public CartDto() {}
 
 
-	public CartDto(String cartId, String userId, int totalPrice, Date cartDate, String state, String productId,
-			int quantity, int price, String productName, String newCartId) {
-		
-		this.cart_id = cartId;
-		this.user_id = userId;
-		this.totalprice = totalPrice;
-		this.cart_Date = cartDate;
+	public CartDto(String cart_id, String user_id, int totalprice, Date cart_Date, String state, String product_id,
+			int quantity, int price, String product_name, String newCartId, String product_imgurl) {
+
+		this.cart_id = cart_id;
+		this.user_id = user_id;
+		this.totalprice = totalprice;
+		this.cart_Date = cart_Date;
 		this.state = state;
-		this.product_id = productId;
+		this.product_id = product_id;
 		this.quantity = quantity;
-		this.price = price;
-		this.product_name = productName;
+		this.product_price = price;
+		this.product_name = product_name;
 		this.newCartId = newCartId;
+		this.product_imgurl = product_imgurl;
+		
 	}
 
-	 // 새로운 생성자 추가
-    public CartDto(String user_id) {
-        this.user_id = user_id;
-        this.state = "장바구니";
-        this.cart_Date = new Date();
-    }
+
+	 public CartDto(String cart_id, String user_id, String product_id, int quantity, int product_price, String product_name, String product_imgurl, Date cart_Date, String state, int totalprice) {
+	        this.cart_id = cart_id;
+	        this.user_id = user_id;
+	        this.product_id = product_id;
+	        this.quantity = quantity;
+	        this.product_price = product_price;
+	        this.product_name = product_name;
+	        this.product_imgurl = product_imgurl;
+	        this.cart_Date = cart_Date;
+	        this.state = state;
+	        this.totalprice = totalprice;
+	    }
+
+	// 새로운 생성자 추가
+	public CartDto(String user_id) {
+		this.user_id = user_id;
+		this.state = "장바구니";
+		this.cart_Date = new Date();
+	}
 	/**
 	 * cartDetail
 	 * @param cartId
@@ -58,7 +78,7 @@ public class CartDto {
 		this.state = state;
 		this.product_id = productId;
 		this.quantity = quantity;
-		this.price = price;
+		this.product_price = price;
 		this.product_name = productName;
 	}
 
@@ -80,10 +100,10 @@ public class CartDto {
 	 * @param state
 	 */
 	public CartDto(String cart_id, String state) {
-        this.cart_id = cart_id;
-        this.state = state;
-    }
-	
+		this.cart_id = cart_id;
+		this.state = state;
+	}
+
 	/**
 	 * 재고 업데이트 
 	 * @param product_id
@@ -93,17 +113,17 @@ public class CartDto {
 		this.product_id = product_id;
 		this.quantity = quantity;
 	}
-//	/**
-//	 * 카트 상태 업뎅
-//	 * 결제중-> 장바구니. 
-//	 * @param cartId
-//	 * @param userId
-//	 */
-//	public CartDto(String cartId, String userId) {
-//		this.cart_id = cartId;
-//		this.user_id = userId;
-//	}
-	
+	//	/**
+	//	 * 카트 상태 업뎅
+	//	 * 결제중-> 장바구니. 
+	//	 * @param cartId
+	//	 * @param userId
+	//	 */
+	//	public CartDto(String cartId, String userId) {
+	//		this.cart_id = cartId;
+	//		this.user_id = userId;
+	//	}
+
 	/**
 	 * update item 
 	 * 장바구니 상품 추가에 사용
@@ -113,7 +133,7 @@ public class CartDto {
 		this.cart_id = cartId ;
 		this.product_id = productId;
 		this.quantity = quantity;
-		this.price = price;
+		this.product_price = price;
 	}
 	/**
 	 * update item 
@@ -202,12 +222,12 @@ public class CartDto {
 
 
 	public int getPrice() {
-		return price;
+		return product_price;
 	}
 
 
 	public void setPrice(int price) {
-		this.price = price;
+		this.product_price = price;
 	}
 
 
@@ -228,6 +248,26 @@ public class CartDto {
 
 	public void setNewCartId(String newCartId) {
 		this.newCartId = newCartId;
+	}
+
+
+	public String getProduct_imgurl() {
+		return product_imgurl;
+	}
+
+
+	public void setProduct_imgurl(String product_imgurl) {
+		this.product_imgurl = product_imgurl;
+	}
+
+
+	public int getProduct_price() {
+		return product_price;
+	}
+
+
+	public void setProduct_price(int product_price) {
+		this.product_price = product_price;
 	}
 
 

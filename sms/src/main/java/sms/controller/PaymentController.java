@@ -2,6 +2,7 @@ package sms.controller;
 
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -37,66 +38,84 @@ public class PaymentController {
 	@Autowired
 	CartService cartService;
 
+	
 	/**
-	 * 재고를 확인하고 결제 페이지로 이동합니다.
-	 * @param req HttpServletRequest 객체
-	 * @param model 모델 객체
-	 * @return 결제 페이지 또는 재고 부족 경고 페이지
+	 * 기존의 cartService.listCartItems(userId) 메서드를 사용하여 장바구니 항목들을 가져온 후, 선택된 항목들만 필터링하는 방식으로 구현
+	 * @param req
+	 * @param model
+	 * @return
 	 */
 	@RequestMapping(value = "/checkStock", method = RequestMethod.POST)
 	public String checkStock(HttpServletRequest req, ModelMap model) {
-		HttpSession session = req.getSession();
-		String userId = (String) session.getAttribute("user_id"); // 세션에서 사용자 ID를 가져옵니다.
+	    HttpSession session = req.getSession();
+	    String userId = (String) session.getAttribute("user_id"); // 세션에서 사용자 ID를 가져옵니다.
+	    // 사용자의 장바구니 항목을 가져옵니다.
+        List<CartDto> cartItems = cartService.listCartItems(userId);
 
-		// 사용자의 장바구니 항목을 가져옵니다.
-		List<CartDto> cartItems = cartService.listCartItems(userId);
-		boolean outOfStock = false;
-		// 각 항목에 대해 재고를 확인합니다.
-		for (CartDto item : cartItems) {
-			int availableStock = cartService.getStock(item.getProduct_id());
-			if (availableStock < item.getQuantity()) {
-				outOfStock = true; // 재고 부족 시 outOfStock을 true로 설정합니다.
-				break;
-			}
-		}
-		if (outOfStock) {
-			// 재고가 부족하면 에러 메시지와 함께 장바구니 페이지로 돌아갑니다.
-			model.addAttribute("error", "장바구니에 있는 일부 상품의 재고가 부족합니다.");
-			model.addAttribute("cartItems", cartItems);
-			return "cart/cart_itemList";
-		}
+        // 선택된 항목의 ID 목록을 가져옵니다.
+        String[] selectedItemIds = req.getParameterValues("cartItemIds");
+        if (selectedItemIds == null || selectedItemIds.length == 0) {
+            model.addAttribute("error", "선택된 상품이 없습니다.");
+            model.addAttribute("cartItems", cartItems);
+            return "cart/cart_itemList";
+        }
 
-		// 재고가 충분하면 결제 ID를 생성합니다.
-		String cartId = cartService.findCartId(userId);
-		String paymentId = paymentService.generatePaymentId(cartId);
+        // 선택된 항목 필터링 및 수량, 가격 설정
+        List<CartDto> selectedItems = new ArrayList<>();
+        for (CartDto item : cartItems) {
+            for (String itemId : selectedItemIds) {
+                if (item.getProduct_id().equals(itemId)) {
+                    int quantity = Integer.parseInt(req.getParameter("quantity_" + itemId));
+                    int price = Integer.parseInt(req.getParameter("price_" + itemId));
+                    item.setQuantity(quantity);
+                    item.setPrice(price);
+                    selectedItems.add(item);
+                    break;
+                }
+            }
+        }
 
-		// PaymentDto 생성 및 저장
-		PaymentDto paymentDto = new PaymentDto(userId, "", "", "", "", cartId);
-		paymentDto.setPayment_id(paymentId);
-		paymentService.savePaymentInfo(paymentDto);
+        boolean outOfStock = false;
+        for (CartDto item : selectedItems) {
+            int availableStock = cartService.getStock(item.getProduct_id());
+            if (availableStock < item.getQuantity()) {
+                outOfStock = true;
+                break;
+            }
+        }
 
-		// Cart 상태를 '결제중'으로 업데이트합니다.
-		CartDto cartStateUpdateDto = new CartDto(cartId, "결제중");
-		cartService.updateCartState(cartStateUpdateDto);
+        if (outOfStock) {
+            model.addAttribute("error", "장바구니에 있는 일부 상품의 재고가 부족합니다.");
+            model.addAttribute("cartItems", cartItems);
+            return "cart/cart_itemList";
+        }
 
-		// 세션에 cart_id와 payment_id 저장
-		session.setAttribute("cart_id", cartId);
-		session.setAttribute("payment_id", paymentId);
+        String cartId = cartService.findCartId(userId);
+        String paymentId = paymentService.generatePaymentId(cartId);
 
-		// 재고 업데이트: 구매된 수량만큼 재고에서 빼줍니다.
-		for (CartDto item : cartItems) {
-			cartService.updateStock(new Inventory(item.getProduct_id(), -item.getQuantity()));
-			// PaymentDetailDto 생성 및 저장
-			PaymentDetailDto paymentDetailDto = new PaymentDetailDto(paymentId, item.getProduct_id(), item.getQuantity(), item.getPrice());
-			paymentService.savePaymentDetail(paymentDetailDto);
-		}
+        PaymentDto paymentDto = new PaymentDto(userId, "", "", "", "", cartId);
+        paymentDto.setPayment_id(paymentId);
+        paymentService.savePaymentInfo(paymentDto);
 
-		// 모델에 필요한 속성들을 추가합니다.
-		model.addAttribute("cartItems", cartItems);
-		model.addAttribute("user_id", userId);
-		model.addAttribute("payment_id", paymentId); // 생성된 payment_id를 모델에 추가합니다.
-		return "pay/payPage"; // 결제 페이지로 이동합니다.
-	}
+        CartDto cartStateUpdateDto = new CartDto(cartId, "결제중");
+        cartService.updateCartState(cartStateUpdateDto);
+
+        session.setAttribute("cart_id", cartId);
+        session.setAttribute("payment_id", paymentId);
+
+        for (CartDto item : selectedItems) {
+            cartService.updateStock(new Inventory(item.getProduct_id(), -item.getQuantity()));
+            PaymentDetailDto paymentDetailDto = new PaymentDetailDto(paymentId, item.getProduct_id(), item.getQuantity(), item.getPrice(), cartId);
+            paymentService.savePaymentDetail(paymentDetailDto);
+        }
+
+        model.addAttribute("cartItems", selectedItems);
+        model.addAttribute("user_id", userId);
+        model.addAttribute("payment_id", paymentId);
+
+        return "pay/payPage2";
+    }
+
 
 
 	/**
@@ -170,7 +189,7 @@ public class PaymentController {
 		List<CartDto> cartItems = cartService.listCartItems(userId);
 		model.addAttribute("cartItems", cartItems);
 		model.addAttribute("user_id", userId);
-		return "pay/payPage";
+		return "pay/payPage2";
 	}
 
 
@@ -183,30 +202,81 @@ public class PaymentController {
 	 * @param model 모델 객체
 	 * @return 금액 결제 페이지로 리다이렉트
 	 */
+	//	  @RequestMapping(value = "/processPayment", method = RequestMethod.POST)
+	//	    public String processPayment(HttpServletRequest req, @RequestParam("receiver_name") String receiverName,
+	//	                                 @RequestParam("receiver_address") String receiverAddress, ModelMap model) {
+	//	        HttpSession session = req.getSession();
+	//	        String userId = (String) session.getAttribute("user_id");
+	//	        List<CartDto> cartItems = cartService.listCartItems(userId);
+	//
+	//	        // 임시 DTO에 수령인 정보 저장
+	//	        PaymentDto paymentDto = new PaymentDto();
+	//	        paymentDto.setUser_id(userId);
+	//	        paymentDto.setReceiver_name(receiverName);
+	//	        paymentDto.setReceiver_address(receiverAddress);
+	//
+	//	        // 세션에 수령인 정보 저장
+	//	        session.setAttribute("receiver_name", receiverName);
+	//	        session.setAttribute("receiver_address", receiverAddress);
+	//
+	//	        String cartId = cartService.findCartId(userId);
+	//	        if (cartId == null) {
+	//	            model.addAttribute("error", "장바구니 ID를 찾을 수 없습니다.");
+	//	            return "cart/cart_itemList";
+	//	        }
+	//	        
+	//	        // Payment 테이블에 저장
+	//	        String paymentId = paymentService.generatePaymentId(cartService.findCartId(userId));
+	//	        paymentDto.setPayment_id(paymentId);
+	//	        paymentService.savePaymentInfo(paymentDto);
+	//
+	//	        // PaymentDetail 테이블에 저장
+	//	        for (CartDto item : cartItems) {
+	//	            PaymentDetailDto paymentDetailDto = new PaymentDetailDto(paymentId, item.getProduct_id(), item.getQuantity(), item.getProduct_price());
+	//	            paymentService.savePaymentDetail(paymentDetailDto);
+	//	        }
+	//
+	//	        // 모델에 필요한 속성들을 추가합니다.
+	//	        model.addAttribute("cartItems", cartItems);
+	//	        model.addAttribute("user_id", userId);
+	//	        model.addAttribute("payment_id", paymentId);
+	//	        model.addAttribute("totalAmount", cartItems.stream().mapToInt(item -> item.getProduct_price() * item.getQuantity()).sum());
+	//	        return "pay/payInner2";
+	//	    }
 	@RequestMapping(value = "/processPayment", method = RequestMethod.POST)
-	public String processPayment(
-			HttpServletRequest req,
-			@RequestParam("receiver_name") String receiverName,
-			@RequestParam("receiver_address") String receiverAddress,
-			ModelMap model) {
+	public String processPayment(HttpServletRequest req, @RequestParam("receiver_name") String receiverName,
+	                             @RequestParam("receiver_address") String receiverAddress, ModelMap model) {
+	    HttpSession session = req.getSession();
+	    String userId = (String) session.getAttribute("user_id");
+	    String cartId = (String) session.getAttribute("cart_id");
+	    if (cartId == null) {
+	        model.addAttribute("error", "장바구니 ID를 찾을 수 없습니다.");
+	        return "cart/cart_itemList";
+	    }
 
-		HttpSession session = req.getSession();
-		String userId = (String) session.getAttribute("user_id");
+	    List<PaymentDetailDto> paymentItems = paymentService.getPaymentDetails(cartId);
 
-		// 임시 DTO에 수령인 정보 저장
-		PaymentDto paymentDto = new PaymentDto();
-		paymentDto.setUser_id(userId);
-		paymentDto.setReceiver_name(receiverName);
-		paymentDto.setReceiver_address(receiverAddress);
+	   
+	    PaymentDto paymentDto = new PaymentDto();
+	    paymentDto.setUser_id(userId);
+	    paymentDto.setReceiver_name(receiverName);
+	    paymentDto.setReceiver_address(receiverAddress);
 
-		// 세션에 수령인 정보 저장
-		session.setAttribute("receiver_name", receiverName);
-		session.setAttribute("receiver_address", receiverAddress);
+	    session.setAttribute("receiver_name", receiverName);
+	    session.setAttribute("receiver_address", receiverAddress);
 
-		// 모델에 DTO 저장
-		model.addAttribute("paymentInfo", paymentDto);
+	    String paymentId = (String) session.getAttribute("payment_id");
+	    paymentDto.setPayment_id(paymentId);
+	    
+	    System.out.println("1");
+//	    paymentService.savePaymentInfo(paymentDto);
+//	    System.out.println("2");
 
-		return "pay/payInner";
+	    model.addAttribute("paymentItems", paymentItems);
+	    model.addAttribute("user_id", userId);
+	    model.addAttribute("payment_id", paymentId);
+	    model.addAttribute("totalAmount", paymentItems.stream().mapToInt(item -> item.getPrice() * item.getQuantity()).sum());
+	    return "pay/payInner2";
 	}
 
 
@@ -293,7 +363,3 @@ public class PaymentController {
 		return "redirect:/cart/cart_itemList";
 	}
 }
-
-
-
-

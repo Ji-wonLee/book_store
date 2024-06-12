@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import sms.dao.OrderDao;
 import sms.dto.Order;
 import sms.dto.OrderDetail;
+import sms.dto.OrderSearchDto;
 import sms.dto.ProductDto;
 import sms.dto.Receive;
 import sms.dto.ReceiveDetail;
@@ -28,11 +29,10 @@ public class OrderSvcImpl implements OrderSvc {
 		return listProduct;
 	}
 	@Override
-	public int orderSave(Map<String, String> orderMap) {
+	public int orderSave(Map<String, String> orderMap, String user_id) {
 		LocalDate now = LocalDate.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
 		String formatedNow = now.format(formatter);
-
 		//order
 		//totalprice 계산
 		List<String> keyList =  new ArrayList<>(orderMap.keySet());
@@ -50,10 +50,13 @@ public class OrderSvcImpl implements OrderSvc {
 		if(org_order_id==null) {
 			new_order_id = "OD"+formatedNow+String.format("%02d", 1);
 		}else {
-			new_order_id = org_order_id.substring(0,6)+String.format("%02d", Integer.parseInt(org_order_id.substring(6))+1);			
+			 // 마지막 2자리를 추출
+		    int lastTwoDigits = Integer.parseInt(org_order_id.substring(8, 10));
+		    // 새로운 order_id 생성
+		    new_order_id = org_order_id.substring(0, 8) + String.format("%02d", lastTwoDigits + 1);			
 		}
-		orderDao.insertOrder(new Order(new_order_id,formatedNow, "writer",totalprice)); 
-
+		orderDao.insertOrder(new Order(new_order_id,formatedNow, user_id,totalprice,"미완료")); 
+		
 		//orderDetail
 		for(String key : orderMap.keySet()) {
 			String product_id=key.split("_")[0];
@@ -89,6 +92,27 @@ public class OrderSvcImpl implements OrderSvc {
 		
 		return 0;
 	}
+
+	//카테고리, 상품코드, 개수 검색
+	@Override
+	public List<ProductDto> orderSearch(OrderSearchDto orderSearchDto) {
+		List<ProductDto> productList;
+		
+		//카테고리 값이 비어있을경우 제목
+		if(orderSearchDto.getCategory_id().equals("all")) { // 카테고리 값이 전체일 경우 문자열로만 검색
+			//System.out.println("1");
+			productList = orderDao.productSearchWithText(orderSearchDto);
+		} else if(orderSearchDto.getSearchText().isEmpty() == true) { // 입력된 문자열이 비어있는 경우 = 카테고리 값만을 이용하여 검색
+			//System.out.println("2");
+			productList = orderDao.productSearchWithCategory(orderSearchDto);
+		} else { // 두 값을 받아서 검색
+			//System.out.println("3");
+			productList = orderDao.productSearchDual(orderSearchDto);
+		}
+		
+		return productList;
+	}
+	
 	public OrderDao getOrderDao() {
 		return orderDao;
 	}

@@ -44,21 +44,34 @@ public class CartController {
     public String listCartItems(HttpServletRequest req, ModelMap model) {
         HttpSession session = req.getSession();
         String user_id = (String) session.getAttribute("user_id");
-        
+
         if (user_id == null || user_id.isEmpty()) {
             model.addAttribute("error", "로그인이 필요합니다.");
             return "login"; // 로그인 페이지로 리다이렉트
         }
-        
+
         List<CartDto> cartItems = cartService.listCartItems(user_id);
+        int totalPrice = 0;
+        int totalQuantity = 0;
+
+        for (CartDto item : cartItems) {
+            totalPrice += item.getProduct_price() * item.getQuantity();
+            totalQuantity += item.getQuantity();
+        }
+
         if (cartItems.isEmpty()) {
             model.addAttribute("error", "장바구니에 항목이 없습니다.");
         } else {
             model.addAttribute("cartItems", cartItems);
+            model.addAttribute("totalPrice", totalPrice);
+            model.addAttribute("totalQuantity", totalQuantity);
         }
+
         model.addAttribute("user_id", user_id); // userId도 함께 모델에 추가
-        return "cart/cart_itemList"; // JSP 파일의 경로
+        return "cart/cart_itemList2"; // JSP 파일의 경로
     }
+
+
     
     /**
      * 장바구니 내 상품의 수량을 업데이트하고 총액을 재계산합니다.
@@ -114,11 +127,24 @@ public class CartController {
         int updateNum = cartService.addCart(cartDto);
         System.out.println(updateNum + "행 갱신");
 		
-        // 최신 장바구니 항목을 가져와서 모델에 추가
         List<CartDto> cartItems = cartService.listCartItems(user_id);
-        model.addAttribute("cartItems", cartItems);
+        int totalPrice = 0;
+        int totalQuantity = 0;
+
+        for (CartDto item : cartItems) {
+            totalPrice += item.getProduct_price() * item.getQuantity();
+            totalQuantity += item.getQuantity();
+        }
+
+        if (cartItems.isEmpty()) {
+            model.addAttribute("error", "장바구니에 항목이 없습니다.");
+        } else {
+            model.addAttribute("cartItems", cartItems);
+            model.addAttribute("totalPrice", totalPrice);
+            model.addAttribute("totalQuantity", totalQuantity);
+        }
         
-		return "cart/cart_itemList";//Cart 화면으로 넘겨주세요.
+		return "cart/cart_itemList2";//Cart 화면으로 넘겨주세요.
 	}
     
     @RequestMapping(value = "/revertState", method = RequestMethod.POST)

@@ -85,34 +85,26 @@ footer {
 			</ul>
 		</nav>
 		<article id="article">
+		
 			<!-- 여기에 출력할 코드를 작성(list라던가) -->
-			<form action="/sms/toInventory" method="get">
-				<button type="submit">재고반영</button>
-				<div>
-					${rdList[0].receive_id} 총액 : ${totalprice}<br> 
-					<input type="hidden"
-						name="receive_id" value="${rdList[0].receive_id}"> 
-					작성자 : <input type="text" name="writer" id="writer" value="${writer}" />
-					결제자 : <input type="text" name="payer" id="payer" value="${payer}" /> 
-				</div>
+			<form action="/sms/toAdminMain" method="get">
+				<button type="submit">메인화면</button>
 				<table>
 					<tr>
 						<th>상품명</th>
 						<th>가격</th>
-						<th>수량</th>
-						<th>수정수량</th>
+						<th>수정된 수량</th>
 					</tr>
 					<c:forEach var="receiveDetail" items="${rdList}">
 						<tr>
 							<td>${receiveDetail.product_id}</td>
 							<td>${receiveDetail.price}</td>
 							<td>${receiveDetail.quantity}</td>
-							<td><input type="number" name="${receiveDetail.product_id}"
-								value="${receiveDetail.quantity}"></td>
 						</tr>
 					</c:forEach>
 				</table>
 			</form>
+			
 		</article>
 	</section>
 	<script>

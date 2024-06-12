@@ -45,6 +45,16 @@ public class ReceiveDaoImpl implements ReceiveDao{
 		return 0;
 	}
 
+	@Override
+	public int updateOrderState(String order_id) {
+		sqlSessionTemplate.update("receive.updateOrderState",order_id);
+		return 0;
+	}
+	@Override
+	public int updateWriter(Receive receive) {
+		sqlSessionTemplate.update("receive.updateWriter",receive);
+		return 0;
+	}
 	public SqlSessionTemplate getSqlSessionTemplate() {
 		return sqlSessionTemplate;
 	}
@@ -52,5 +62,7 @@ public class ReceiveDaoImpl implements ReceiveDao{
 	public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate) {
 		this.sqlSessionTemplate = sqlSessionTemplate;
 	}
+
+
 
 }

@@ -37,7 +37,7 @@
 <body>
 	<div class="max-w-4xl mx-auto">
 		<div class="header-container">
-			<h3 style="margin-left: 60%;">{$user_name}님 환영합니다.</h3>
+			<h3 style="margin-left: 60%;">${user_name}님 환영합니다.</h3>
 			<button type="button" >상품 조회</button	>
 		</div>
 

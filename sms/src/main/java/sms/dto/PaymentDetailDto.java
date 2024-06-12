@@ -5,15 +5,27 @@ public class PaymentDetailDto {
     private String product_id;
     private int quantity;
     private int price;
+    private String cart_id;
 
-    public PaymentDetailDto(String payment_id, String product_id, int quantity, int price) {
+    
+    
+    public PaymentDetailDto(String payment_id, String product_id, int quantity, int price, String cart_id) {
+		
+		this.payment_id = payment_id;
+		this.product_id = product_id;
+		this.quantity = quantity;
+		this.price = price;
+		this.cart_id = cart_id;
+	}
+
+	public PaymentDetailDto(String payment_id, String product_id, int quantity, int price) {
         this.payment_id = payment_id;
         this.product_id = product_id;
         this.quantity = quantity;
         this.price = price;
     }
 
-    // getterøÕ setterµÈ...
+    // getter¬ø√ç setter¬µ√©...
 
     public String getPayment_id() {
         return payment_id;
@@ -46,4 +58,13 @@ public class PaymentDetailDto {
     public void setPrice(int price) {
         this.price = price;
     }
+
+	public String getCart_id() {
+		return cart_id;
+	}
+
+	public void setCart_id(String cart_id) {
+		this.cart_id = cart_id;
+	}
+    
 }

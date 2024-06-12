@@ -18,6 +18,7 @@ import sms.service.CartService;
 import sms.dto.CartDto;
 import sms.dto.Inventory;
 import sms.dto.PaymentDto;
+import sms.dto.ProductDto;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -30,8 +31,8 @@ public class CartServiceImpl implements CartService {
 
 	@Override
 	public List<CartDto> listCartItems(String user_id) {
-		// 특정 사용자의 장바구니 항목을 조회
-		return cartDao.listCartItems(user_id);
+		 // 특정 사용자의 장바구니 항목을 조회
+        return cartDao.listCartItems(user_id);
 	}
 
 	@Override

@@ -8,6 +8,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<a href="http://localhost:8080/sms">회원가입이 완료되었습니다.</a>
+	<a href="index.jsp">회원가입이 완료되었습니다.</a>
 </body>
 </html>

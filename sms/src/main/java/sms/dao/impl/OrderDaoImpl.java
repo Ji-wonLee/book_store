@@ -8,9 +8,11 @@ import org.springframework.stereotype.Repository;
 
 import sms.dto.Order;
 import sms.dto.OrderDetail;
+import sms.dto.OrderSearchDto;
 import sms.dto.ProductDto;
 import sms.dto.Receive;
 import sms.dto.ReceiveDetail;
+import sms.dto.SearchDto;
 import sms.dao.OrderDao;
 
 @Repository
@@ -49,6 +51,31 @@ public class OrderDaoImpl implements OrderDao{
 		String order_id = sqlSessionTemplate.selectOne("order.getOrderId");
 		return order_id;
 	}
+	@Override
+	public List<ProductDto> productSearchWithText(OrderSearchDto OrderSearchDto) { // 단어로 조회 
+		
+		List<ProductDto> searchTextList = sqlSessionTemplate.selectList("order.productSearchName", OrderSearchDto);
+		
+		return searchTextList;
+	}
+
+	@Override
+	public List<ProductDto> productSearchWithCategory(OrderSearchDto OrderSearchDto) { // 분류로 조회
+		
+		List<ProductDto> searchCategoryList = sqlSessionTemplate.selectList("order.productSearchCategory", OrderSearchDto);
+		
+		return searchCategoryList;
+	}
+
+	@Override
+	public List<ProductDto> productSearchDual(OrderSearchDto OrderSearchDto) { // 둘 다 사용하여 조회
+		
+		List<ProductDto> searchDualList = sqlSessionTemplate.selectList("order.productSearchDual", OrderSearchDto);
+		
+		return searchDualList;
+	}
+	
+	
 	public SqlSessionTemplate getSqlSessionTemplate() {
 		return sqlSessionTemplate;
 	}

@@ -1,5 +1,7 @@
 package sms.dao.impl;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +53,10 @@ public class PaymentDaoImpl implements PaymentDao {
 	    	sqlSessionTemplate.update("PaymentMapper.updatePaymentInfo", paymentDto);
 	    }
 	    
+	    @Override
+	    public List<PaymentDetailDto> getPaymentDetails(String cartId) {
+	        return sqlSessionTemplate.selectList("PaymentMapper.selectPaymentDetails", cartId);
+	    }
 //	    @Override
 //	    public void saveNewPaymentInfo(PaymentDto paymentDto) {
 //	        sqlSessionTemplate.insert("PaymentMapper.saveNewPaymentInfo", paymentDto);

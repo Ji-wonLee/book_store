@@ -1,5 +1,7 @@
 package sms.dao;
 
+import java.util.List;
+
 import sms.dto.CartDto;
 import sms.dto.PaymentDetailDto;
 import sms.dto.PaymentDto;
@@ -21,4 +23,6 @@ public interface PaymentDao {
 	 void updatePaymentInfo(PaymentDto paymentDto);
 	 
 	 boolean existsPaymentId(String paymentId);
+	 
+	 List<PaymentDetailDto> getPaymentDetails(String cartId);
 }

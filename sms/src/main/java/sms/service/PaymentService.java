@@ -1,5 +1,7 @@
 package sms.service;
 
+import java.util.List;
+
 import sms.dto.CartDto;
 import sms.dto.PaymentDetailDto;
 import sms.dto.PaymentDto;
@@ -20,4 +22,6 @@ public interface PaymentService {
 	void updatePaymentInfo(PaymentDto paymentDto); // 추가
 	
 	boolean existsPaymentId(String paymentId);
+
+	List<PaymentDetailDto> getPaymentDetails(String cartId); //payment테이블 리스트 보여주기
 }

@@ -34,11 +34,12 @@
  </select>
  
  <insert id="insertUsers" parameterType="hashMap" useGeneratedKeys="true" keyProperty="user_id">
- 	<![CDATA[
- 		INSERT INTO users (user_id, name , passwd , address , phonenum , grade_no) VALUES (#{user_id} , #{name} , #{passwd} , #{address} , #{phonenum} , #{grade_no})
- 	]]>
- </insert>
- 
+        <![CDATA[
+            INSERT INTO users (user_id, name , passwd , address , phonenum , grade_no) 
+            VALUES (#{user_id} , #{name} , #{passwd} , #{address} , #{phonenum} , #{grade_no})
+        ]]>
+    </insert>
+
  <update id="updateMyInfo" parameterType="hashMap">
  	<![CDATA[
 		UPDATE users SET passwd = #{passwd} , address = #{address} , phonenum = #{phonenum} WHERE user_id = #{user_id}
