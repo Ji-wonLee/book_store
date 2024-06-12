@@ -13,6 +13,21 @@
 	box-sizing: border-box;
 }
 
+.logo{
+text-align: left;
+}
+
+header {
+	padding_top: 3px;
+	justify-content: space-between;
+	text-align: right;
+	color: #8c8c8c;
+}
+
+.top {
+	display:inline-block;;
+}
+
 section {
 	display: flex;
 	flex-direction: row;
@@ -84,17 +99,20 @@ footer {
 <title>회원 메인 페이지</title>
 </head>
 <body>
+	<header>
+		<a href="/sms/customermain"><img src="<c:url value='/resources/img/logo_01.png' />" alt="Bookstore logo"></a>
+		<p class=top>${user_id} 님 환영합니다.</p>
+		<p class=top>  |  </p>
+		<a class=top; href="index.jsp"> 로그아웃</a>
+	</header>
 	<section>
 		<nav id="nav">
 			<!-- 좌측 유저정보 및 사이트 목록 표시 -->
-			<div class="userText">
-				<h3>${user_id} 님 환영합니다.</h3>
-			</div>
-			<ul>
-				<li><a href="http://localhost:8080/sms/">내 정보 조회</a></li>
-				<li><a href="http://localhost:8080/sms/list">장바구니</a></li>
-				<li><a href="http://localhost:8080/sms/customermain">상품 조회</a></li>
-			</ul>
+				<ul>
+					<li><a href="http://localhost:8080/sms/">내 정보 조회</a></li>
+					<li><a href="http://localhost:8080/sms/list">장바구니</a></li>
+					<li><a href="http://localhost:8080/sms/customermain">상품 조회</a></li>
+				</ul>
 		</nav>
 		<article id="article">
 			<form action="/sms/search" method="get">
