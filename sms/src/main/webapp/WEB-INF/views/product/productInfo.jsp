@@ -20,7 +20,7 @@
  		 box-sizing: border-box;
 	}
 
-	.header-container {
+		.header-container {
        		font-family: "Noto Sans KR", sans-serif;
  			font-optical-sizing: auto;
  			font-weight: 500;
@@ -67,7 +67,7 @@
 		 padding: 7px;
 		}
         
-		.table-container {
+		.productInfo {
         	font-family: "Hahmlet", serif;
  			font-optical-sizing: auto;
   			font-weight: 400;
