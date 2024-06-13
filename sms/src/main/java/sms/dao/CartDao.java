@@ -33,6 +33,8 @@ public interface CartDao {
 	// 화면에서 product_id, quantity, price를 받아옵니다.
 	// 이 경우 quantity는 객체의 수량을 의미합니다.
 
-	 String getMaxCartId();
-	
+	String getMaxCartId();
+
+	int deleteCartItem(CartDto cartDto);
+	int updateCartItemQuantity(CartDto cartDto);
 }

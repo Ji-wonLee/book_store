@@ -14,7 +14,7 @@ public interface CartService {
 	List<CartDto> listCartItems(String user_id); 	// 장바구니 항목 조회
 	void updateCartItemAndTotal(CartDto cartDto);	// 수량, 총액, 시간 업데이트
 	void updateCartState(CartDto cartDto); 	// 카트 상태 업데이트
-	 void updateStock(Inventory inventory);	// 재고 업데이트
+	void updateStock(Inventory inventory);	// 재고 업데이트
 
 	int getStock(String productId);		//재고확인
 
@@ -29,6 +29,10 @@ public interface CartService {
 	// Cart_detail 에 객체를 추가하는 Method
 	// 화면에서 product_id, quantity, price를 받아옵니다.
 	// 이 경우 quantity는 객체의 수량을 의미합니다.
-	
+
 	void updateCartStateAndGeneratePaymentId(String cartId, String state);
+
+
+	int deleteCartItem(CartDto cartDto);
+	int updateCartItemQuantity(CartDto cartDto);
 }

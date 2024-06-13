@@ -49,6 +49,8 @@ th {
     text-align: left;
 }
 
+
+
 td img {
     max-width: 50px;
     height: auto;
@@ -99,10 +101,10 @@ td img {
                                     <td>${item.product_price} 원</td>
                                     <td>${item.product_price} 원</td>
                                     <td>
-                                        <input type="number" name="quantity_${item.product_id}" min="1" value="${item.quantity}" style="border: 1px solid gray; width: 50px;">
+                                        <input type="number" name="quantity_${item.product_id}" min="1" value="${item.quantity}" style="border: 1px solid gray; width: 50px;" onchange="updateItemQuantity('${item.product_id}', this.value)">
                                     </td>
                                     <td>${item.product_price * item.quantity} 원</td>
-                                    <td><a href="#" class="btn-delete">삭제</a></td>
+                                    <td><a href="#" class="btn-delete" onclick="deleteCartItem('${item.product_id}')">삭제</a></td>
                                 </tr>
                             </c:forEach>
                         </tbody>
@@ -112,7 +114,7 @@ td img {
                     <div class="space-y-1">
                         <div class="flex justify-between">
                             <span class="text-sm">총 상품 가격</span>
-                            <span class="text-sm font-medium">${totalPrice} 원</span>
+                            <span class="text-sm font-medium" id="totalPrice">${totalPrice} 원</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-sm">배송비</span>
@@ -120,13 +122,13 @@ td img {
                         </div>
                         <div class="flex justify-between">
                             <span class="text-sm">총 주문 상품수</span>
-                            <span class="text-sm font-medium">${totalQuantity} 건</span>
+                            <span class="text-sm font-medium" id="totalQuantity">${totalQuantity} 건</span>
                         </div>
                     </div>
                     <div class="space-y-1">
                         <div class="flex justify-between">
                             <span class="text-sm">총 결제 예정 금액</span>
-                            <span class="text-sm font-medium">${totalPrice} 원</span>
+                            <span class="text-sm font-medium" id="totalPayment">${totalPrice} 원</span>
                         </div>
                     </div>
                 </div>
@@ -140,7 +142,54 @@ td img {
             const checkboxes = document.querySelectorAll('input[name="cartItemIds"]');
             checkboxes.forEach(checkbox => checkbox.checked = source.checked);
         }
+
+        function deleteCartItem(productId) {
+            if (confirm("삭제하시겠습니까?")) {
+                $.ajax({
+                    url: '/sms/cart/deleteItem',
+                    type: 'POST',
+                    data: { product_id: productId },
+                    success: function(response) {
+                        alert(response);
+                        location.reload(); // 페이지를 새로고침하여 삭제된 항목 반영
+                    },
+                    error: function(xhr, status, error) {
+                        alert("삭제에 실패했습니다: " + error);
+                    }
+                });
+            }
+        }
+
+        function updateItemQuantity(productId, quantity) {
+            $.ajax({
+                url: '/sms/cart/updateItemQuantity',
+                type: 'POST',
+                data: { product_id: productId, quantity: quantity },
+                success: function(response) {
+                    updateCartSummary();
+                },
+                error: function(xhr, status, error) {
+                    alert("수량 업데이트에 실패했습니다: " + error);
+                }
+            });
+        }
+
+        function updateCartSummary() {
+            let totalPrice = 0;
+            let totalQuantity = 0;
+            $('input[name^="quantity_"]').each(function() {
+                const productId = $(this).attr('name').split('_')[1];
+                const quantity = parseInt($(this).val());
+                const price = parseInt($(`input[name="price_${productId}"]`).val());
+                totalPrice += price * quantity;
+                totalQuantity += quantity;
+            });
+            $('#totalPrice').text(totalPrice + ' 원');
+            $('#totalQuantity').text(totalQuantity + ' 건');
+            $('#totalPayment').text(totalPrice + ' 원');
+        }
     </script>
+
     <footer>
         <p>- 2024년도 kitri 보안개발 8기 포트폴리오 프로젝트 1팀 -</p>
     </footer>

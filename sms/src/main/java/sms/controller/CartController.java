@@ -73,18 +73,47 @@ public class CartController {
 
 
     
-    /**
-     * 장바구니 내 상품의 수량을 업데이트하고 총액을 재계산합니다.
-     * @param cartItemUpdateDto 업데이트할 상품 정보
-     * @param model 모델 객체
-     * @return 장바구니 리스트 페이지로 리다이렉트
-     */
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String updateCartItemAndTotal(@ModelAttribute CartDto cartItemUpdateDto, ModelMap model) {
-        cartService.updateCartItemAndTotal(cartItemUpdateDto);
-        return "redirect:/cart";
+
+    // 장바구니 항목 삭제
+    @RequestMapping(value = "/deleteItem", method = RequestMethod.POST)
+    @ResponseBody
+    public String deleteCartItem(@RequestParam("product_id") String productId, HttpServletRequest req) {
+        HttpSession session = req.getSession();
+        String userId = (String) session.getAttribute("user_id");
+
+        if (userId == null || userId.isEmpty()) {
+            return "로그인이 필요합니다.";
+        }
+
+        CartDto cartDto = new CartDto();
+        cartDto.setUser_id(userId);
+        cartDto.setProduct_id(productId);
+
+        cartService.deleteCartItem(cartDto);
+        return "성공적으로 삭제되었습니다.";
     }
 
+    // 장바구니 항목 수량 수정
+    @RequestMapping(value = "/updateItemQuantity", method = RequestMethod.POST)
+    @ResponseBody
+    public String updateCartItemQuantity(@RequestParam("product_id") String productId,
+                                         @RequestParam("quantity") int quantity,
+                                         HttpServletRequest req) {
+        HttpSession session = req.getSession();
+        String userId = (String) session.getAttribute("user_id");
+
+        if (userId == null || userId.isEmpty()) {
+            return "로그인이 필요합니다.";
+        }
+
+        CartDto cartDto = new CartDto();
+        cartDto.setUser_id(userId);
+        cartDto.setProduct_id(productId);
+        cartDto.setQuantity(quantity);
+
+        cartService.updateCartItemQuantity(cartDto);
+        return "성공적으로 업데이트되었습니다.";
+    }
     
     /**
      * 장바구니 상태를 업데이트합니다.
@@ -106,6 +135,7 @@ public class CartController {
                              @RequestParam("number") int number,
                              @RequestParam("product_price") int product_price,
                              @RequestParam("product_name") String product_name,
+                             @RequestParam("redirect") boolean redirect,
                              ModelMap model, HttpServletRequest req) {
 
         HttpSession session = req.getSession();
@@ -119,14 +149,14 @@ public class CartController {
 
         String cart_id = cartService.findCartId(user_id);
         if (cart_id == null || cart_id.isEmpty()) {
-        	 cart_id = cartService.createNewCart(new CartDto(user_id)); // 새로운 장바구니 생성
-             session.setAttribute("cart_id", cart_id); // 세션에 cart_id 설정
+            cart_id = cartService.createNewCart(new CartDto(user_id)); // 새로운 장바구니 생성
+            session.setAttribute("cart_id", cart_id); // 세션에 cart_id 설정
         }
 
         CartDto cartDto = new CartDto(cart_id, product_id, number, product_price);
         int updateNum = cartService.addCart(cartDto);
         System.out.println(updateNum + "행 갱신");
-		
+
         List<CartDto> cartItems = cartService.listCartItems(user_id);
         int totalPrice = 0;
         int totalQuantity = 0;
@@ -143,9 +173,16 @@ public class CartController {
             model.addAttribute("totalPrice", totalPrice);
             model.addAttribute("totalQuantity", totalQuantity);
         }
-        
-		return "cart/cart_itemList2";//Cart 화면으로 넘겨주세요.
-	}
+
+        if (redirect) {
+            return "cart/cart_itemList2"; // Cart 화면으로 넘겨주세요.
+        } else {
+            String referer = req.getHeader("Referer");
+            return "redirect:" + referer; // 이전 페이지로 리다이렉트
+        }
+    }
+
+
     
     @RequestMapping(value = "/revertState", method = RequestMethod.POST)
     @ResponseBody

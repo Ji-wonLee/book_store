@@ -31,8 +31,8 @@ public class CartServiceImpl implements CartService {
 
 	@Override
 	public List<CartDto> listCartItems(String user_id) {
-		 // 특정 사용자의 장바구니 항목을 조회
-        return cartDao.listCartItems(user_id);
+		// 특정 사용자의 장바구니 항목을 조회
+		return cartDao.listCartItems(user_id);
 	}
 
 	@Override
@@ -107,6 +107,17 @@ public class CartServiceImpl implements CartService {
 			PaymentDto paymentDto = new PaymentDto(cartId, paymentId);
 			paymentDao.savePaymentInfo(paymentDto);
 		}
+	}
+
+	//상품 삭제
+	@Override
+	public int deleteCartItem(CartDto cartDto) {
+		return cartDao.deleteCartItem(cartDto);
+	}
+
+	@Override
+	public int updateCartItemQuantity(CartDto cartDto) {
+		return cartDao.updateCartItemQuantity(cartDto);
 	}
 
 	private String generateNewCartId(String maxCartId) {

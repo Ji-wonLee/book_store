@@ -81,6 +81,8 @@ public class CartDaoImpl implements CartDao {
 	        return sqlSessionTemplate.selectOne("CartMapper.selectCartid", user_id);
 	    }
 
+	   
+	    
 	    @Override
 	    public int addCart(CartDto cartDto) {
 	        return sqlSessionTemplate.update("CartMapper.addCartProduct", cartDto);
@@ -94,6 +96,18 @@ public class CartDaoImpl implements CartDao {
 	            return "CART-" + String.format("%04d", lastNumber);
 	        }
 	    }
+	    
+	    @Override
+	    public int deleteCartItem(CartDto cartDto) {
+	        return sqlSessionTemplate.delete("CartMapper.deleteCartItem", cartDto);
+	    }
+
+	    @Override
+	    public int updateCartItemQuantity(CartDto cartDto) {
+	        return sqlSessionTemplate.update("CartMapper.updateCartItemQuantity", cartDto);
+	    }
+	    
+	    
 		public SqlSessionTemplate getSqlSessionTemplate() {
 			return sqlSessionTemplate;
 		}
