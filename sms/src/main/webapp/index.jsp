@@ -64,13 +64,7 @@
     		height: auto;
  		 }
 	}
-	#logo {
-		width:200px; 
-		height:200px; 
-		margin:10px auto; 
-		border:none;
-	}
-	
+
 </style>
 
 	
@@ -93,15 +87,17 @@
 				console.log(params);
 			</script>
 			<div>
-				<h1 id="logo"><img src="resources/trash-can.png" width="200" height="200"/></h1>
+				<a href="#" onClick="history.go(0)">
+					<img src="resources/logo_01.png" height="200"/>
+				</a>
 			</div>
 			<br>
-			<div style='background-color:#c2c2d6;border:0.25px solid black;' >
+			<div style='background-color:#c2c2d6;' >
 				<form action="/sms/mainLgn.do" method="get" style='width:165px;'>
 					<table style='border:none;'>
 						<tr>
 							<td><input type='text' id='userId' name='userId' placeholder='LOGIN' style='margin-top:10px;width:100px;' required></input></td>
-							<td rowspan="2"><input type='submit' id='lgnBtn' value='LOGIN' style='margin-top:10px;width:60px;height:68px;display:flex;justify-content:center;background-color:transparent;border:1px solid black;' ></input></td>
+							<td rowspan="2"><input type='submit' id='lgnBtn' value='LOGIN' style='margin-top:10px;width:58px;height:66px;display:flex;justify-content:center;background-color:#f2f2f2;border:none' ></input></td>
 						</tr>
 						<tr>
 							<td><input type='password' id='userPass' name='userPass' placeholder='PASSWORD' style='margin-top:10px;width:100px;' required></input></td>
