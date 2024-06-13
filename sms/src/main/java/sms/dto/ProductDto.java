@@ -40,7 +40,7 @@ public class ProductDto {
 	
 	//관리자 전체 조회
 	public ProductDto(String id, String name, String description, String price, String manufactureName, String manufactureAddress,
-			String categoryId, String categoryName, int page, String state, int quantity) {
+			String categoryId, String categoryName, int page, String state, int quantity, String imgurl) {
 		product_id = id;
 		product_name = name;
 		this.description = description;
@@ -52,16 +52,18 @@ public class ProductDto {
 		product_page = page;
 		this.state = state;
 		this.quantity = quantity;
+		product_imgurl = imgurl;
 	}
 
 	//사용자 전체 조회
-	public ProductDto(String id, String name, String price, String categoryName, int page, String state) {
+	public ProductDto(String id, String name, String price, String categoryName, int page, String state, String imgurl) {
 		product_id = id;
 		product_name = name;
 		product_price = price;
 		category_name = categoryName;
 		product_page = page;
 		this.state = state;
+		product_imgurl = imgurl;
 	}
 
 	//사용자 상세 조회

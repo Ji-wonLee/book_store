@@ -7,7 +7,7 @@ public class PageFactory {
     public static String getPageBar(int totalData, int cPage, int numPerpage, String url) {
         StringBuffer pageBar = new StringBuffer();
         int totalPage = (int) (Math.ceil((double) totalData / numPerpage));
-        int pageBarSize = 5;
+        int pageBarSize = 10;
 
         int pageNo = ((cPage - 1) / pageBarSize) * pageBarSize + 1;
         int pageEnd = pageNo + pageBarSize - 1;
