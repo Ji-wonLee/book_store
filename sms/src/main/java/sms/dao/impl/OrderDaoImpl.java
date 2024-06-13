@@ -20,7 +20,24 @@ public class OrderDaoImpl implements OrderDao{
 	@Autowired
 	SqlSessionTemplate sqlSessionTemplate;
 	
+	@Override
+	public List<Order> selectOrder() {
+		List<Order> orderList = sqlSessionTemplate.selectList("receive.selectOrder"); //orderMapper에 일단 추가 안함
+		return orderList;
+	}
 	
+
+	@Override
+	public List<Order> orderStateSearch(String state) {
+		List<Order> orderList = sqlSessionTemplate.selectList("order.orderStateSearch", state); 
+		return orderList;
+	}
+
+	@Override
+	public List<OrderDetail> selectOrderDetail(String order_id) {
+		List<OrderDetail> orderDetailList = sqlSessionTemplate.selectList("order.selectOrderDetail", order_id); //orderMapper에 일단 추가 안함
+		return orderDetailList;
+	}
 	@Override
 	public List<ProductDto> selectInventory() {
 		List<ProductDto> listProduct = sqlSessionTemplate.selectList("order.selectInventory");
@@ -82,6 +99,7 @@ public class OrderDaoImpl implements OrderDao{
 	public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate) {
 		this.sqlSessionTemplate = sqlSessionTemplate;
 	}
+
 	
 	
 }

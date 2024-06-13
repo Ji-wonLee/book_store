@@ -22,7 +22,32 @@ import sms.service.OrderSvc;
 public class OrderSvcImpl implements OrderSvc {
 	@Autowired
 	private OrderDao orderDao;
+	
+	@Override
+	public List<Order> selectOrder() {
+		List<Order> orderIdList = orderDao.selectOrder();
+		return orderIdList;
+	}
+	
 
+	@Override
+	public List<Order> orderStateSearch(String state) {
+
+		List<Order> orderIdList; 
+		if(state.equals("ÀüÃ¼")) {
+			orderIdList=  orderDao.selectOrder();
+		}else {
+			orderIdList= orderDao.orderStateSearch(state);
+		}
+		return orderIdList;
+	}
+
+	@Override
+	public List<OrderDetail> selectOrderDetail(String order_id) {
+		List<OrderDetail> orderDetailList = orderDao.selectOrderDetail(order_id);
+		return orderDetailList;
+	}
+	
 	@Override
 	public	List<ProductDto> invenList(){
 		List<ProductDto> listProduct = orderDao.selectInventory();
@@ -119,6 +144,7 @@ public class OrderSvcImpl implements OrderSvc {
 	public void setOrderDao(OrderDao orderDao) {
 		this.orderDao = orderDao;
 	}
+
 
 
 }

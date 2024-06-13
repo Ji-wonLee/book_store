@@ -100,7 +100,7 @@ footer {
 					<c:forEach var="order" items="${orderIdList}">
 						<tr>
 							<td><input type="radio" name="order_id"
-								value="${order.order_id}"><br></td>
+								value="${order.order_id}" required><br></td>
 							<td>${order.order_id}</td>
 							<td>${order.order_date}</td>
 							<td>${order.writer}</td>

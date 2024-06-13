@@ -95,7 +95,7 @@ footer {
 				<h3>님 환영합니다.</h3>
 				<a href="javascript:window.history.back();">로그아웃</a> <br>
 				<ul>
-					<li><a href="/sms/order">발주</a></li>
+					<li><a href="/sms/orderList">발주</a></li>
 					<li><a href="/sms/receive">입고</a></li>
 					<li><a href="/sms/inventory">재고</a></li>
 					<li><a href="/sms/admStt">사용자</a></li>

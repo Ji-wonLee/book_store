@@ -5,6 +5,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="order">
 
+	<!--order목록 state 검색 -->
+	<select id="orderStateSearch" parameterType="string" resultType="Order">
+	<![CDATA[
+		SELECT order_id, order_date, writer, totalprice, state
+		FROM orders
+		WHERE state=#{state}
+		ORDER BY order_date DESC, order_id
+		
+	]]>
+	</select>
+	
+	<!--orderDetail목록 가져오기 -->
+	<select id="selectOrderDetail" parameterType="string" resultType="OrderDetail">
+	<![CDATA[
+		SELECT order_id, product_id, quantity, price
+		FROM order_detail
+		WHERE order_id=#{order_id}
+	]]>
+	</select>
+	
+
 	<!--order할 상품 목록 가져오기 -->
 	<select id="selectInventory" resultType="productDTO">
 	<![CDATA[
