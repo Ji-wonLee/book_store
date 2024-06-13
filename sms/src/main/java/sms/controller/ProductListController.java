@@ -28,25 +28,28 @@ public class ProductListController {
 	@Autowired
 	private ProductSvc productSvc;
 	
-	@RequestMapping(value="/customermain", method=RequestMethod.GET)
+	@RequestMapping(value="/customermain", method=RequestMethod.GET) // 수정, 페이지 호출 입력
 	public String productList(@RequestParam(value="cPage", defaultValue="1") int cPage,
-	                          @RequestParam(value="numPerpage", defaultValue="20") int numPerpage, 
-	                          ModelMap model, HttpServletRequest req) {
-	    HttpSession session = req.getSession();
-	    String userId = (String) session.getAttribute("user_id");
-	    model.addAttribute("user_id", userId); // user_id를 세션으로 가져옴
-	    
-	    List<Category> categorylist = productSvc.categoryList();
-	    List<ProductDto> productlist = productSvc.productList(Map.of("cPage", cPage, "numPerpage", numPerpage));
-	    int totalData = productSvc.selectProductCount();
-	    
-	    model.addAttribute("categorylist", categorylist);
-	    model.addAttribute("cPage", cPage); // 현재 페이지
-	    model.addAttribute("totalData", totalData); // 전체 객체 수
-	    model.addAttribute("productlist", productlist);
-	    model.addAttribute("pageBar", pageFactory.getPageBar(totalData, cPage, numPerpage, "/sms/customermain?"));
-	    
-	    return "product/productMain"; // 페이지 위치 입력
+							  @RequestParam(value="numPerpage", defaultValue="20") int numPerpage, 
+							  ModelMap model, HttpServletRequest req) {
+		List<Category> categorylist = productSvc.categoryList();
+		
+		HttpSession session=req.getSession();
+		String userId = (String) session.getAttribute("user_id");
+		model.addAttribute("user_id", userId); // user_id를 세션으로 가져옴
+		
+		List<ProductDto> productlist = productSvc.productList(Map.of("cPage", cPage, "numPerpage", numPerpage));
+		int totalData = productSvc.selectProductCount();
+		// 전체 개수
+		model.addAttribute("categorylist",categorylist);
+		//카테고리 출력
+		model.addAttribute("cPage", cPage); // 현재 페이지
+		model.addAttribute("totalData", totalData); // 전체 객체 수
+		model.addAttribute("productlist", productlist);
+		//객체 출력
+		model.addAttribute("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage, "/sms/customermain?"));
+		// pageBar을 출력
+		return "product/productMain"; //수정, 페이지 위치 입력
 	}
 	
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
@@ -61,7 +64,7 @@ public class ProductListController {
 		model.addAttribute("cPage", cPage); // 현재 페이지
 		model.addAttribute("totalData", searchData); // 객체 수
 		model.addAttribute("productlist", productSvc.productSearchList(searchDto, Map.of("cPage", cPage, "numPerpage", numPerpage)));
-		model.addAttribute("pageBar", pageFactory.getPageBar(searchData, cPage, numPerpage, "/sms/search?category_id=" + category_id + "&searchtext=" + searchtext));
+		model.addAttribute("pageBar", PageFactory.getPageBar(searchData, cPage, numPerpage, "/sms/search?category_id=" + category_id + "&searchtext=" + searchtext));
 		return "product/productMain";
 	}
 	

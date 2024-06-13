@@ -18,44 +18,34 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 추가할부분 -->
 	<meta http-equiv="X-UA-Compatible" content="ie=edge"> <!-- 추가할부분 -->
 <style>
-	* {
- 		 box-sizing: border-box;
-	}
-
-	nav {
-		float: left;
-  		width: 20%;
-  		height: 1000px;
-  		background: #c2c2d6;
- 		padding: 20px;
+	
+	@font-face {
+		font-family: "NotoSansKR";
+		src:url("resources/Noto_Sans_KR/NotoSansKR-VariableFont_wght.ttf");
 	}
 	
+	* {
+ 		box-sizing: border-box;
+		font-family:'NotoSansKR'
+	}
+
 	article {
 		overflow:auto;
 		float: left;
 		padding: 20px;
- 		width: 80%;
+ 		width: 100%;
  		height: 1000px;
  		background-color: #f2f2f2;
+ 		display:flex;
+ 		flex-direction: column;
+ 		justify-content:center;
+ 		align-items:center;
 	}
 	
 	article table {
 		border-collapse: collapse;
 		width : 100%';
 	}
-	
-	article th {
-		border-bottom: 1px solid #dddddd;
-  		text-align: center;
-  		padding: 8px;
-	}
-	
-	article td {
-		border-bottom: 1px solid #dddddd;
-  		text-align: left;
-  		padding: 8px;
-	}
-	
 	section::after {
 		content: "";
   		display: table;
@@ -74,30 +64,57 @@
     		height: auto;
  		 }
 	}
+	#logo {
+		width:200px; 
+		height:200px; 
+		margin:10px auto; 
+		border:none;
+	}
+	
 </style>
+
+	
 </head>
 <body>
-	<!-- <form action = "/sms/searchList" method = "GET"> --> <!-- action 연결 필요 -->
 	<section>
-		<nav>
-		 <a href="http://localhost:8080/sms/list">Go to Cart</a>
-			<form action="/sms/mainLgn.do" method="get">
-				<table style='border:none;'>
-					<tr>
-						<td><input type='text' id='userId' name='userId' placeholder='LOGIN' style='margin-top:10px;width:100px;' required></input></td>
-						<td rowspan="2"><input type='submit' id='lgnBtn' value='LOGIN' style='margin-top:10px;width:50px;height:50px;display:flex;justify-content:center;' ></input></td>
-					</tr>
-					<tr>
-						<td><input type='password' id='userPass' name='userPass' placeholder='PASSWORD' style='margin-top:10px;width:100px' required></input></td>
-					</tr>
-					<tr>
-						<td><a href="http://localhost:8080/sms/toJoin" style='font-size:10px'>회원가입</a></td>				
-					</tr>
-				</table>
-			</form>
-		</nav>
 		<article>
-			
+			<script>
+				function getParams(){
+			    	var url = window.location.search.replace('?','');
+			    	var params = {};
+			    	var urlPrm = url.split('=')[1];
+			    	if(urlPrm.trim() == "fail"){
+			    		alert('FAILED TO LOGIN');
+			    	}
+			    	return urlPrm;
+				}
+				const params = getParams();
+				
+				console.log(params);
+			</script>
+			<div>
+				<h1 id="logo"><img src="resources/trash-can.png" width="200" height="200"/></h1>
+			</div>
+			<br>
+			<div style='background-color:#c2c2d6;border:0.25px solid black;' >
+				<form action="/sms/mainLgn.do" method="get" style='width:165px;'>
+					<table style='border:none;'>
+						<tr>
+							<td><input type='text' id='userId' name='userId' placeholder='LOGIN' style='margin-top:10px;width:100px;' required></input></td>
+							<td rowspan="2"><input type='submit' id='lgnBtn' value='LOGIN' style='margin-top:10px;width:60px;height:68px;display:flex;justify-content:center;background-color:transparent;border:1px solid black;' ></input></td>
+						</tr>
+						<tr>
+							<td><input type='password' id='userPass' name='userPass' placeholder='PASSWORD' style='margin-top:10px;width:100px;' required></input></td>
+						</tr>
+						<tr>
+							<td><a href="/sms/toJoin" style='font-size:10px'>회원가입</a></td>				
+						</tr>
+					</table>
+				</form>
+			</div>
+			<div>
+				<h5>저렴하고 빠른 서점 온라인 사이트</h5>
+			</div>
 		</article>
 	</section>
 	<!-- </form> -->
