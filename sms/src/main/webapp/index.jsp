@@ -88,7 +88,7 @@
 			</script>
 			<div>
 				<a href="#" onClick="history.go(0)">
-					<img src="resources/logo_01.png" height="200"/></h1>
+					<img src="resources/logo_01.png" height="200"/>
 				</a>
 			</div>
 			<br>
