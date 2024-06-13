@@ -37,6 +37,11 @@ body {
     margin: 0;
 }
 
+.header-container img {
+    height:100px;
+    width:auto;
+}
+
 .container {
     max-width: 800px;
     margin: 50px auto;
@@ -100,7 +105,7 @@ td img {
 <body>
     <div class="header-container">
         <h3>${user_id}님 환영합니다.</h3>
-        <img style="height:100px; width:auto;" src="resources/logo_01.png" alt="logo" width=auto height="100px"/>
+        <img src="${pageContext.request.contextPath}/resources/logo_01.png" alt="logo" />
         <button type="button" onclick="location.href='index.jsp'">로그아웃</button>
     </div>
     <div class="container">

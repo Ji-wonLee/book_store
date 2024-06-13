@@ -87,7 +87,13 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         border-radius: 10px;
     }
-
+	
+	
+    .header-container img {
+        height: 100px; /* 명확한 높이 설정 */
+        width: auto;  /* 자동 너비 조정 */
+    }
+    
     h1 {
         text-align: center;
         margin-bottom: 30px;
@@ -130,7 +136,7 @@
 <body>
     <div class="header-container">
         <h3>${user_id}님 환영합니다.</h3>
-        <img style="height:100px; width:auto;" src="resources/logo_01.png" alt="logo" width=auto height="100px"/>
+        <img src="${pageContext.request.contextPath}/resources/logo_01.png" alt="logo" />
         <button type="button" onclick="location.href='index.jsp'">로그아웃</button>
     </div>
     <div class="container">
