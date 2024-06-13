@@ -80,15 +80,12 @@ nav ul li a {
 	text-align: center;
 	margin-top: 22px;
 	height: 30px;
-	width: 900px;
+	width: 30%;
+	
 }
 
-.input {
-	font-family: "Noto Sans KR", sans-serif;
-	font-optical-sizing: auto;
-	font-weight: 500;
-	font-style: normal;
-	padding: 7px;
+.orderSearch {
+	text-align: right;
 }
 
 footer {
@@ -158,6 +155,14 @@ td img {
 	border-radius: 5px;
 }
 
+.input {
+	font-family: "Noto Sans KR", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 500;
+	font-style: normal;
+	padding: 7px;
+}
+
 @media ( max-width : 600px) {
 	nav, article {
 		width: 100%;
@@ -165,24 +170,6 @@ td img {
 	}
 }
 </style>
-<script>
-	function filterAndSubmitForm() {
-        const form = document.getElementById('orderForm');
-        const inputs = form.querySelectorAll('input[type="number"]');
-        inputs.forEach(input => {
-            if (input.value == '0') {
-                input.name = '';
-            }
-        });
-        //여기에 코드 추가
-        let hasSelection = Array.from(inputs).some(input => input.value !== '0' && input.value.trim() !== '');
-    if (!hasSelection) {
-        alert("하나 이상의 상품을 선택하세요.");
-        return false;
-    }
-        form.submit();
-    }
-</script>
 </head>
 <body>
 	<div class="header-container">
@@ -196,62 +183,54 @@ td img {
 		</ul>
 	</nav>
 	<section>
-		<div class="max-w-4xl mx-auto">
 
-			<div class="search">
-				<form action="/sms/orderSearch" method="get">
-					<select style="background-color: #eaeafb;" name="category_id"
-						id="category_id">
-						<option value="all">전체</option>
-						<c:forEach var="Category" items="${categorylist}">
-							<option value="${Category.category_id}">${Category.category_name}</option>
-						</c:forEach>
-					</select> 
-					<input style="width: 600px; background-color: #eaeafb;"
-						type="text" name="searchtext" id="searchText" placeholder="검색어 입력" />
-					<input style="width: 70px; background-color: #eaeafb;"
-						type="number" name="remaining" id="remaining" value="999999"
-						placeholder="N개 이하 검색" /> 
-					<input
+		<div class="max-w-4xl mx-auto">
+			<form action="/sms/stateSearch" method="get">
+				<div class="search" >
+					<select style="background-color: #eaeafb;" name="state" id="state">
+						<option value="전체">전체</option>
+						<option value="입고완료">입고완료</option>
+						<option value="미완료">미완료</option>
+					</select> <input
 						style="background-color: #eaeafb; background-image: 'resources/search.png'; border: none; background-repeat: no-repeat; background-size: 100% 100%;"
 						type="submit" value="검색" />
-				</form>
-			</div>
+				</div>
+			</form>
 		</div>
-		<div class="max-w-4xl mx-auto">
-			<form id="orderForm" action="/sms/orderCheck" method="get"
-				onsubmit="filterAndSubmitForm(); return false;">
 
+		<div class="max-w-4xl mx-auto">
+			<form action="/sms/order">
 				<div class="input" style="text-align: right;">
-					<button style="border-radius: 3px; width: 100px; height: 34px; background-color : #c2c2d6;" type="submit">발주선택</button>
+					<button style="border-radius: 3px; width: 150px; height: 40px; background-color : #c2c2d6;" type="submit" value="발주신청">발주신청</button>
 					
+				</div>
+			</form>
+		</div>
+
+		<div class="max-w-4xl mx-auto">
+			<!-- 여기에 출력할 코드를 작성(list라던가) -->
+			<form action="/sms/orderDetailList" method="get">
+				<div class="input" style="text-align: right;">
+					<button style="border-radius: 3px; width: 150px; height: 40px; background-color : #c2c2d6;" type="submit">조회</button>
 				</div>
 				<table>
 					<tr>
-						<th>상품 id</th>
-						<th>상품명</th>
-						<th>가격</th>
-						<th>회사명</th>
-						<th style="width:60px">분류</th>
-						<th>표지 url</th>
-						<th style="width:60px">상태</th>
-						<th style="width:80px">잔여수량</th>
-						<th style="width:120px">신청수량(입력)</th>
+						<th></th>
+						<th>발주ID</th>
+						<th>발주날짜</th>
+						<th>작성자</th>
+						<th>총결제액</th>
+						<th>상태</th>
 					</tr>
-					<c:forEach var="product" items="${productList}">
+					<c:forEach var="order" items="${orderIdList}">
 						<tr>
-							<td>${product.product_id}</td>
-							<td>${product.product_name}</td>
-							<td>${product.product_price}</td>
-							<td>${product.manufacture_name}</td>
-							<td>${product.category_name}</td>
-							<td><img src="${product.product_imgurl}" alt="image"
-								width="50" height="60"></td>
-							<td>${product.state}</td>
-							<td>${product.quantity}</td>
-							<td style="background-color: #eaeafb;"><input style="width:100px; background-color: #eaeafb;" type="number"
-								name="${product.product_id}_${product.product_price}" value="0"
-								min="0"></td>
+							<td><input type="radio" name="order_id"
+								value="${order.order_id}" required><br></td>
+							<td>${order.order_id}</td>
+							<td>${order.order_date}</td>
+							<td>${order.writer}</td>
+							<td>${order.totalprice}</td>
+							<td>${order.state}</td>
 						</tr>
 					</c:forEach>
 				</table>

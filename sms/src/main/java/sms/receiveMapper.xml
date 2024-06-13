@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<![CDATA[
 		SELECT order_id, order_date, writer, totalprice, state
 		FROM orders
-		ORDER BY order_id
+		ORDER BY order_date DESC, order_id
 	]]>
 	</select>
 

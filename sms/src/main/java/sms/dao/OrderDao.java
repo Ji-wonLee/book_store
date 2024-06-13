@@ -11,6 +11,12 @@ import sms.dto.ReceiveDetail;
 import sms.dto.SearchDto;
 
 public interface OrderDao {
+	//전체 발주 목록 
+	public List<Order> selectOrder();
+	//state 검색한 발주 목록
+	public List<Order> orderStateSearch(String state);
+	//발주 상세 목록
+	public List<OrderDetail> selectOrderDetail(String order_id);
 	//전체상품 출력
 	public List<ProductDto> selectInventory();
 	//각 테이블에 저장

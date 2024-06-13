@@ -22,7 +22,32 @@ import sms.service.OrderSvc;
 public class OrderSvcImpl implements OrderSvc {
 	@Autowired
 	private OrderDao orderDao;
+	
+	@Override
+	public List<Order> selectOrder() {
+		List<Order> orderIdList = orderDao.selectOrder();
+		return orderIdList;
+	}
+	
 
+	@Override
+	public List<Order> orderStateSearch(String state) {
+
+		List<Order> orderIdList; 
+		if(state.equals("전체")) {
+			orderIdList=  orderDao.selectOrder();
+		}else {
+			orderIdList= orderDao.orderStateSearch(state);
+		}
+		return orderIdList;
+	}
+
+	@Override
+	public List<OrderDetail> selectOrderDetail(String order_id) {
+		List<OrderDetail> orderDetailList = orderDao.selectOrderDetail(order_id);
+		return orderDetailList;
+	}
+	
 	@Override
 	public	List<ProductDto> invenList(){
 		List<ProductDto> listProduct = orderDao.selectInventory();
@@ -67,7 +92,7 @@ public class OrderSvcImpl implements OrderSvc {
 			orderDao.insertOrderDetail(orderDetail);
 		}
 		
-		System.out.println("receive");
+		//System.out.println("receive");
 		//receive
 		String receive_id="RC"+new_order_id.substring(2);
 		String order_id=new_order_id;
@@ -78,7 +103,7 @@ public class OrderSvcImpl implements OrderSvc {
 
 		Receive receive = new Receive(receive_id, order_id, receive_date, writer,payer,totalprice_r );
 		orderDao.insertReceive(receive);
-		System.out.println("receive2");
+		//System.out.println("receive2");
 		
 		//receiveDetail -> 보류,,, 일일이 넣을지 order에서 넣을지... 일단 전자로함
 		for(String key : orderMap.keySet()) {
@@ -119,6 +144,7 @@ public class OrderSvcImpl implements OrderSvc {
 	public void setOrderDao(OrderDao orderDao) {
 		this.orderDao = orderDao;
 	}
+
 
 
 }
