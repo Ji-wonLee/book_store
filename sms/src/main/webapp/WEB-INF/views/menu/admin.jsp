@@ -21,6 +21,8 @@
 <!-- 추가할부분 -->
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <!-- 추가할부분 -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 <style>
 * {
 	box-sizing: border-box;
@@ -76,14 +78,18 @@ footer {
 	nav, article {
 		width: 100%;
 		height: auto;
-	}
+}
+
 }
 </style>
 
 </head>
 <body>
-	<!-- <form action = "/sms/searchList" method = "GET"> -->
-	<!-- action 연결 필요 -->
+	<div>
+		<a href="#" onClick="history.go(0)">
+			<img src="resources/logo_01.png" height="200"/>
+		</a>
+	</div>
 	<section>
 		<nav>
 			<c:set var="userLoginStt" value="${userLoginStt}" />
@@ -91,27 +97,33 @@ footer {
 			<fieldset
 				style='width: 160px; border: none; margin-left: -20px; margin-top: -20px;'>
 
-				${userName}님, 어서오세요<br> <a
+				${userName}님<br>
+				어서오세요<br> <a
 					href="javascript:window.history.back();">로그아웃</a>
 
-				<br>
-				<form action="/sms/order" method="get">
-					<input type="submit" value="발주">
-				</form>
-				<form action="/sms/receive" method="get">
-					<input type="submit" value="입고">
-				</form>
-				<form action="/sms/inventory" method="get">
-					<input type="submit" value="재고">
-				</form>
-				<form action="/sms/admStt" method="get">
-					<input type="submit" value="사용자">
-				</form>
+				<br><hr style="width:158px">
+					<form action="/sms/order" method="get">
+						<input type="submit" value="발주" style="background-color: #c2c2d6;border:none;width:158px;height:100%;text-align:left">
+					</form>
+					<hr>
+					
+					<form action="/sms/receive" method="get">
+						<input type="submit" value="입고" style="background-color:transparent;border:none;width:158px;height:100%;text-align:left">
+					</form>
+					<hr>
+					
+					<form action="/sms/inventory" method="get">
+						<input type="submit" value="재고" style="background-color:transparent;border:none;width:158px;height:100%;text-align:left">
+					</form>
+					<hr>
+					
+					<form action="/sms/admStt" method="get">
+						<input type="submit" value="사용자" style="background-color:transparent;border:none;width:158px;height:100%;text-align:left">
+					</form>
 			</fieldset>
 		</nav>
 		<article></article>
 	</section>
-	<!-- </form> -->
 </body>
 <footer>
 	<p>- 2024년도 kitri 보안개발 8기 포트폴리오 프로젝트 1팀 -</p>
