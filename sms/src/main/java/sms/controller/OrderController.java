@@ -1,0 +1,153 @@
+package sms.controller;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import sms.dto.Category;
+import sms.dto.Order;
+import sms.dto.OrderDetail;
+import sms.dto.OrderSearchDto;
+import sms.dto.ProductDto;
+import sms.dto.ReceiveDetail;
+import sms.dto.SearchDto;
+import sms.service.OrderSvc;
+import sms.service.ProductSvc;
+
+@Controller
+public class OrderController {
+	@Autowired
+	private OrderSvc orderSvc;
+	@Autowired
+	private ProductSvc productSvc;
+	
+
+	//order리스트 보여주기
+	@RequestMapping(value = "/orderList", method = RequestMethod.GET)
+	public String orderList( ModelMap model, HttpServletRequest req) {
+		List<Order> orderIdList = orderSvc.selectOrder();
+		model.addAttribute("orderIdList", orderIdList);	
+
+		return "order/orderList";
+	}
+	
+	//발주상세 조회
+	//선택한 발주와 매칭되는 입고서 출력
+	@RequestMapping(value = "/orderDetailList", method = RequestMethod.GET)
+	public String orderDetailList(@RequestParam String order_id,ModelMap model,
+			HttpServletRequest req) {	
+		// orderdetial 목록 model에 저장. 
+		List<OrderDetail> orderDetailList = orderSvc.selectOrderDetail(order_id);
+		model.addAttribute("orderDetailList", orderDetailList);
+		return "order/orderDetailList";
+	}
+	
+	//발주 상품코드, 상품이름, 카테고리 분류, 개수 검색
+	@RequestMapping(value = "/stateSearch", method = RequestMethod.GET)
+	public String stateSearch(@RequestParam(value="state") String state,
+			ModelMap model, HttpServletRequest req) {
+		//user_id가져오기
+		HttpSession session=req.getSession();
+		String user_id = (String) session.getAttribute("user_id");
+		model.addAttribute("user_id", user_id);
+		
+		//검색한 state한 오더리스트
+		List<Order> orderIdList = orderSvc.orderStateSearch(state);
+		model.addAttribute("orderIdList", orderIdList);
+		return "order/orderList"; //수정
+	}
+
+	//상품목록 출력 -> 발주가능하게 (절판상품 제외)
+	@RequestMapping(value = "/order", method = RequestMethod.GET)
+	public String order( ModelMap model, HttpServletRequest req) {
+		//user_id가져오기
+		HttpSession session=req.getSession();
+		String user_id = (String) session.getAttribute("user_id");
+		model.addAttribute("user_id", user_id);
+		//카테고리 선택하는 리스트
+		List<Category> categorylist = productSvc.categoryList();
+		model.addAttribute("categorylist",categorylist);
+		//상품 전체 리스트
+		List<ProductDto> productList = orderSvc.invenList();
+		model.addAttribute("productList", productList);		
+
+		return "order/goodsOrderPage";
+	}
+	
+	
+	//발주 상품 확인
+	@RequestMapping(value = "/orderCheck", method = RequestMethod.GET)
+	public String orderCheck(@RequestParam Map<String, Integer> paramMap,ModelMap model, HttpServletRequest req) {	
+		//user_id가져오기
+		HttpSession session=req.getSession();
+		String user_id = (String) session.getAttribute("user_id");
+		model.addAttribute("user_id", user_id);
+		
+		model.addAttribute("orderList", paramMap);
+		return "order/orderCheck";
+	}
+	//발주끝
+	@RequestMapping(value = "/orderComplete", method = RequestMethod.GET)
+	public String orderComplete(@RequestParam Map<String, String> paramMap,ModelMap model, HttpServletRequest req) {			
+		//user_id가져오기
+		HttpSession session=req.getSession();
+		String user_id = (String) session.getAttribute("user_id");
+		model.addAttribute("user_id", user_id);
+		
+		orderSvc.orderSave(paramMap, user_id);
+		return "menu/admin";
+	}
+
+	//발주 상품코드, 상품이름, 카테고리 분류, 개수 검색
+	@RequestMapping(value = "/orderSearch", method = RequestMethod.GET)
+	public String testSearch(@RequestParam(value="category_id") String category_id,
+			@RequestParam(value="searchtext") String searchtext,
+			@RequestParam(value="remaining") int remaining,
+			ModelMap model, HttpServletRequest req) {
+		//user_id가져오기
+		HttpSession session=req.getSession();
+		String user_id = (String) session.getAttribute("user_id");
+		model.addAttribute("user_id", user_id);
+		OrderSearchDto orderSearchDto = new OrderSearchDto(searchtext, category_id,remaining );
+		//카테고리 선택하는 리스트
+		model.addAttribute("categorylist", productSvc.categoryList());
+		//검색한 product리스트
+		List<ProductDto> productList = orderSvc.orderSearch(orderSearchDto);
+		model.addAttribute("productList", productList);
+		return "order/goodsOrderPage"; //수정
+	}
+	
+
+	//관리자 메인화면으로
+	@RequestMapping(value = "/toAdminMain", method = RequestMethod.GET)
+	public String toAdminMain(ModelMap model, HttpServletRequest req) {	
+		//user_id가져오기
+		HttpSession session=req.getSession();
+		String user_id = (String) session.getAttribute("user_id");
+		model.addAttribute("user_id", user_id);
+		return "menu/admin";
+	}
+
+	public OrderSvc getOrderSvc() {
+		return orderSvc;
+	}
+
+	public void setOrderSvc(OrderSvc orderSvc) {
+		this.orderSvc = orderSvc;
+	}
+
+
+}

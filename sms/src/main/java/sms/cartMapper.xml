@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="CartMapper">
+
+	<!-- 특정 사용자의 장바구니 조회 <select id="listCartItems" resultType="CartDto" parameterType="String"> 
+		SELECT c.cart_id, c.user_id, c.totalprice, c.cart_date, c.state, cd.product_id, 
+		cd.quantity, cd.price, p.product_name FROM cart c, cart_detail cd, product 
+		p WHERE c.cart_id = cd.cart_id AND cd.product_id = p.product_id AND c.user_id 
+		= #{user_id,jdbcType=VARCHAR} AND c.state = '장바구니' </select> -->
+
+	<!-- 특정 사용자의 장바구니 조회 -->
+	<select id="listCartItems" resultType="sms.dto.CartDto"
+		parameterType="String">
+		SELECT
+		c.cart_id,
+		c.user_id,
+		cd.product_id,
+		cd.quantity,
+		p.product_price,
+		p.product_name,
+		p.product_imgurl
+		FROM
+		cart c
+		JOIN
+		cart_detail cd ON c.cart_id = cd.cart_id
+		JOIN
+		product p ON cd.product_id = p.product_id
+		WHERE
+		c.user_id = #{user_id,jdbcType=VARCHAR}
+		AND c.state = '장바구니'
+	</select>
+
+
+	<!-- 상품 ID로 상품 정보를 가져오는 쿼리 -->
+	<select id="getProductById" resultType="ProductDto">
+		SELECT product_id,
+		product_name, product_price, product_imgurl
+		FROM product
+		WHERE
+		product_id = #{product_id}
+	</select>
+
+	<!-- 장바구니 내 상품의 수량 업데이트 및 총액 재계산 -->
+	<update id="updateCartItemAndTotal" parameterType="CartDto">
+		<!-- 상품 수량 업데이트 -->
+		UPDATE cart_detail
+		SET quantity = #{quantity}
+		WHERE cart_id = #{cart_id}
+		AND product_id = #{product_id};
+
+		<!-- 장바구니 총액 업데이트 -->
+		UPDATE cart
+		SET totalprice = (
+		SELECT SUM(cd.quantity * p.product_price)
+		FROM cart_detail cd
+		JOIN product p ON cd.product_id = p.product_id
+		WHERE cd.cart_id = #{cart_id}
+		),
+		cart_date = SYSDATE  <!-- 현재 시간 업데이트 -->
+		WHERE cart_id = #{cart_id};
+	</update>
+
+	<!-- Cart 상태를 업데이트하는 쿼리 -->
+	<update id="updateCartState" parameterType="CartDto">
+		UPDATE cart
+		SET state
+		= #{state}
+		WHERE cart_id = #{cart_id}
+	</update>
+
+
+	<!-- 재고 업데이트 -->
+	<update id="updateStock" parameterType="sms.dto.Inventory">
+		UPDATE Inventory
+		SET
+		quantity = quantity + #{quantity}
+		WHERE product_id = #{product_id}
+	</update>
+
+	<!-- 새로운 Cart를 생성하는 쿼리 -->
+	<insert id="createNewCart" parameterType="CartDto">
+		INSERT INTO cart
+		(cart_id, user_id, state, cart_date)
+		VALUES (#{cart_id}, #{user_id},
+		'장바구니', SYSDATE)
+	</insert>
+
+
+
+	<select id="selectCartid" parameterType="String"
+		resultType="string">
+        <![CDATA[
+            SELECT cart_id 
+            FROM cart 
+            WHERE user_id = #{user_id} 
+            AND state = '장바구니'
+        ]]>
+	</select>
+
+	<!-- 장바구니 항목 삭제 -->
+	<delete id="deleteCartItem" parameterType="CartDto">
+		DELETE FROM cart_detail WHERE cart_id = #{cart_id} AND product_id =
+		#{product_id}
+	</delete>
+
+
+	<update id="updateCartItemQuantity"
+		parameterType="CartDto">
+		UPDATE cart_detail
+		SET quantity = #{quantity}
+		WHERE cart_id = #{cart_id} AND product_id = #{product_id}
+	</update>
+
+	<insert id="addCartProduct" parameterType="CartDto">
+        <![CDATA[
+            INSERT INTO cart_detail (cart_id, product_id, quantity, price)
+            VALUES (#{cart_id}, #{product_id}, #{quantity}, #{price})
+        ]]>
+	</insert>
+
+	<!-- 가장 큰 cart_id 가져오기 -->
+	<select id="getMaxCartId" resultType="string">
+		SELECT MAX(cart_id)
+		FROM
+		cart
+	</select>
+	<!-- 특정 상품의 재고 확인 -->
+	<select id="getStock" resultType="int" parameterType="String">
+		SELECT
+		quantity
+		FROM inventory
+		WHERE product_id = #{product_id}
+	</select>
+	<!-- 가장 최근 cart_id 가져오기 -->
+	<select id="getLatestCartId" resultType="string">
+		SELECT cart_id
+		FROM (
+		SELECT cart_id
+		FROM cart
+		WHERE TRUNC(cart_date) = TRUNC(SYSDATE)
+		ORDER BY
+		cart_date DESC
+		)
+		WHERE ROWNUM = 1
+	</select>
+
+	<!-- 새 장바구니 저장 -->
+	<insert id="insertNewCart" parameterType="CartDto">
+		INSERT INTO cart
+		(cart_id, user_id, state, cart_date)
+		VALUES (#{cart_id}, #{user_id},
+		'장바구니', SYSDATE)
+	</insert>
+
+	<!-- 새 결제 정보 저장 -->
+	<insert id="insertNewPayment" parameterType="PaymentDto">
+		INSERT INTO payment
+		(payment_id, cart_id)
+		VALUES (#{payment_id}, #{cart_id})
+	</insert>
+</mapper>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SQL Mapper -->
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="order">
+
+	<!--order목록 state 검색 -->
+	<select id="orderStateSearch" parameterType="string" resultType="Order">
+	<![CDATA[
+		SELECT order_id, order_date, writer, totalprice, state
+		FROM orders
+		WHERE state=#{state}
+		ORDER BY order_date DESC, order_id
+		
+	]]>
+	</select>
+	
+	<!--orderDetail목록 가져오기 -->
+	<select id="selectOrderDetail" parameterType="string" resultType="OrderDetail">
+	<![CDATA[
+		SELECT order_id, product_id, quantity, price
+		FROM order_detail
+		WHERE order_id=#{order_id}
+	]]>
+	</select>
+	
+
+	<!--order할 상품 목록 가져오기 -->
+	<select id="selectInventory" resultType="productDTO">
+	<![CDATA[
+		SELECT p.product_id, product_name, product_price, manufacture_name,
+ 		c.category_name, product_imgurl , state , quantity
+		FROM product p, category c, inventory i
+		WHERE (c.category_id = p.category_id)
+			AND (p.product_id=i.product_id)
+			AND p.state != '절판'
+	]]>
+	</select>
+	
+	<!-- 이름으로 검색 -->
+	<select id="productSearchName" parameterType="OrderSearchDto" resultType="ProductDto">
+	<![CDATA[
+		SELECT p.product_id, product_name, product_price, manufacture_name,
+ 			c.category_name, product_imgurl , state, quantity
+		FROM product p, category c, inventory i
+		WHERE (c.category_id = p.category_id)
+			AND (p.product_id=i.product_id)
+			AND (p.product_id LIKE '%' || #{searchText} || '%'
+			OR product_name LIKE '%' || #{searchText} || '%') 
+			AND i.quantity <= #{remaining}
+			AND p.state != '절판'
+		ORDER BY p.category_id ASC
+	]]>
+	</select>
+	<!-- 분류로 검색 -->
+	<select id="productSearchCategory" parameterType="OrderSearchDto" resultType="ProductDto">
+	<![CDATA[
+		SELECT p.product_id, product_name, product_price, manufacture_name,
+ 		c.category_name, product_imgurl , state, quantity
+		FROM product p, category c, inventory i
+		WHERE (c.category_id = p.category_id)
+		AND (p.product_id=i.product_id)
+		AND i.quantity <= #{remaining}
+		AND p.state != '절판'
+		ORDER BY p.product_id ASC
+	]]>
+	</select>
+	<!-- 둘 다 사용하여 검색 -->
+	<select id="productSearchDual" parameterType="OrderSearchDto" resultType="ProductDto">
+	<![CDATA[
+SELECT p.product_id, product_name, product_price, manufacture_name,
+ 		c.category_name, product_imgurl , state, quantity
+		FROM product p, category c, inventory i
+		WHERE (c.category_id = p.category_id)
+		AND (p.product_id=i.product_id)
+		AND (p.product_id LIKE '%' || #{searchText} || '%'
+		OR product_name LIKE '%' || #{searchText} || '%')
+		AND i.quantity <= #{remaining}
+		AND p.state != '절판'
+		ORDER BY p.category_id ASC, p.product_id
+	]]>
+	</select>
+
+	<!-- orderId가져오기 -->
+	<select id="getOrderId" resultType="string">
+	<![CDATA[
+	SELECT *
+	FROM (
+		SELECT order_id
+		FROM orders
+		WHERE TRUNC(order_date) = TRUNC(SYSDATE)
+		ORDER BY order_id DESC
+	)
+	WHERE ROWNUM = 1
+	]]>
+	</select>
+
+	<!-- order테이블 입력 -->
+	<insert id="insertOrder" parameterType="Order">
+	<![CDATA[
+		INSERT INTO orders (order_id, order_date, writer, totalprice, state) 
+		VALUES (#{order_id}, TO_DATE(TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS'), 'YYYYMMDDHH24MISS'), #{writer},#{totalprice}, #{state})
+	]]>
+	</insert>
+	
+	<!-- orderDetail테이블 입력 -->
+	<insert id="insertOrderDetail" parameterType="OrderDetail">
+	<![CDATA[
+		INSERT INTO order_detail (product_id, order_id, quantity, price)
+		VALUES (#{product_id}, #{order_id}, #{quantity}, #{price})
+	]]>
+	</insert>
+	
+	<!-- receive 테이블 입력 -->
+	<insert id="insertReceive" parameterType="Receive">
+	<![CDATA[
+		INSERT INTO receives (receive_id, order_id, receive_date, writer, payer, totalprice)
+		VALUES(#{receive_id},#{order_id}, TO_DATE(TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS'), 'YYYYMMDDHH24MISS')
+		,#{writer}, #{payer},#{totalprice})
+	]]>
+	</insert>
+	
+	<!-- receiveDetail 테이블 입력 -->
+	<insert id="insertReceiveDetail" parameterType="ReceiveDetail">
+	<![CDATA[
+		INSERT INTO receive_detail (receive_id, product_id, quantity, price)
+		VALUES (#{receive_id}, #{product_id}, #{quantity}, #{price})
+	]]>
+	</insert>
+</mapper>

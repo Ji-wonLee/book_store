@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SQL Mapper -->
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="receive">
+
+	<!--order할 상품 목록 가져오기 -->
+	<select id="selectOrder" resultType="order">
+	<![CDATA[
+		SELECT order_id, order_date, writer, totalprice, state
+		FROM orders
+		ORDER BY order_date DESC, order_id
+	]]>
+	</select>
+
+	<!--order할 상품 목록 가져오기 -->
+	<select id="selectReceiveDetail" parameterType="string"
+		resultType="receiveDetail">
+	<![CDATA[
+		SELECT receive_id, product_id, quantity, price
+		FROM receive_detail
+		WHERE receive_id = #{receive_id}
+	]]>
+	</select>
+
+	<!--order할 상품 목록 가져오기 -->
+	<select id="updateReceiveDetail" parameterType="receiveDetail"
+		resultType="string">
+	<![CDATA[
+		UPDATE receive_detail
+		SET quantity = ${quantity}
+		WHERE receive_id =#{receive_id} AND product_id = #{product_id}
+	]]>
+	</select>
+
+	<!--order할 상품 목록 가져오기 -->
+	<select id="updateReceive" parameterType="string"
+		resultType="string">
+	<![CDATA[
+		UPDATE receives
+		SET totalprice = (SELECT SUM(price*quantity) FROM receive_detail WHERE receive_id= #{receive_id} )
+		WHERE receive_id= #{receive_id}
+	]]>
+	</select>
+
+	<!--order할 상품 목록 가져오기 -->
+	<select id="receiveToInventory" parameterType="inventory"
+		resultType="string">
+	<![CDATA[
+		UPDATE inventory SET quantity = quantity + #{quantity} WHERE product_id = #{product_id}
+	]]>
+	</select>
+
+	<!-- 발주서 상태변경 -->
+	<select id="updateOrderState" parameterType="String"
+		resultType="string">
+	<![CDATA[
+		UPDATE orders SET state= '입고완료' WHERE order_id =#{order_id}
+	]]>
+	</select>
+	
+	<!-- writer -->
+	<select id="updateWriter" parameterType="Receive"
+		resultType="string">
+	<![CDATA[
+		UPDATE receives SET writer= #{writer} WHERE receive_id =#{receive_id}
+	]]>
+	</select>
+</mapper>
