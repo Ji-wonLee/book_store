@@ -135,7 +135,7 @@
     </div>
     <div class="container">
         <h1>금액 결제</h1>
-        <a href="/sms/customermain" class="btn btn-outline-secondary mb-3">메인화면</a>
+      
         <form action="/sms/payment/completePayment" method="post" onsubmit="return validateForm()">
             <input type="hidden" name="user_id" value="${user_id}" />
             <input type="hidden" name="receiver_name" value="${receiver_name}" />
