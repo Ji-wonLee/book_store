@@ -64,7 +64,7 @@ public class ReceiveController {
 		//수정확인된 화면으로
 		List<ReceiveDetail> rdList = receiveSvc.selectReceiveDetail(receive_id);
 		model.addAttribute("rdList", rdList);
-		return "receive/endReceive";
+		return "menu/admin";
 	}
 }
 

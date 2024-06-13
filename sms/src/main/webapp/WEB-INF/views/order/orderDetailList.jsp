@@ -149,6 +149,13 @@ td img {
 	background-color: #c2c2d6;
 	border-radius: 5px;
 }
+.input {
+			font-family: "Noto Sans KR", sans-serif;
+			font-optical-sizing: auto;
+			font-weight: 500;
+			font-style: normal;
+			padding: 7px;
+			}
 
 @media ( max-width : 600px) {
 	nav, article {
@@ -167,7 +174,6 @@ td img {
 	<nav>
 		<ul>
 			<li><a href="/sms/toAdminMain">메인화면</a></li>
-			<li><a href="index.jsp">로그아웃</a></li>
 		</ul>
 	</nav>
 	<section>
@@ -175,7 +181,9 @@ td img {
 		<div class="max-w-4xl mx-auto">
 		<!-- 여기에 출력할 코드를 작성(list라던가) -->
 			<form action="/sms/orderList" method="get">
-				<button type="submit">발주목록</button>
+			<div class="input" style="text-align: right;">
+				<button style="border-radius: 3px; width: 100px; height: 34px; background-color : #c2c2d6;" type="submit">발주목록</button>
+			</div>
 				<table>
 					<tr>
 						<th>상품_id</th>

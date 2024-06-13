@@ -8,47 +8,97 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
+    
 <style>
+	@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap');
+	@import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Hahmlet:wght@100..900&family=Noto+Sans+KR&display=swap');
+
 * {
 	box-sizing: border-box;
 }
 
-section {
-	display: flex;
-	flex-direction: row;
-	align-items: stretch;
-}
+.header-container {
+       		font-family: "Noto Sans KR", sans-serif;
+ 			font-optical-sizing: auto;
+ 			font-weight: 500;
+ 			font-style: normal;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 0 20px;
+        }
 
-nav {
-	float: left;
-	width: 20%;
-	background: #9ec7ae;
-	padding: 20px;
-}
+        .header-container h3 {
+            margin: 0;
+        }
 
-article {
-	float: left;
-	padding: 20px;
-	width: 80%;
-	background-color: #dbf0e6;
-}
+        nav {
+        	font-family: "Noto Sans KR", sans-serif;
+ 			font-optical-sizing: auto;
+ 			font-weight: 500;
+ 			font-style: normal;
+            width: 100%;
+            background: #c2c2d6;
+            padding: 10px 0;
+        }
 
-article table {
-	border-collapse: collapse;
-	width: 100%';
-}
+        nav ul {
+            display: flex;
+            justify-content: space-around;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
 
-article th {
-	border-bottom: 1px solid #dddddd;
-	text-align: center;
-	padding: 8px;
-}
+        nav ul li {
+            margin: 0;
+        }
 
-article td {
-	border-bottom: 1px solid #dddddd;
-	text-align: left;
-	padding: 8px;
-}
+        nav ul li a {
+            text-decoration: none;
+            color: black;
+        }
+        
+		table {
+			text-align: center;
+	        font-family: "Hahmlet", serif;
+  			font-optical-sizing: auto;
+  			font-weight: 400;
+  			font-style: normal;
+        	border-collapse: collapse;
+            width: 100%;
+        
+        }
+
+        th, td {
+            border-bottom: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        th {
+        	text-align: center;
+            background-color: #f2f2f2;
+        }
+
+		.input {
+        	font-family: "Noto Sans KR", sans-serif;
+ 			font-optical-sizing: auto;
+ 			font-weight: 500;
+ 			font-style: normal;
+        	padding: 7px;
+        }
+       	.insert{
+       		font-family: "Noto Sans KR", sans-serif;
+ 			font-optical-sizing: auto;
+ 			font-weight: 500;
+ 			font-style: normal;
+       	}
 
 section::after {
 	content: "";
@@ -69,32 +119,39 @@ footer {
 	}
 }
 </style>
+    <script>
+	function goMenu(){
+		alert("재고가 반영되었습니다. 메인화면으로 돌아갑니다.");
+	}
+</script>
 <title>재고 관리 화면</title>
 </head>
 <body>
+	<div class="header-container">
+        <h3>관리자 ${user_id} 님 환영합니다.</h3>
+        <img style="height:100px; width:auto;" src="resources/logo_01.png" alt="logo" width=auto height="100px"/>
+        <button type="button" onclick="location.href='index.jsp'">로그아웃</button>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="/sms/toAdminMain">메인화면</a></li>
+        </ul>
+    </nav>
 	<section>
-		<nav id="nav">
-			<!-- 좌측 유저정보 및 사이트 목록 표시 -->
-			<div class="userText">
-				<h3>${user_id}</h3>
-				<h3>님 환영합니다.</h3>
-			</div>
-			<ul>
-				<li><a href="/sms/toAdminMain">메인화면</a></li>
-				<li><a href="index.jsp">로그아웃</a></li>
-			</ul>
-		</nav>
-		<article id="article">
+		<div class="max-w-4xl mx-auto">
 			<!-- 여기에 출력할 코드를 작성(list라던가) -->
 			<form action="/sms/toInventory" method="get">
-				<button type="submit">재고반영</button>
-				<div>
-					${rdList[0].receive_id} 총액 : ${totalprice}<br> 
+			<div class="input">
+				<button style="border-radius: 3px; width: 150px; height: 40px; background-color : #c2c2d6;" type="submit" onclick="goMenu();">재고반영</button>
+			</div>
+				<div class="insert">
+					<p style="margin:'3px';">${rdList[0].receive_id}</p><br> 
 					<input type="hidden"
 						name="receive_id" value="${rdList[0].receive_id}"> 
-					작성자 : <input type="text" name="writer" id="writer" value="${writer}" />
-					결제자 : <input type="text" name="payer" id="payer" value="${payer}" /> 
+					<p>작성자 : <input style="background-color: #eaeafb;" type="text" name="writer" id="writer" value="${writer}" />
+					   결제자 : <input style="background-color: #eaeafb;" type="text" name="payer" id="payer" value="${payer}" /></p> 
 				</div>
+				<br>
 				<table>
 					<tr>
 						<th>상품명</th>
@@ -107,25 +164,14 @@ footer {
 							<td>${receiveDetail.product_id}</td>
 							<td>${receiveDetail.price}</td>
 							<td>${receiveDetail.quantity}</td>
-							<td><input type="number" name="${receiveDetail.product_id}"
+							<td><input style="background-color: #eaeafb;" type="number" name="${receiveDetail.product_id}"
 								value="${receiveDetail.quantity}"></td>
 						</tr>
 					</c:forEach>
 				</table>
 			</form>
-		</article>
+		</div>
 	</section>
-	<script>
-        <!-- 화면 크기가 변경될 때마다 높이를 조정-->
-        window.addEventListener('resize', function() {
-            var section = document.getElementById('section');
-            var article = document.getElementById('article');
-            section.style.height = article.offsetHeight + 'px';
-        });
-
-        <!-- 초기 로드 시에도 높이를 조정-->
-        window.dispatchEvent(new Event('resize'));
-    </script>
 	<footer>
 		<p>- 2024년도 kitri 보안개발 8기 포트폴리오 프로젝트 1팀 -</p>
 	</footer>

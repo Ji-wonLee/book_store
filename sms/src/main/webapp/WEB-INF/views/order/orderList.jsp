@@ -80,7 +80,12 @@ nav ul li a {
 	text-align: center;
 	margin-top: 22px;
 	height: 30px;
-	width: 900px;
+	width: 30%;
+	
+}
+
+.orderSearch {
+	text-align: right;
 }
 
 footer {
@@ -150,6 +155,14 @@ td img {
 	border-radius: 5px;
 }
 
+.input {
+	font-family: "Noto Sans KR", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 500;
+	font-style: normal;
+	padding: 7px;
+}
+
 @media ( max-width : 600px) {
 	nav, article {
 		width: 100%;
@@ -167,33 +180,39 @@ td img {
 	<nav>
 		<ul>
 			<li><a href="/sms/toAdminMain">메인화면</a></li>
-			<li><a href="index.jsp">로그아웃</a></li>
 		</ul>
 	</nav>
 	<section>
 
 		<div class="max-w-4xl mx-auto">
 			<form action="/sms/stateSearch" method="get">
-				<div>
-					<select style="background-color : #eaeafb;" name="state" id="state">
+				<div class="search" >
+					<select style="background-color: #eaeafb;" name="state" id="state">
 						<option value="전체">전체</option>
 						<option value="입고완료">입고완료</option>
 						<option value="미완료">미완료</option>
-					</select> <input style="background-color : #eaeafb; background-image:'resources/search.png'; border:none; background-repeat:no-repeat; background-size:100% 100%;" type="submit" value="검색" />
+					</select> <input
+						style="background-color: #eaeafb; background-image: 'resources/search.png'; border: none; background-repeat: no-repeat; background-size: 100% 100%;"
+						type="submit" value="검색" />
 				</div>
 			</form>
 		</div>
-		
-		<div class="max-w-4xl mx-auto" style="text-align: right;">
+
+		<div class="max-w-4xl mx-auto">
 			<form action="/sms/order">
-				<input style="background-color : #eaeafb; background-image:'resources/search.png'; border:none; background-repeat:no-repeat; background-size:100% 100%;" type="submit" value="발주신청하기" />
+				<div class="input" style="text-align: right;">
+					<button style="border-radius: 3px; width: 150px; height: 40px; background-color : #c2c2d6;" type="submit" value="발주신청">발주신청</button>
+					
+				</div>
 			</form>
 		</div>
-		
+
 		<div class="max-w-4xl mx-auto">
-		<!-- 여기에 출력할 코드를 작성(list라던가) -->
+			<!-- 여기에 출력할 코드를 작성(list라던가) -->
 			<form action="/sms/orderDetailList" method="get">
-				<button type="submit">조회</button>
+				<div class="input" style="text-align: right;">
+					<button style="border-radius: 3px; width: 150px; height: 40px; background-color : #c2c2d6;" type="submit">조회</button>
+				</div>
 				<table>
 					<tr>
 						<th></th>
