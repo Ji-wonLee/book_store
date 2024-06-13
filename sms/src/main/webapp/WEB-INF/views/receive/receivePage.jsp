@@ -124,12 +124,12 @@ footer {
 		alert("재고가 반영되었습니다. 메인화면으로 돌아갑니다.");
 	}
 </script>
-<title>재고 관리 화면</title>
+<title>입고 페이지</title>
 </head>
 <body>
 	<div class="header-container">
         <h3>관리자 ${user_id} 님 환영합니다.</h3>
-        <img style="height:100px; width:auto;" src="resources/logo_01.png" alt="logo" width=auto height="100px"/>
+         <a href="/sms/toAdminMain"><img style="height:100px; width:auto;" src="resources/logo_01.png" alt="logo" width=auto height="100px"/></a>
         <button type="button" onclick="location.href='index.jsp'">로그아웃</button>
     </div>
     <nav>

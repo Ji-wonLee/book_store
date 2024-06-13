@@ -32,36 +32,39 @@ public class UsersController {
 
     // 로그인 -> 화면 이동
     @RequestMapping(value = "/mainLgn.do")
-    public String mainLogin(@RequestParam("userId") String userId,
-                            @RequestParam("userPass") String userPass, ModelMap model,
-                            HttpServletRequest req) throws Exception {
-        param.put("user_id", userId);
-        param.put("passwd", userPass);
+	public String mainLogin(@RequestParam("userId") String userId,
+			@RequestParam("userPass") String userPass,ModelMap model,
+			HttpServletRequest req) throws Exception{
 
-        String webStt = "";
-        String loginChk = usersDao.selectLoginCheck(param);
+		param.put("user_id", userId);
+		param.put("passwd", userPass);
 
-        if (loginChk == null) {
-            model.addAttribute("userLoginStt", "fail");
-            webStt = "redirect:index.jsp";
-        } else {
-            HttpSession session = req.getSession();
-            session.setAttribute("user_id", userId);
+		String webStt = "";
+		String loginChk = usersDao.selectLoginCheck(param);// 사용자 이름
 
-            model.addAttribute("userLoginStt", "success");
-            String clientChk = usersDao.selectCheckClient(param);
-            model.addAttribute("userName", loginChk);
-            model.addAttribute("userClientStt", clientChk);
-            model.addAttribute("user_id", userId);
+		if(loginChk == null) {
+			//리튼을 로그인 창으로?
+			model.addAttribute("userLoginStt" , "fail");
+			webStt = "redirect:index.jsp";
+		}else{
+			//사용자 id 세션 저장
+			HttpSession session=req.getSession();
+			session.setAttribute("user_id",userId);
+			
+			model.addAttribute("userLoginStt" , "success");
+			String clientChk = usersDao.selectCheckClient(param); //gname
+			model.addAttribute("userName" , loginChk);
+			model.addAttribute("userClientStt" , clientChk);
+			model.addAttribute("user_id" , userId);
 
-            if (clientChk.equals("admin")) {
-                webStt = "menu/admin";
-            } else {
-                webStt = "product/first";
-            }
-        }
-        return webStt;
-    }
+			if(clientChk.equals("admin")) {   //관리자
+				webStt =  "menu/admin";
+			}else { //사용자
+				webStt = "redirect:/customermain";
+			}
+		}
+		return webStt;
+	}
 
     // 아이디 중복 체크
     @ResponseBody

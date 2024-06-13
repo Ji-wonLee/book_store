@@ -8,174 +8,210 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-	* {
- 		 box-sizing: border-box;
-	}
-	
-	section {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
-	}
-
-	nav {
-		float: left;
-  		width: 20%;
-  		background: #9ec7ae;
- 		padding: 20px;
-	}
-	
-	article {
-		float: left;
-		padding: 20px;
- 		width: 80%;
- 		background-color: #dbf0e6;
-	}
-	
-	article table {
-		border-collapse: collapse;
-		width : 100%';
-	}
-	
-	article th {
-		border-bottom: 1px solid #dddddd;
-  		text-align: center;
-  		padding: 8px;
-	}
-	
-	article td {
-		border-bottom: 1px solid #dddddd;
-  		text-align: left;
-  		padding: 8px;
-	}
-	
-	section::after {
-		content: "";
-  		display: table;
-  		clear: both;
-	}
-	
-	footer {
-		padding: 10px;
- 		text-align: center;
- 		color : #8c8c8c;
-	}
-	
-	@media (max-width: 600px){
-  		nav, article {
-   			 width: 100%;
-    		height: auto;
- 		 }
-	}
-</style>
 <title>재고 관리 화면</title>
-</head>
-<body>
-	<section>
-		<nav id="nav">
-			<!-- 좌측 유저정보 및 사이트 목록 표시 -->
-			<div class="userText">
-				<h3>${user_id}</h3>
-				<h3>님 환영합니다.</h3>
-			</div>
-			<ul>
-				<li><a href="/sms/toAdminMain">메인화면</a></li>
-				<li><a href="index.jsp">로그아웃</a></li>
-			</ul>
-		</nav>
-		<article id="article">
-			<form action="/sms/inventorysearch" method="get">
-				<div class = "searchwithText">
-					<input type="text" name="searchtext" id="searchText" placeholder="검색어 입력"/> <!-- 검색어 입력 text 박스 -->
-					<input type="submit" value="검색"/>
-				</div>
-				<div class = "printInventoryList">
-					<table>
-						<tr>
-							<th></th>
-							<th>상품 코드</th>
-							<th>도서명</th>
-							<th>분류 코드</th>
-							<th>분류명</th>
-							<th>제조업체명</th>
-							<th>제조업체 주소</th>
-							<th>페이지</th>
-							<th>가격</th>
-							<th>판매 상태</th>
-							<th>재고</th>
-						</tr>
-						<c:forEach var="inventory" items="${inventorylist}" varStatus="idx">
-							<tr>
-								<td>${idx.count}</td>
-								<td>${inventory.product_id}</td>
-								<td>${inventory.product_name}</td>
-								<td>${inventory.category_id}</td>
-								<td>${inventory.category_name}</td>
-								<td>${inventory.manufacture_name}</td>
-								<td>${inventory.manufacture_address}</td>
-								<td>${inventory.product_page}</td>
-								<td>${inventory.product_price}</td>
-								<td>${inventory.state}</td>
-								<td><input type="number" value="${inventory.quantity}"></td>
-							</tr>
-						</c:forEach>
-					</table>
-				</div>
-			</form>
-		</article>
-	</section>
-	<script>
-        <!-- 화면 크기가 변경될 때마다 높이를 조정-->
-        window.addEventListener('resize', function() {
-            var section = document.getElementById('section');
-            var article = document.getElementById('article');
-            section.style.height = article.offsetHeight + 'px';
-        });
-
-        <!-- 초기 로드 시에도 높이를 조정-->
-        window.dispatchEvent(new Event('resize'));
-    </script>'
-    <script>
-    let changedValues = {};
-    let inputId = {};
-
-    function valueChanged(input) {
-        changedValues[input.id] = input.value;
-    }
-
-    function sendChangedValues() {
-        // 변경된 값이 없으면 전송하지 않음
-        if (Object.keys(changedValues).length === 0) {
-            alert("변경된 값이 없습니다.");
-            return;
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
+<style>
+    	@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap');
+    	@import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Hahmlet:wght@100..900&family=Noto+Sans+KR&display=swap');
+    	.header-container {
+       		font-family: "Noto Sans KR", sans-serif;
+ 			font-optical-sizing: auto;
+ 			font-weight: 500;
+ 			font-style: normal;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 0 20px;
         }
 
-        // 변경된 값만을 서버로 전송
-        fetch('InventoryController', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(changedValues),
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('서버 응답 실패');
+        .header-container h3 {
+            margin: 0;
+        }
+
+        nav {
+        	font-family: "Noto Sans KR", sans-serif;
+ 			font-optical-sizing: auto;
+ 			font-weight: 500;
+ 			font-style: normal;
+            width: 100%;
+            background: #c2c2d6;
+            padding: 10px 0;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: space-around;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            margin: 0;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: black;
+        }
+        
+        .search{
+        	font-family: "Noto Sans KR", sans-serif;
+ 			font-optical-sizing: auto;
+ 			font-weight: 500;
+ 			font-style: normal;
+        	border: 2px solid purple;
+        	border-radius: 30px;
+        	background-color : #eaeafb;
+        	text-align: center;
+        	line-height: 10px;
+			margin-top: 22px;
+        	height: 35px;
+        	width: 900px;
+        }
+
+        footer {
+        	font-family: "Noto Sans KR", sans-serif;
+ 			font-optical-sizing: auto;
+ 			font-weight: 500;
+ 			font-style: normal;
+            padding: 10px;
+            text-align: center;
+            color: #8c8c8c;
+        }
+
+        .table-container {
+        	font-family: "Hahmlet", serif;
+ 			font-optical-sizing: auto;
+  			font-weight: 400;
+  			font-style: normal;
+  			text-align: center;
+            margin-top: 20px;
+        }
+
+        table {
+	        font-family: "Hahmlet", serif;
+  			font-optical-sizing: auto;
+  			font-weight: 400;
+  			font-style: normal;
+        	border-collapse: collapse;
+        	table-layout:fixed;
+            width: 1200px;
+            height: 100%;
+            word-break: break-all;
+        	text-align: left;
+        }
+
+        th, td {
+            border-bottom: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        th {
+        	text-align: center;
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+
+        td img {
+        	text-align: left;
+            max-width: 50px;
+            height: auto;
+        }
+		.pageBar{
+			text-align: center;
+			font-family: "Noto Sans KR", sans-serif;
+ 			font-optical-sizing: auto;
+ 			font-weight: 500;
+ 			font-style: normal;
+ 			font-size: 1.5em;
+ 			padding: 8px 20px;
+		}
+        .page-link {
+        	display: inline-block;
+            color: black;
+            float: center;
+            padding: 8px 20px;
+            text-decoration: none;
+        }
+
+        .page-link:hover:not(.active) {
+            background-color: #c2c2d6;
+            border-radius: 5px;
+        }
+
+        @media (max-width: 600px) {
+            nav, article {
+                width: 100%;
+                height: auto;
             }
-            return response.json();
-        })
-        .then(data => {
-            // 서버 응답 처리
-            console.log(data);
-            // 변경된 값 초기화
-            changedValues = {};
-        })
-        .catch(error => {
-            console.error('에러:', error);
-        });
-    }
-    </script>
+        }
+    </style>
+</head>
+<body>
+	<div class = "header-container">
+		<h3>관리자 ${user_id} 님 환영합니다.</h3>
+     	 <a href="/sms/toAdminMain"><img style="height:100px; width:auto;" src="resources/logo_01.png" alt="logo" width=auto height="100px"/></a>
+     	<button type="button" onclick="location.href='index.jsp'">로그아웃</button>
+   	</div>
+	<nav>
+		<ul>
+            <li><a href="/sms/toAdminMain">메인화면</a></li>
+        </ul>
+	</nav>
+		<section>
+			<div class="max-w-4xl mx-auto">
+			<form action="/sms/inventorysearch" method="get">
+				<div class = "search">
+					<input style="width: 800px; background-color : #eaeafb;" type="text" name="searchtext" id="searchText" placeholder="검색어 입력" />
+                    <input style="background-image:url('resources/search.png'); height:23px; width:23px; border:none; background-repeat:no-repeat; background-size:100% 100%;" type="submit" value="" />
+				</div>
+				<div class = "table-container">
+					<p style="font-size:15px; color:#8c8c8c; text-align:left;">검색 결과 : 총 ${totalData} 개의 결과 / 현재 페이지 : ${cPage}</p>
+					<table>
+						<tr>
+							<th width="60px"></th>
+							<th width="100px">상품 코드</th>
+							<th width="300px">도서명</th>
+							<th width="90px">분류 코드</th>
+							<th width="100px">분류명</th>
+							<th width="100px">제조업체명</th>
+							<th width="100px">제조업체 주소</th>
+							<th width="90px">페이지</th>
+							<th width="100px">가격</th>
+							<th width="100px">판매 상태</th>
+							<th width="60px">재고</th>
+						</tr>
+						<c:if test="${not empty inventorylist}">
+							<c:forEach var="inventory" items="${inventorylist}" varStatus="idx">
+								<tr>
+									<td>${idx.count}</td>
+									<td>${inventory.product_id}</td>
+									<td>${inventory.product_name}</td>
+									<td>${inventory.category_id}</td>
+									<td>${inventory.category_name}</td>
+									<td>${inventory.manufacture_name}</td>
+									<td>${inventory.manufacture_address}</td>
+									<td>${inventory.product_page}</td>
+									<td>${inventory.product_price}</td>
+									<td>${inventory.state}</td>
+									<td><input type="number" value="${inventory.quantity}"></td>
+								</tr>
+							</c:forEach>
+						</c:if>
+					</table>
+					<div id = "pageBar">
+						<c:out value="${pageBar}" escapeXml = "false"/>
+					</div>
+				</div>
+			</form>
+		</div>
+	</section>
 	<footer>
 		<p> - 2024년도 kitri 보안개발 8기 포트폴리오 프로젝트 1팀 -</p>
 	</footer>

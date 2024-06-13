@@ -102,7 +102,7 @@ footer {
 					href="javascript:window.history.back();">로그아웃</a>
 
 				<br><hr style="width:158px">
-					<form action="/sms/order" method="get">
+					<form action="/sms/orderList" method="get">
 						<input type="submit" value="발주" style="background-color: #c2c2d6;border:none;width:158px;height:100%;text-align:left">
 					</form>
 					<hr>

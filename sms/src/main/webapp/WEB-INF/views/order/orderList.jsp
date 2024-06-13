@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>회원 메인 페이지</title>
+<title>발주 목록 페이지</title>
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
 <script src="https://cdn.tailwindcss.com"></script>
@@ -174,7 +174,7 @@ td img {
 <body>
 	<div class="header-container">
 		<h3>${user_id}님환영합니다.</h3>
-		<img src="main/resources/logo_01.png" />
+		 <a href="/sms/toAdminMain"><img style="height:100px; width:auto;" src="resources/logo_01.png" alt="logo" width=auto height="100px"/></a>
 		<button type="button" onclick="location.href='index.jsp'">로그아웃</button>
 	</div>
 	<nav>
