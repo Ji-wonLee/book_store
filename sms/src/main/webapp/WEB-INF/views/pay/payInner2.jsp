@@ -3,6 +3,11 @@
 <html>
 <head>
 <title>금액 결제</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script type="text/javascript">
     window.onpopstate = function(event) {
         updateCartStateToCart();
@@ -48,25 +53,116 @@
         xhr.send();
     });
 </script>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap');
+    body {
+        font-family: 'Noto Sans KR', sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 0;
+    }
+
+    .header-container {
+        font-family: "Noto Sans KR", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 500;
+        font-style: normal;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        padding: 20px;
+        background-color: #c2c2d6;
+    }
+
+    .header-container h3 {
+        margin: 0;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #ffffff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+    }
+
+    .btn-submit {
+        width: 100%;
+        padding: 10px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 20px;
+    }
+
+    .btn-submit:hover {
+        background-color: #45a049;
+    }
+
+    .info {
+        margin-bottom: 20px;
+    }
+</style>
 </head>
 <body>
-    <h1>금액 결제</h1>
-    <a href="/sms/customermain">메인화면</a>
-    <form action="/sms/payment/completePayment" method="post" onsubmit="return validateForm()">
-        <input type="hidden" name="user_id" value="${user_id}" />
-        <input type="hidden" name="receiver_name" value="${receiver_name}" />
-        <input type="hidden" name="receiver_address" value="${receiver_address}" />
-        <label>입금자 명:</label>
-        <input type="text" name="payer_name" required /><br />
-        <label>입금자 계좌:</label>
-        <input type="text" name="payer_account" required /><br />
-        <label>결제 금액:</label>
-        <span>${totalAmount}</span><br />
-        <label>입금 계좌:</label>
-        <span>000-0000-0000</span><br />
-        <label>계좌 명:</label>
-        <span>은행 이름</span><br />
-        <input type="submit" value="결제 완료" />
-    </form>
+    <div class="header-container">
+        <h3>${user_id}님 환영합니다.</h3>
+        <img style="height:100px; width:auto;" src="resources/logo_01.png" alt="logo" width=auto height="100px"/>
+        <button type="button" onclick="location.href='index.jsp'">로그아웃</button>
+    </div>
+    <div class="container">
+        <h1>금액 결제</h1>
+        <a href="/sms/customermain" class="btn btn-outline-secondary mb-3">메인화면</a>
+        <form action="/sms/payment/completePayment" method="post" onsubmit="return validateForm()">
+            <input type="hidden" name="user_id" value="${user_id}" />
+            <input type="hidden" name="receiver_name" value="${receiver_name}" />
+            <input type="hidden" name="receiver_address" value="${receiver_address}" />
+
+            <div class="form-group">
+                <label>입금자 명:</label>
+                <input type="text" name="payer_name" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label>입금자 계좌:</label>
+                <input type="text" name="payer_account" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label>결제 금액:</label>
+                <div class="info">${totalAmount}</div>
+            </div>
+            <div class="form-group">
+                <label>입금 계좌:</label>
+                <div class="info">000-0000-0000</div>
+            </div>
+            <div class="form-group">
+                <label>계좌 명:</label>
+                <div class="info">은행 이름</div>
+            </div>
+            <input type="submit" value="결제 완료" class="btn-submit" />
+        </form>
+    </div>
 </body>
 </html>

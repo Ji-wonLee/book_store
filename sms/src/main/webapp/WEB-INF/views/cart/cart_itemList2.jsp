@@ -5,74 +5,152 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>장바구니</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<style>
-.header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-    padding: 0 20px;
-}
+    <title>장바구니</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Hahmlet:wght@100..900&family=Noto+Sans+KR&display=swap');
+        
+        .header-container {
+            font-family: "Noto Sans KR", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 500;
+            font-style: normal;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 0 20px;
+        }
 
-.header-container h3 {
-    margin: 0;
-}
+        .header-container h3 {
+            margin: 0;
+        }
 
-footer {
-    padding: 10px;
-    text-align: center;
-    color: #8c8c8c;
-}
+        nav {
+            font-family: "Noto Sans KR", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 500;
+            font-style: normal;
+            width: 100%;
+            background: #c2c2d6;
+            padding: 10px 0;
+        }
 
-.table-container {
-    margin-top: 20px;
-}
+        nav ul {
+            display: flex;
+            justify-content: space-around;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
+        nav ul li {
+            margin: 0;
+        }
 
-th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-}
+        nav ul li a {
+            text-decoration: none;
+            color: black;
+        }
 
-th {
-    background-color: #f2f2f2;
-    text-align: left;
-}
+        .search {
+            font-family: "Noto Sans KR", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 500;
+            font-style: normal;
+            border: 2px solid purple;
+            border-radius: 30px;
+            background-color: #eaeafb;
+            text-align: center;
+            line-height: 10px;
+            margin-top: 22px;
+            height: 35px;
+            width: 900px;
+        }
 
+        footer {
+            font-family: "Noto Sans KR", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 500;
+            font-style: normal;
+            padding: 10px;
+            text-align: center;
+            color: #8c8c8c;
+        }
 
+        .table-container {
+            font-family: "Hahmlet", serif;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            font-style: normal;
+            margin-top: 20px;
+        }
 
-td img {
-    max-width: 50px;
-    height: auto;
-}
+        table {
+            font-family: "Hahmlet", serif;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            font-style: normal;
+            border-collapse: collapse;
+            width: 100%;
+        }
 
-.btn-delete {
-    color: #dc3545;
-    cursor: pointer;
-}
+        th, td {
+            border-bottom: 1px solid #ddd;
+            padding: 8px;
+        }
 
-.btn-delete:hover {
-    text-decoration: underline;
-}
-</style>
+        th {
+            text-align: center;
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+
+        td img {
+            text-align: left;
+            max-width: 50px;
+            height: auto;
+        }
+
+        .btn-delete {
+            color: #dc3545;
+            cursor: pointer;
+        }
+
+        .btn-delete:hover {
+            text-decoration: underline;
+        }
+
+        .flex {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .space-y-1 > div {
+            margin-bottom: 5px;
+        }
+    </style>
 </head>
 <body>
-    <div class="max-w-4xl mx-auto">
-        <div class="header-container">
-            <h3>${user_id}님 환영합니다.</h3>
-            <button type="button" onclick="location.href='/sms/customermain'">상품 조회</button>
-        </div>
-        <section>
+    <div class="header-container">
+        <h3>${user_id}님 환영합니다.</h3>
+        <img style="height:100px; width:auto;" src="resources/logo_01.png" alt="logo" width=auto height="100px"/>
+        <button type="button" onclick="location.href='index.jsp'">로그아웃</button>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="/sms/myInfo">내 정보 조회</a></li>
+            <li><a href="/sms/list">장바구니</a></li>
+            <li><a href="/sms/customermain">상품 조회</a></li>
+        </ul>
+    </nav>
+    <section>
+        <div class="max-w-4xl mx-auto">
             <form id="cartForm" action="/sms/payment/checkStock" method="post">
                 <div class="table-container">
                     <table class="table">
@@ -134,8 +212,8 @@ td img {
                 </div>
                 <button type="submit" class="btn btn-outline-dark" style="margin-top: 5%; float: right;">결제하기</button>
             </form>
-        </section>
-    </div>
+        </div>
+    </section>
 
     <script>
         function toggleAll(source) {
