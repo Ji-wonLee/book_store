@@ -98,8 +98,7 @@ footer {
 				style='width: 160px; border: none; margin-left: -20px; margin-top: -20px;'>
 
 				${userName}님<br>
-				어서오세요<br> <a
-					href="javascript:window.history.back();">로그아웃</a>
+				어서오세요<br> <button type="button" onclick="location.href='index.jsp'">로그아웃</button>
 
 				<br><hr style="width:158px">
 					<form action="/sms/orderList" method="get">
