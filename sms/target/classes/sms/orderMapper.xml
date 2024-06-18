@@ -128,4 +128,11 @@ SELECT p.product_id, product_name, product_price, manufacture_name,
 		VALUES (#{receive_id}, #{product_id}, #{quantity}, #{price})
 	]]>
 	</insert>
+	
+	<!-- state 가져오기 -->
+	<select id="selectState" parameterType="String" resultType="string">
+	<![CDATA[
+	SELECT state FROM orders WHERE order_id = #{order_id}
+	]]>
+	</select>
 </mapper>

@@ -67,4 +67,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE receives SET writer= #{writer} WHERE receive_id =#{receive_id}
 	]]>
 	</select>
+	
+	<!-- payer -->
+	<select id="selectPayer" parameterType="string"
+		resultType="string">
+	<![CDATA[
+		SELECT payer FROM receives WHERE receive_id = #{receive_id}
+	]]>
+	</select>
+	
+		<!-- writer -->
+	<select id="selectWriter" parameterType="string"
+		resultType="string">
+	<![CDATA[
+		SELECT writer FROM receives WHERE receive_id = #{receive_id}
+	]]>
+	</select>
 </mapper>

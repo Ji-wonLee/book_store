@@ -194,6 +194,7 @@ td img {
 									<td><img src="${item.product_imgurl}" alt="Product Image"></td>
 									<td>${item.product_name}</td>
 									<td>${item.product_price}원</td>
+									<td>${item.product_price}원</td>
 									<td><input type="number"
 										name="quantity_${item.product_id}" min="1"
 										value="${item.quantity}"

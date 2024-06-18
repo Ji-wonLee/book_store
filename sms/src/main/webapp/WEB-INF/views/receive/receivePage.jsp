@@ -44,7 +44,7 @@
  			font-weight: 500;
  			font-style: normal;
             width: 100%;
-            background: #c2c2d6;
+            background: #ffd9df;
             padding: 10px 0;
         }
 
@@ -119,9 +119,18 @@ footer {
 	}
 }
 </style>
-    <script>
+<script>
 	function goMenu(){
+		var state = "${state}";
+		
+		if(state === '입고완료'){
+			event.preventDefault(); // Form submission 방지
+			alert("이미 완료된 입고서입니다.");
+			window.location.href = "/sms/receive";
+		}
+		else{
 		alert("재고가 반영되었습니다. 메인화면으로 돌아갑니다.");
+	}
 	}
 </script>
 <title>입고 페이지</title>
@@ -140,9 +149,9 @@ footer {
 	<section>
 		<div class="max-w-4xl mx-auto">
 			<!-- 여기에 출력할 코드를 작성(list라던가) -->
-			<form action="/sms/toInventory" method="get">
+			<form action="/sms/toInventory" method="get" onsubmit="goMenu(event)">
 			<div class="input">
-				<button style="border-radius: 3px; width: 150px; height: 40px; background-color : #c2c2d6;" type="submit" onclick="goMenu();">재고반영</button>
+				<button style="border-radius: 3px; width: 150px; height: 40px; background-color : #f7e1ea;" type="submit" onclick="goMenu();">재고반영</button>
 			</div>
 				<div class="insert">
 					<p style="margin:'3px';">${rdList[0].receive_id}</p><br> 

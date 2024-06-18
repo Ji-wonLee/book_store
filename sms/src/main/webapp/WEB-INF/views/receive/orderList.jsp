@@ -45,7 +45,7 @@
  			font-weight: 500;
  			font-style: normal;
             width: 100%;
-            background: #c2c2d6;
+            background: #ffd9df;
             padding: 10px 0;
         }
 
@@ -134,7 +134,7 @@ footer {
 			<!-- 여기에 출력할 코드를 작성(list라던가) -->
 			<form id="order_id" action="/sms/updateReceive" method="get">
 			<div class="input">
-				<button style="border-radius: 3px; width: 150px; height: 40px; background-color : #c2c2d6;" type="submit">발주선택</button>
+				<button style="border-radius: 3px; width: 150px; height: 40px; background-color : #f7e1ea;" type="submit">발주선택</button>
 			</div>
 				<table>
 					<tr>

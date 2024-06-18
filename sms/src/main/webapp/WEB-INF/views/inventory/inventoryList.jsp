@@ -39,7 +39,7 @@
  			font-weight: 500;
  			font-style: normal;
             width: 100%;
-            background: #c2c2d6;
+            background: #ffd9df;
             padding: 10px 0;
         }
 

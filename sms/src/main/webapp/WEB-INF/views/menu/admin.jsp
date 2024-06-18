@@ -32,7 +32,7 @@ nav {
 	float: left;
 	width: 20%;
 	height: 1000px;
-	background: #c2c2d6;
+	background: #ffd9df;
 	padding: 20px;
 }
 
@@ -102,7 +102,7 @@ footer {
 
 				<br><hr style="width:158px">
 					<form action="/sms/orderList" method="get">
-						<input type="submit" value="발주" style="background-color: #c2c2d6;border:none;width:158px;height:100%;text-align:left">
+						<input type="submit" value="발주" style="background-color:transparent;border:none;width:158px;height:100%;text-align:left">
 					</form>
 					<hr>
 					

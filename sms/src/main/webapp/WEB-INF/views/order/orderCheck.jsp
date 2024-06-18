@@ -38,7 +38,7 @@
  			font-weight: 500;
  			font-style: normal;
             width: 100%;
-            background: #c2c2d6;
+            background: #ffd9df;
             padding: 10px 0;
         }
 
@@ -179,7 +179,7 @@
 					<input type="hidden" name="${product.key}" value="${product.value}">
 				</c:forEach>
 				<div class="input" style="text-align: right;">
-					<input style="border-radius: 3px; width: 100px; height: 34px; background-color : #c2c2d6;" type="submit" id="orderComplete" value="발주확정" onclick="goMenu();">
+					<input style="border-radius: 3px; width: 100px; height: 34px; background-color : #f7e1ea;" type="submit" id="orderComplete" value="발주확정" onclick="goMenu();">
 				</div>
 				<table>
 					<tr>

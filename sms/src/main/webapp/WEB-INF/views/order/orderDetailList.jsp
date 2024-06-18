@@ -48,7 +48,7 @@ nav {
 	font-weight: 500;
 	font-style: normal;
 	width: 100%;
-	background: #c2c2d6;
+	background: #ffd9df;
 	padding: 10px 0;
 }
 
@@ -182,7 +182,7 @@ td img {
 		<!-- 여기에 출력할 코드를 작성(list라던가) -->
 			<form action="/sms/orderList" method="get">
 			<div class="input" style="text-align: right;">
-				<button style="border-radius: 3px; width: 100px; height: 34px; background-color : #c2c2d6;" type="submit">발주목록</button>
+				<button style="border-radius: 3px; width: 100px; height: 34px; background-color : #f7e1ea;" type="submit">발주목록</button>
 			</div>
 				<table>
 					<tr>

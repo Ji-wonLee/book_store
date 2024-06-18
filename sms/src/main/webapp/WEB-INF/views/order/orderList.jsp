@@ -48,7 +48,7 @@ nav {
 	font-weight: 500;
 	font-style: normal;
 	width: 100%;
-	background: #c2c2d6;
+	background: #ffd9df;
 	padding: 10px 0;
 }
 
@@ -201,7 +201,7 @@ td img {
 		<div class="max-w-4xl mx-auto">
 			<form action="/sms/order">
 				<div class="input" style="text-align: right;">
-					<button style="border-radius: 3px; width: 150px; height: 40px; background-color : #c2c2d6;" type="submit" value="발주신청">발주신청</button>
+					<button style="border-radius: 3px; width: 150px; height: 40px; background-color : #f7e1ea;" type="submit" value="발주신청">발주신청</button>
 					
 				</div>
 			</form>
@@ -211,7 +211,7 @@ td img {
 			<!-- 여기에 출력할 코드를 작성(list라던가) -->
 			<form action="/sms/orderDetailList" method="get">
 				<div class="input" style="text-align: right;">
-					<button style="border-radius: 3px; width: 150px; height: 40px; background-color : #c2c2d6;" type="submit">조회</button>
+					<button style="border-radius: 3px; width: 150px; height: 40px; background-color : #f7e1ea;" type="submit">조회</button>
 				</div>
 				<table>
 					<tr>

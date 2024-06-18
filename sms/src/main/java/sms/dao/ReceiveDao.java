@@ -13,8 +13,12 @@ public interface ReceiveDao {
 	public int updateReceive(String receive_id);
 	public int updateReceiveDetail(ReceiveDetail receiveDetail);
 	public int receiveToInventory(Inventory inventory);
-	//orderSatate ÀÔ°í¿Ï·á·Î º¯°æ
+	//orderSatate Ã€Ã”Â°Ã­Â¿ÃÂ·Ã¡Â·Ã ÂºÂ¯Â°Ã¦
 	public int updateOrderState(String order_id);
-	//writer ÀÛ¼º
+	//writer Ã€Ã›Â¼Âº
 	public int updateWriter(Receive receive);
+	public String selectState(String order_id);
+	public String selectPayer(String receive_id);
+	public String selectWriter(String receive_id);
+	
 }

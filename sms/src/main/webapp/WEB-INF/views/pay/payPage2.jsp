@@ -30,7 +30,7 @@ body {
     align-items: center;
     margin-bottom: 10px;
     padding: 20px;
-    background-color: #c2c2d6;
+    background-color: #ffd9df;
 }
 
 .header-container h3 {
