@@ -106,14 +106,31 @@ public class CartController {
             return "로그인이 필요합니다.";
         }
 
+        String cartId = (String) session.getAttribute("cart_id");
+        if (cartId == null || cartId.isEmpty()) {
+            cartId = cartService.findCartId(userId);
+        }
+
         CartDto cartDto = new CartDto();
         cartDto.setUser_id(userId);
         cartDto.setProduct_id(productId);
         cartDto.setQuantity(quantity);
+        cartDto.setCart_id(cartId);
 
-        cartService.updateCartItemQuantity(cartDto);
-        return "성공적으로 업데이트되었습니다.";
+        System.out.println("Updating cart item: " + cartDto);
+
+        try {
+            cartService.updateCartItemQuantity(cartDto);
+            List<CartDto> updatedCartItems = cartService.listCartItems(userId);
+            System.out.println("Updated cart items: " + updatedCartItems);
+            return "성공적으로 업데이트되었습니다.";
+        } catch (Exception e) {
+            System.err.println("수량 업데이트에 실패했습니다: " + e.getMessage());
+            return "수량 업데이트에 실패했습니다: " + e.getMessage();
+        }
     }
+
+
     
     /**
      * 장바구니 상태를 업데이트합니다.

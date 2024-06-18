@@ -117,6 +117,7 @@ public class CartServiceImpl implements CartService {
 
 	@Override
 	public int updateCartItemQuantity(CartDto cartDto) {
+		System.out.println("CartDto in service: " + cartDto);
 		return cartDao.updateCartItemQuantity(cartDto);
 	}
 

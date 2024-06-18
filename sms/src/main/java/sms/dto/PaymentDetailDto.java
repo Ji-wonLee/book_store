@@ -66,5 +66,14 @@ public class PaymentDetailDto {
 	public void setCart_id(String cart_id) {
 		this.cart_id = cart_id;
 	}
-    
+	 @Override
+	    public String toString() {
+	        return "PaymentDetailDto{" +
+	                "payment_id='" + payment_id + '\'' +
+	                ", product_id='" + product_id + '\'' +
+	                ", quantity=" + quantity +
+	                ", price=" + price +
+	                ", cart_id='" + cart_id + '\'' +
+	                '}';
+	    }
 }

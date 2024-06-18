@@ -15,7 +15,7 @@ public class CartDto {
 	private String newCartId;		//새 장바구니id
 
 	private String product_imgurl; // 상품 이미지 URL
-	
+
 
 
 	public CartDto() {}
@@ -35,22 +35,22 @@ public class CartDto {
 		this.product_name = product_name;
 		this.newCartId = newCartId;
 		this.product_imgurl = product_imgurl;
-		
+
 	}
 
 
-	 public CartDto(String cart_id, String user_id, String product_id, int quantity, int product_price, String product_name, String product_imgurl, Date cart_Date, String state, int totalprice) {
-	        this.cart_id = cart_id;
-	        this.user_id = user_id;
-	        this.product_id = product_id;
-	        this.quantity = quantity;
-	        this.product_price = product_price;
-	        this.product_name = product_name;
-	        this.product_imgurl = product_imgurl;
-	        this.cart_Date = cart_Date;
-	        this.state = state;
-	        this.totalprice = totalprice;
-	    }
+	public CartDto(String cart_id, String user_id, String product_id, int quantity, int product_price, String product_name, String product_imgurl, Date cart_Date, String state, int totalprice) {
+		this.cart_id = cart_id;
+		this.user_id = user_id;
+		this.product_id = product_id;
+		this.quantity = quantity;
+		this.product_price = product_price;
+		this.product_name = product_name;
+		this.product_imgurl = product_imgurl;
+		this.cart_Date = cart_Date;
+		this.state = state;
+		this.totalprice = totalprice;
+	}
 
 	// 새로운 생성자 추가
 	public CartDto(String user_id) {
@@ -271,5 +271,16 @@ public class CartDto {
 	}
 
 
-
+	@Override
+	public String toString() {
+		return "CartDto{" +
+				"user_id='" + user_id + '\'' +
+				", product_id='" + product_id + '\'' +
+				", quantity=" + quantity +
+				", product_price=" + product_price +
+				", product_name='" + product_name + '\'' +
+				", product_imgurl='" + product_imgurl + '\'' +
+				", cart_id='" + cart_id + '\'' +
+				'}';
+	}
 }

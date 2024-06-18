@@ -107,8 +107,7 @@
 	</delete>
 
 
-	<update id="updateCartItemQuantity"
-		parameterType="CartDto">
+	<update id="updateCartItemQuantity" parameterType="CartDto">
 		UPDATE cart_detail
 		SET quantity = #{quantity}
 		WHERE cart_id = #{cart_id} AND product_id = #{product_id}

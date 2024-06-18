@@ -45,85 +45,92 @@ public class PaymentController {
 	 * @param model
 	 * @return
 	 */
-	  @RequestMapping(value = "/checkStock", method = RequestMethod.POST)
-	    public String checkStock(HttpServletRequest req, ModelMap model) {
-	        HttpSession session = req.getSession();
-	        String userId = (String) session.getAttribute("user_id");
+	@RequestMapping(value = "/checkStock", method = RequestMethod.POST)
+	public String checkStock(HttpServletRequest req, ModelMap model) {
+	    HttpSession session = req.getSession();
+	    String userId = (String) session.getAttribute("user_id");
 
-	        if (userId == null || userId.isEmpty()) {
-	            model.addAttribute("error", "로그인이 필요합니다.");
-	            return "login"; // 로그인 페이지로 리다이렉트
-	        }
+	    if (userId == null || userId.isEmpty()) {
+	        model.addAttribute("error", "로그인이 필요합니다.");
+	        return "login"; // 로그인 페이지로 리다이렉트
+	    }
 
-	        List<CartDto> cartItems = cartService.listCartItems(userId);
+	    List<CartDto> cartItems = cartService.listCartItems(userId);
 
-	        // 선택된 항목의 ID 목록을 가져옵니다.
-	        String[] selectedItemIds = req.getParameterValues("cartItemIds");
-	        if (selectedItemIds == null || selectedItemIds.length == 0) {
-	            model.addAttribute("error", "선택된 상품이 없습니다.");
-	            model.addAttribute("cartItems", cartItems);
-	            return "cart/cart_itemList2";
-	        }
+	    // 선택된 항목의 ID 목록을 가져옵니다.
+	    String[] selectedItemIds = req.getParameterValues("cartItemIds");
+	    if (selectedItemIds == null || selectedItemIds.length == 0) {
+	        model.addAttribute("error", "선택된 상품이 없습니다.");
+	        model.addAttribute("cartItems", cartItems);
+	        return "cart/cart_itemList2";
+	    }
 
-	        // 선택된 항목 필터링 및 수량, 가격 설정
-	        List<CartDto> selectedItems = new ArrayList<>();
-	        for (CartDto item : cartItems) {
-	            for (String itemId : selectedItemIds) {
-	                if (item.getProduct_id().equals(itemId)) {
-	                    int quantity = Integer.parseInt(req.getParameter("quantity_" + itemId));
-	                    item.setQuantity(quantity); // 수량을 업데이트합니다.
-	                    selectedItems.add(item);
-	                    break;
-	                }
-	            }
-	        }
-
-	        boolean outOfStock = false;
-	        for (CartDto item : selectedItems) {
-	            int availableStock = cartService.getStock(item.getProduct_id());
-	            if (availableStock < item.getQuantity()) {
-	                outOfStock = true;
+	    // 선택된 항목 필터링 및 수량, 가격 설정
+	    List<CartDto> selectedItems = new ArrayList<>();
+	    for (CartDto item : cartItems) {
+	        for (String itemId : selectedItemIds) {
+	            if (item.getProduct_id().equals(itemId)) {
+	                int quantity = Integer.parseInt(req.getParameter("quantity_" + itemId));
+	                item.setQuantity(quantity); // 수량을 업데이트합니다.
+	                selectedItems.add(item);
 	                break;
 	            }
 	        }
-
-	        if (outOfStock) {
-	            model.addAttribute("error", "장바구니에 있는 일부 상품의 재고가 부족합니다.");
-	            model.addAttribute("cartItems", cartItems);
-	            return "cart/cart_itemList2";
-	        }
-
-	        String cartId = cartService.findCartId(userId);
-	        String paymentId = paymentService.generatePaymentId(cartId);
-
-	        PaymentDto paymentDto = new PaymentDto(userId, "", "", "", "", cartId);
-	        paymentDto.setPayment_id(paymentId);
-	        paymentService.savePaymentInfo(paymentDto);
-
-	        CartDto cartStateUpdateDto = new CartDto(cartId, "결제중");
-	        cartService.updateCartState(cartStateUpdateDto);
-
-	        session.setAttribute("cart_id", cartId);
-	        session.setAttribute("payment_id", paymentId);
-
-	        for (CartDto item : selectedItems) {
-	            cartService.updateStock(new Inventory(item.getProduct_id(), -item.getQuantity()));
-	            PaymentDetailDto paymentDetailDto = new PaymentDetailDto(paymentId, item.getProduct_id(), item.getQuantity(), item.getProduct_price(), cartId);
-	            paymentService.savePaymentDetail(paymentDetailDto);
-	        }
-
-	        model.addAttribute("cartItems", selectedItems);
-	        model.addAttribute("user_id", userId);
-	        model.addAttribute("payment_id", paymentId);
-
-	        int totalPrice = selectedItems.stream().mapToInt(item -> item.getProduct_price() * item.getQuantity()).sum();
-	        int totalQuantity = selectedItems.stream().mapToInt(CartDto::getQuantity).sum();
-
-	        model.addAttribute("totalPrice", totalPrice);
-	        model.addAttribute("totalQuantity", totalQuantity);
-
-	        return "pay/payPage2";
 	    }
+
+	    System.out.println("Selected items for payment: " + selectedItems);
+
+	    // 재고 확인 로직
+	    boolean outOfStock = false;
+	    for (CartDto item : selectedItems) {
+	        int availableStock = cartService.getStock(item.getProduct_id());
+	        if (availableStock < item.getQuantity()) {
+	            outOfStock = true;
+	            break;
+	        }
+	    }
+
+	    if (outOfStock) {
+	        model.addAttribute("error", "장바구니에 있는 일부 상품의 재고가 부족합니다.");
+	        model.addAttribute("cartItems", cartItems);
+	        return "cart/cart_itemList2";
+	    }
+
+	    String cartId = cartService.findCartId(userId);
+	    String paymentId = paymentService.generatePaymentId(cartId);
+
+	    PaymentDto paymentDto = new PaymentDto(userId, "", "", "", "", cartId);
+	    paymentDto.setPayment_id(paymentId);
+	    paymentService.savePaymentInfo(paymentDto);
+
+	    CartDto cartStateUpdateDto = new CartDto(cartId, "결제중");
+	    cartService.updateCartState(cartStateUpdateDto);
+
+	    session.setAttribute("cart_id", cartId);
+	    session.setAttribute("payment_id", paymentId);
+
+	    for (CartDto item : selectedItems) {
+	        item.setCart_id(cartId); // Cart ID 설정
+	        cartService.updateStock(new Inventory(item.getProduct_id(), -item.getQuantity()));
+	        PaymentDetailDto paymentDetailDto = new PaymentDetailDto(paymentId, item.getProduct_id(), item.getQuantity(), item.getProduct_price(), cartId);
+	        System.out.println("Saving payment detail: " + paymentDetailDto); // 로그 추가
+	        paymentService.savePaymentDetail(paymentDetailDto);
+	    }
+
+	    model.addAttribute("cartItems", selectedItems);
+	    model.addAttribute("user_id", userId);
+	    model.addAttribute("payment_id", paymentId);
+
+	    int totalPrice = selectedItems.stream().mapToInt(item -> item.getProduct_price() * item.getQuantity()).sum();
+	    int totalQuantity = selectedItems.stream().mapToInt(CartDto::getQuantity).sum();
+
+	    model.addAttribute("totalPrice", totalPrice);
+	    model.addAttribute("totalQuantity", totalQuantity);
+
+	    return "pay/payPage2";
+	}
+
+
 
 
 
