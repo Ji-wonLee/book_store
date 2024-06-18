@@ -156,14 +156,12 @@
 <body>
 	<div class = "header-container">
 		<h3>관리자 ${user_id} 님 환영합니다.</h3>
-     	<img style="height:100px; width:auto;" src="resources/logo_01.png" alt="logo" width=auto height="100px"/>
+     	 <a href="/sms/toAdminMain"><img style="height:100px; width:auto;" src="resources/logo_01.png" alt="logo" width=auto height="100px"/></a>
      	<button type="button" onclick="location.href='index.jsp'">로그아웃</button>
    	</div>
 	<nav>
 		<ul>
-            <li><a href="/sms/myInfo">내 정보 조회</a></li>
-            <li><a href="/sms/list">장바구니</a></li>
-            <li><a href="/sms/customermain">상품 조회</a></li>
+            <li><a href="/sms/toAdminMain">메인화면</a></li>
         </ul>
 	</nav>
 		<section>
