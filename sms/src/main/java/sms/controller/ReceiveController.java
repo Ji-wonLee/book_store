@@ -23,6 +23,8 @@ import sms.service.ReceiveSvc;
 public class ReceiveController {
 	@Autowired
 	private ReceiveSvc receiveSvc;
+	@Autowired
+	private ReceiveDao receiveDao;
 
 	//발주목록 출력
 	@RequestMapping(value = "/receive", method = RequestMethod.GET)
@@ -40,6 +42,16 @@ public class ReceiveController {
 		// orderdetial 목록 model에 저장. 
 		List<ReceiveDetail> rdList = receiveSvc.selectReceiveDetail(order_id);
 		model.addAttribute("rdList", rdList);
+		
+		String state = receiveDao.selectState(order_id);
+		model.addAttribute("state", state);
+		
+		String payer = receiveDao.selectPayer("RC"+order_id.substring(2));
+		model.addAttribute("payer",payer);
+		
+		String writer = receiveDao.selectWriter("RC"+order_id.substring(2));
+		model.addAttribute("writer",writer);
+		
 		return "receive/receivePage";
 	}
 	

@@ -39,13 +39,13 @@ public class ReceiveSvcImpl implements ReceiveSvc{
 		receive.setWriter(writer);
 		receive.setPayer(payer);
 		receiveDao.updateWriter(receive);
-		
+
 		receiveMap.remove("writer");
 		receiveMap.remove("payer");
-		
+
+
 		//receiveDetail 수정
 		for(String key : receiveMap.keySet()) {
-			//System.out.println(key);
 			if(!key.equals("receive_id")) {
 				//System.out.println(key +"/"+receiveMap.get(key));
 				int test = Integer.parseInt( receiveMap.get(key));
@@ -53,8 +53,10 @@ public class ReceiveSvcImpl implements ReceiveSvc{
 				receiveDao.updateReceiveDetail(receiveDetail);
 			}
 		}
+
 		//receive 총액 수정
 		receiveDao.updateReceive(receive_id);
+
 		return 0;
 	}
 
@@ -77,7 +79,7 @@ public class ReceiveSvcImpl implements ReceiveSvc{
 		receiveDao.updateOrderState(order_id);
 		return 0;
 	}
-	
+
 	public ReceiveDao getReceiveDao() {
 		return receiveDao;
 	}

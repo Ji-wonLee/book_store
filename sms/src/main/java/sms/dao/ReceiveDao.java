@@ -17,4 +17,8 @@ public interface ReceiveDao {
 	public int updateOrderState(String order_id);
 	//writer ¿€º∫
 	public int updateWriter(Receive receive);
+	public String selectState(String order_id);
+	public String selectPayer(String receive_id);
+	public String selectWriter(String receive_id);
+	
 }
