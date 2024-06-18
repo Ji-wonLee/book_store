@@ -93,17 +93,17 @@
 			</div>
 			<br>
 			<div style='background-color:#c2c2d6;' >
-				<form action="/sms/mainLgn.do" method="get" style='width:165px;'>
+				<form action="/sms/mainLgn.do" method="get" style='width:392px;'>
 					<table style='border:none;'>
 						<tr>
-							<td><input type='text' id='userId' name='userId' placeholder='LOGIN' style='margin-top:10px;width:100px;' required></input></td>
+							<td><input type='text' id='userId' name='userId' placeholder='LOGIN' style='margin-top:10px;width:320px;height:30px;' required></input></td>
 							<td rowspan="2"><input type='submit' id='lgnBtn' value='LOGIN' style='margin-top:10px;width:58px;height:66px;display:flex;justify-content:center;background-color:#f2f2f2;border:none' ></input></td>
 						</tr>
 						<tr>
-							<td><input type='password' id='userPass' name='userPass' placeholder='PASSWORD' style='margin-top:10px;width:100px;' required></input></td>
+							<td><input type='password' id='userPass' name='userPass' placeholder='PASSWORD' style='margin-top:10px;width:320px;height:30px;' required></input></td>
 						</tr>
 						<tr>
-							<td><a href="/sms/toJoin" style='font-size:10px'>회원가입</a></td>				
+							<td><a href="/sms/toJoin" style='font-size:13px'>회원가입</a></td>				
 						</tr>
 					</table>
 				</form>
