@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SQL Mapper -->
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="selectMapper">
+	<select id="selectCartid" parameterType="String" resultType="string">
+	<![CDATA[
+		SELECT cart_id 
+		FROM cart 
+		WHERE user_id = #{user_id}
+		AND state = '장바구니'
+	]]>
+	</select>
+	
+	<insert id="addCartProduct" parameterType="CartDto">
+	<![CDATA[
+		INSERT INTO cart_detail 
+		VALUES (#{cart_id}, #{product_id}, #{quantity}, #{price})
+	]]>
+	</insert>
+	<!-- 예시  : INSERT INTO cart_detail VALUES ('CART-0001', '5452', '2', 5000); -->
+</mapper>
